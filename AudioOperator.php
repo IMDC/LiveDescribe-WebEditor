@@ -20,73 +20,6 @@ class AudioOperator{
 		define("DETAIL", 5);
 	}
 
-
-	//differnt way of reading the data. Note: not used right now
-	public function testRead(){
-		$handle = fopen ($this->fileName, "r");
-
-		$header[] = fread ($handle, 4);
-		$header[] = bin2hex(fread ($handle, 4));
-		$header[] = fread ($handle, 4);
-		$header[] = fread ($handle, 4);
-		$header[] = bin2hex(fread ($handle, 4));
-		$header[] = bin2hex(fread ($handle, 2));
-		$header[] = bin2hex(fread ($handle, 2));
-		$header[] = bin2hex(fread ($handle, 4));
-		$header[] = bin2hex(fread ($handle, 4));
-		$header[] = bin2hex(fread ($handle, 2));
-		$header[] = bin2hex(fread ($handle, 2));
-		$header[] = fread ($handle, 4);
-		$header[] = bin2hex(fread ($handle, 4));
-
-		
-		$peek = hexdec(substr($header[10], 0, 2));
-		$byte = $peek / 8;
-
-		
-		$channel = hexdec(substr($header[6], 0, 2));
-
-		if($channel == 2){
-			$ratio = 40;
-		}
-		else{
-			$ratio = 80;
-		}
-		
-		$data='';
-		while(!feof($handle)){
-			$bytes = array();
-			//get number of bytes depending on bitrate
-			for ($i = 0; $i < $byte; $i++){
-				$bytes[$i] = fgetc($handle);
-			}
-
-			switch($byte){
-				//get value for 8-bit wav
-				case 1:
-					$data .= $this->findValues($bytes[0], $bytes[1]) . ',';
-					break;
-
-				//get value for 16-bit wav
-				case 2:
-					if(ord($bytes[1]) & 128){
-						$temp = 0;
-					}
-					else{
-						$temp = 128;
-					}
-					$temp = chr((ord($bytes[1]) & 127) + $temp);
-					$data .=floor($this->findValues($bytes[0], $temp) / 256). ',';
-					break;
-			}
-			//skip bytes for memory optimization
-			fread ($handle, $ratio);
-
-		}
-
-		fclose ($handle);
-	}
-
 	/**
 	*	@return array audioData
 	*	Reads the header of the wav file and then calls 
@@ -106,16 +39,11 @@ class AudioOperator{
 		$this->sampleRate = $this->audioData['SampleRate'];
 		$this->duration = ($this->audioData['ChunkSize'] * 8 ) / ( $this->audioData['SampleRate'] * $this->audioData['BitsPerSample']  * $this->audioData['NumChannels']);
 
-		//echo "duaration: " . $this->duration . '\n';
-		//print_r($this->audioData);
-
         $this->getSamples();
       	$this->audioData['sampleValues'] = $this->sampleData;
       	$spaces = $this->findSpaces($this->duration);
       	$this->audioData['spaces'] = $spaces;
-      	
-      	//print_r($spaces);
-     	//print_r($this->sampleData);
+
       	return $this->audioData;
 	}
 
@@ -257,9 +185,7 @@ class AudioOperator{
 			}
 		}
 		
-		//print_r($frameDecision);
 		$spaces = $this->labelTime($frameDecision, $duration);
-		// print_r($spaces);
 		return  $spaces;
 	}
 
@@ -304,7 +230,6 @@ class AudioOperator{
 	private function frameEnergy($frame){
 		$energy = 0;
 		for($i=0; $i < count($frame); $i++){
-			//$energy += pow(255 * $frame[$i] - 128 ,2);
 			$energy += pow($frame[$i] - 0.5 ,2) ;
 		}
 		return $energy;
@@ -335,7 +260,6 @@ class AudioOperator{
 	private function arithmeticMean($frame){
 		$arithmeticMean = 0;
 		for($i=0; $i < count($frame); $i++){
-			// $arithmeticMean += abs(255 * $frame[$i] - 128);
 			$arithmeticMean += abs($frame[$i]);
 		}
 		return $arithmeticMean / count($frame);
@@ -348,7 +272,6 @@ class AudioOperator{
 	private function geometricMean($frame){
 		$geometricMean = 1;
 		for($i=0; $i < count($frame); $i++){
-			// $geometricMean *= abs(255 * $frame[$i] - 128);
 			$geometricMean *= abs($frame[$i]);
 		}
 		return pow($geometricMean, 1/count($frame));
