@@ -1,0 +1,187 @@
+*{
+    margin: 0;
+    padding: 0;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+
+}
+
+#mainUpper{
+    position: relative;
+}
+
+#mainLower{
+    position: relative;
+    top: -6px;
+    height: 231px;
+    border-width: 1px;
+    min-height: 231px;
+
+}
+#AVControls{
+    height: 340px;
+    position: absolute;
+    left: 0;
+    width: 200px;
+    max-width: 250px;
+    border: solid;
+    border-width: 1px;
+}
+#time{
+    position:absolute; 
+    left:150px; top:70px;
+    width:472px; height:24px;
+}
+
+#timeInfo{
+    position: relative;
+    font-size: 25px;
+    left: 15px;
+    top: -50px;
+}
+
+#text{
+    position:absolute;
+    left:9px;
+    top:600px;
+    width:600px;
+    height:50px;
+    color:black;	
+}
+
+.controls{
+    position: relative;
+    height: 80px;
+    width: 80px;
+    background: transparent;
+    border:none;
+    clear:both;
+}
+.imgcontrols{
+    position: relative;
+    height: 80px;
+    width: 80px;
+}
+.controls:hover{
+    cursor: pointer;
+}
+#playpauseControl{
+    height: 80px;
+    width: 80px;
+}
+
+div.videoInfo{
+    position: relative;
+    top: 128px;
+    height: 60px;
+    width: 634px;
+    border: solid; 
+    border-width: 1px;
+    background-color: #cccccc;
+}
+
+
+
+#videoPlayer{
+    position: relative;
+    left: 200px;
+    display: block;
+    top: 0px;
+    width: 560px;
+    max-width: 560px;
+}
+
+#descriptionInfo{
+    height: 340px;
+    border: solid;
+    border-width: 1px;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    left: 760px;
+    min-width: 340px;
+}
+#transcriptBox{
+    width: 58%;
+    position: relative;
+    left: 40%;
+}
+
+#recordControl{
+    position: relative;
+    left: 80px;
+    width: 80px;
+    height: 80px;
+    top: -80px;
+}
+
+#slider{
+    position: relative;
+    width: 130px;
+    left: 58px;
+    bottom: 18px;
+}
+
+#volumeControl{
+    position: relative;
+    top: -50px;
+    left: 0px;
+}
+#volumeimg{
+    width   : 40px;
+    height  : 40px;
+    position: relative;
+    left    : 15px;
+}
+
+#volumeimg:hover{
+    cursor: pointer;
+}
+
+#segments{
+    position: relative;
+    border: solid;
+    border-width: 1px;
+    min-width: 1110px;
+    width: 100%; 
+    height: 208px;
+    background-color: lightgrey;
+    visibility: hidden;
+}
+
+#timeBar{
+    position: absolute;
+    top: 0px;
+    z-index: 2;
+    background-color: gray;
+    border-top: solid;
+    border-left: solid;
+    border-right: solid;
+    border-width: 1px;
+    height: 30px;
+    width: 100%;
+}
+
+#saveProject{
+    position: relative;
+    left: 35px;
+}
+
+#timelineLoad{
+    position: absolute;
+    top: 30%;
+    left: 500px;
+    visibility: visible;
+}
+
+#load{
+    width: 35%
+}
+
+
+#videoscreen{
+    position: absolute;
+    height: 340px;
+    width: 560px;
+}

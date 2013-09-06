@@ -1,0 +1,243 @@
+/*
+**removed for using the bootstrap nav bar**
+#searchArea{
+    position: absolute;
+    left: 30%;
+    top: 25px;
+    width: 500px;
+    padding: 0px 20px;
+}
+#searchBar{
+    height: 29.8px;
+    width: 460px;
+    border-radius: 4px 0px 0px 4px;
+}
+
+#search{
+    border-radius: 0px 4px 4px 0px;
+}
+*/
+
+/* below is used in the bootstrap nav bar */
+#searchArea{
+    margin: 6px 8px 8px 8px;
+}
+
+#searchBar{
+    height: 30px;
+    width: 400px;
+    border-radius: 4px 0px 0px 4px;
+}
+
+#search{
+    border-radius: 0px 4px 4px 0px;
+}
+
+/****************************************/
+
+#filter{
+    border-radius: 0px;
+    width: auto;
+}
+
+#segmentspace:hover{
+    cursor: pointer;
+}
+
+.segment {
+    border-right: 1px solid;
+    background: none;
+    height: 10px;
+    float: left;
+    cursor: pointer;
+    position: absolute;
+}
+.selector {
+    width: 100%;
+    height: 100%;
+}
+
+#navigation{
+    overflow-y: scroll;
+    height: 295px;
+}
+
+#positionMarker{
+    position: absolute;
+    top: 0px;
+    width: 20px;
+    height: 208px;
+    left: 0px;
+    z-index: 7;
+}
+
+#positionMarker:hover{
+    cursor: pointer;
+}
+
+#dropList{
+    right:0px;
+}
+/**
+** Removed for bootstrap nav**
+nav{
+    position: absolute;
+    right: 0px;
+    width: 200px;
+    top: 25px;
+}
+*/
+
+#navItems{
+    list-style-type: none;
+}
+
+.navButton{
+    padding-right: 15px;
+    display: inline-block;
+    border-radius: 0px;
+}
+
+
+
+#registerForm label{
+    display: block;
+    width: 230px;
+    float: left;
+    
+}
+
+#registerForm input{
+    height: 30px;
+}
+
+#registerForm #clear{
+    position: relative;
+    left: 28%
+}
+#registerForm #submit{
+    width: 100px;
+    position: relative;
+    left: 15%;
+        
+}
+
+#welcome{
+    position: relative;
+    left:40%;
+    top: 50px;
+    width: 500px;
+}
+
+#searchResults{
+    list-style: none;
+}
+/**
+**Below are replaced with Bootstrap media object**
+#resultItem{
+   position: relative;
+   clear: both;
+   margin: 20px 0px;
+   overflow: hidden;
+}
+
+#resultContainer{
+    width: 490px;
+    display: inline-block;
+}
+
+#resultContainer :hover{
+    cursor: pointer;
+}
+
+#resultItem img{
+    float: left;
+}
+#resultContainer img :hover{
+    border: solid;
+    border-color: #0088cc;
+}
+
+#resultItem : h1,h2,h3,h4,h5,h6{
+    position: relative;
+    left: 20px;
+}
+
+#videoTitle{
+    position: relative;
+    left: 20px;
+}
+
+#resultItem p{
+    position: relative;
+    left: 20px;
+    height: 110px;
+    overflow: hidden;
+    overflow-style: auto;
+    width: 260px;
+}
+*/
+
+#resultContainer{
+    min-height: 120px;
+}
+
+header{
+    height: 80px;
+    min-width: 1110px;
+    position: relative;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+}
+
+#credentialError{
+    color: red;
+}
+
+#delete{
+    width: 42px;
+    position: relative;
+    right: -8px;
+    bottom: -10px;
+    border: none;
+    top:-5px;
+    margin-right: 12px;
+}
+
+/**
+**These 3 have been replaced with the bootstrap media object**
+#describedFeed{
+    width: 560px;
+    position: absolute;
+    top: 100px;
+    left: 30px;
+    border: solid; 
+    border-width: 1px;
+}
+
+#standardFeed{
+    position: absolute;
+    left: 600px;
+    top: 100px;
+    width: 560px;
+    border: solid;
+    border-width: 1px;
+}
+
+#feeds{
+    position: relative;
+    min-width: 1600px;
+}
+*/
+
+#loadingImg{
+    position: relative;
+    left    : 40%;
+}
+
+.login-reg{
+    border: solid;
+    border-radius: 8px 8px 8px 8px;
+    padding: 20px 40px 40px 40px;  
+}
