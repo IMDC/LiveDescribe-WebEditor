@@ -8,7 +8,13 @@ class Main extends CI_Controller {
 	 */
 	public function index()
 	{
-		$this->load->view('main');
+		$this->load->view('header');
+		$this->load->view('navigation');
+		$this->load->view('footer');
+	}
+
+	public function test(){
+		echo "this is a test";
 	}
 }
 
