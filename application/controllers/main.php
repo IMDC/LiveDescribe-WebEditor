@@ -14,7 +14,7 @@ class Main extends CI_Controller {
 	}
 
 	public function test(){
-		echo "this is a test";
+		echo ("this is a test: " . (isset($_POST['searchBar']) ? $_POST['searchBar'] : 'nothing set'));
 	}
 }
 

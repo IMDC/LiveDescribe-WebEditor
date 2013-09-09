@@ -17,7 +17,7 @@
         </ul>
 
       </div><!--/.nav-collapse -->
-      <form action="main/test" class="nav form-search"  id="searchArea" method="POST" >
+      <form action=<?php echo base_url() . "main/test"?> class="nav form-search"  id="searchArea" method="POST" >
             <div class="input-append">
                 <input type="text"  id="searchBar" name="searchBar" class="span2 search-query" placeholder="Enter KeyWords or URL" required>
                 <button type="submit" id="search" class="btn"><i class="icon-search"></i></button> 
