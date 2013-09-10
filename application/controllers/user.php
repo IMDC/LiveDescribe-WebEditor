@@ -19,9 +19,12 @@ class User extends CI_Controller {
 	}
 
 	public function register(){
-		
+		$this->load->view('header');
+		$this->load->view('navigation');
+		$this->load->view('register');
+		$this->load->view('footer');
 	}
 }
 
-/* End of file main.php */
-/* Location: ./application/controllers/main.php */
+/* End of file user.php */
+/* Location: ./application/controllers/user.php */
