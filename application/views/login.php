@@ -1,13 +1,61 @@
 
 
-<div class="container">
+<!-- <div class="container"> -->
 
 <!-- Only show this page if the user is not logged on -->
-  <?php
-     if(isset($_SESSION['userId']) && isset($_SESSION['token'])){
-        header("Location: ");
-     }
-  ?>
+<?php
+ if(isset($_SESSION['userId']) && isset($_SESSION['token'])){
+    redirect(base_url(), 'refresh');
+ }
+
+  $this->load->helper('form');
+
+  echo('<div class="container">');
+  echo('<div id="login_area" class="span6 offset3 login-reg">');
+  echo('<h2>Login to LiveDescribe</h2>');
+
+  $attributes = array('id' => 'loginForm');
+  echo form_open(base_url('user/login_user')  , $attributes);
+  echo form_label("Username:", 'uname');
+  $data = array(
+                'id' => 'uname', 
+                'name' => 'uname',
+                'type' => 'text' ,
+                'size' => '30',
+                'autofocus' => 'autofocus',
+                'style' => 'height:45px;width: 100%;',
+                'required' => ''
+              );
+  echo form_input($data);
+  echo form_label("Password:", 'pword');
+  $data = array(
+                'id' => 'pword', 
+                'name' => 'pword',
+                'size' => '30',
+                'style' => 'height:45px;width: 100%;',
+                'required' => ''
+              );
+  echo form_password($data);
+  echo('<br />');
+  echo('<div id="errorBox" name="errorBox" style="color: red;"></div>');
+  echo form_hidden('request_type', 'login');
+  echo form_close();
+  echo('<div id="loginLoad"></div>');
+
+  $data = array(
+                'class' => 'btn btn-primary pull-right',
+                'id' => 'loginRequest',
+                'value' => 'login',
+                'form' => 'loginForm'
+               );
+  echo form_submit($data);
+  echo('</div>');
+  echo('</div>');
+
+?>
+
+
+  <!-- the above php code should output a similar markup as below
 
   <div id="login_area" class="span6 offset3 login-reg">
 
@@ -21,12 +69,13 @@
 
         <div id="errorBox" name="errorBox" style="color: red;"></div>
 
-        <!-- sending the type of form -->
+        
         <input id="request_type" name="request_type" type="hidden" value="login">
 
     </form>
     <div id="loginLoad"></div>
     <input class="btn btn-primary pull-right" id="loginRequest" type="submit" value="Login" form="loginForm"/>
   </div>
+</div>
+-->
 
-</div> <!-- /container -->
