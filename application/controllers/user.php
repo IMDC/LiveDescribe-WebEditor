@@ -4,7 +4,7 @@ class User extends CI_Controller {
 
 	public function __construct(){
 		parent::__construct();
-		$this->load->library('session'); //start CI seesion
+		//$this->load->library('session'); //start CI seesion
 	}
 
 	/**
@@ -16,10 +16,10 @@ class User extends CI_Controller {
 		
 	}
 
-	public function login(){
+	public function login($data = null){
 		$this->load->view('header');
 		$this->load->view('navigation');
-		$this->load->view('login');
+		$this->load->view('login' , $data);
 		$this->load->view('footer');
 	}
 
@@ -43,23 +43,20 @@ class User extends CI_Controller {
 			$userName = (string) $ret['userName'];
 
 			if(preg_match($regx, $token) != 1){
-				$ret['status'] = 'failure';
-				$ret['value'] = $invalidLogin;
-				echo $invalidLogin;
+				$data['error'] = 'The credentials you have supplied were invalid. Please try again.';
+				$this->login($data);
 			}
-			else{
+			else{//login successfull
 				
-				$_SESSION['userId'] = $userId;
-				$_SESSION['token'] = $token;
-				$_SESSION['userName'] = $userName;
-				echo json_encode($ret);
+				print_r($ret);
+				//add session info here
+				//redirect(base_url(), 'refresh');
 				
 			}
 		}
 		catch(Exception $ex){
-			$ret['status'] = 'failure';
-			$ret['value'] = $connectionError;
-			echo json_encode($ret);
+			$ret['error'] = $ex;
+			$this->login($data);
 		}	
 		
 	}

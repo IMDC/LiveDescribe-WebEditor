@@ -93,12 +93,12 @@ class DVX_Model extends CI_Model {
 		
 		
 		$xml_response = file_get_contents($get_url);//get response in XML format
-		if($xml_response == false){
+		if($xml_response === false){
 			throw new Exception("Server connection error.");
 		}
 		
 		// parse the xml response
-		$xml = simplexml_load_string($xml_response);//,null,null, 'http://user.hibernate.server.dvx.ski.org/');
+		$xml = simplexml_load_string($xml_response);
 		$xml -> registerXPathNamespace('ns2', 'http://user.hibernate.server.dvx.ski.org/');
 		$xml = $xml->xpath('//ns2:user');
 		$items = $xml[0]->children();

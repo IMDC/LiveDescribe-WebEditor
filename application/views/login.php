@@ -4,9 +4,9 @@
 
 <!-- Only show this page if the user is not logged on -->
 <?php
- if(isset($_SESSION['userId']) && isset($_SESSION['token'])){
+  if(isset($_SESSION['userId']) && isset($_SESSION['token'])){
     redirect(base_url(), 'refresh');
- }
+  }
 
   $this->load->helper('form');
 
@@ -37,7 +37,8 @@
               );
   echo form_password($data);
   echo('<br />');
-  echo('<div id="errorBox" name="errorBox" style="color: red;"></div>');
+  $msg = isset($error)?$error : null;
+  echo('<div id="errorBox" name="errorBox" style="color: red;">'.$msg.'</div>');
   echo form_hidden('request_type', 'login');
   echo form_close();
   echo('<div id="loginLoad"></div>');
