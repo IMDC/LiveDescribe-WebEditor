@@ -6,12 +6,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="brand" href="./index.php">LiveDescribe</a>
+      <a class="brand" href=<?php echo base_url() . "main/"?>>LiveDescribe</a>
 
       <div class="nav-collapse collapse">
         <ul class="nav">
           
-          <li><a href="index.php">Home</a></li>
+          <li><a href=<?php echo base_url() . "main/"?>>Home</a></li>
           <li><a href="#about">About</a></li>
           
         </ul>
@@ -27,15 +27,16 @@
         <nav id="navigator" class="nav pull-right">
             <ul id="navItems">
 <?php
+                $base_url = base_url();
 
                  //show the login and registration options if the user is not logged on 
                  if(!isset($_SESSION['userId']) && !isset($_SESSION['token'])){
                     echo("<li class=\"navButton\">"); 
-                    echo("<a href=\"./login.php\" role=\"button\" class=\"btn\" >Login</a>");
+                    echo("<a href=\"{$base_url}user/login\" role=\"button\" class=\"btn\" >Login</a>");
                     echo("</li>");
 
                     echo("<li class=\"navButton\">");
-                    echo("<a href=\"./register.php\" role=\"button\" class=\"btn\">Register</a>");
+                    echo("<a href=\"{$base_url}user/register\" role=\"button\" class=\"btn\">Register</a>");
                     echo("</li>");
                  }
                  else{
