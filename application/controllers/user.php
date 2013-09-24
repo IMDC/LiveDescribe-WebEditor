@@ -4,7 +4,7 @@ class User extends CI_Controller {
 
 	public function __construct(){
 		parent::__construct();
-		//$this->load->library('session'); //start CI seesion
+		$this->load->library('session'); //start CI seesion
 	}
 
 	/**
@@ -48,10 +48,12 @@ class User extends CI_Controller {
 			}
 			else{//login successfull
 				
-				print_r($ret);
-				//add session info here
-				//redirect(base_url(), 'refresh');
-				
+				//add session info
+				$this->session->set_userdata('userID', $userID);
+				$this->session->set_userdata('token', $token);
+				$this->session->set_userdata('userName', $userName);
+
+				redirect(base_url(), 'refresh');				
 			}
 		}
 		catch(Exception $ex){

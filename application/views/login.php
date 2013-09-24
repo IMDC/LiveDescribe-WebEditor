@@ -4,7 +4,13 @@
 
 <!-- Only show this page if the user is not logged on -->
 <?php
-  if(isset($_SESSION['userId']) && isset($_SESSION['token'])){
+  $this->load->library('session');
+  
+  $userName = $this->session->userdata('userName');
+  $userID   = $this->session->userdata('userId');
+  $token    = $this->session->userdata('token');
+
+  if($userID != false && $token != false){
     redirect(base_url(), 'refresh');
   }
 
