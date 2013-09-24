@@ -41,7 +41,12 @@
   echo('<div id="errorBox" name="errorBox" style="color: red;">'.$msg.'</div>');
   echo form_hidden('request_type', 'login');
   echo form_close();
-  echo('<div id="loginLoad"></div>');
+  echo('
+    <div id="loginLoad"> 
+       <img id="loadImg" src="../assets/img/loading.gif" 
+       style="display: none;" width=40 alt="loading"/> 
+    </div>
+    ');
 
   $data = array(
                 'class' => 'btn btn-primary pull-right',

@@ -55,7 +55,7 @@ class User extends CI_Controller {
 			}
 		}
 		catch(Exception $ex){
-			$ret['error'] = $ex;
+			$data['error'] = 'The credentials you have supplied were invalid. Please try again.';
 			$this->login($data);
 		}	
 		

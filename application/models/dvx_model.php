@@ -92,7 +92,7 @@ class DVX_Model extends CI_Model {
 		$get_url = $this->baseURL . 'user?LoginName=' .$user;
 		
 		
-		$xml_response = file_get_contents($get_url);//get response in XML format
+		$xml_response = @file_get_contents($get_url);//get response in XML format
 		if($xml_response === false){
 			throw new Exception("Server connection error.");
 		}
