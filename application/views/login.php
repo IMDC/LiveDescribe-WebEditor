@@ -4,17 +4,15 @@
 
 <!-- Only show this page if the user is not logged on -->
 <?php
-  $this->load->library('session');
   
   $userName = $this->session->userdata('userName');
   $userID   = $this->session->userdata('userId');
-  $token    = $this->session->userdata('token');
+  //$token    = $this->session->userdata('token');
 
-  if($userID != false && $token != false){
+  if($this->session->userdata('logged_in')){
     redirect(base_url(), 'refresh');
   }
 
-  $this->load->helper('form');
 
   echo('<div class="container">');
   echo('<div id="login_area" class="span6 offset3 login-reg">');

@@ -44,13 +44,12 @@
     <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
     
     <!-- Bootstrap JS -->
-
     <script src=<?php echo base_url('/assets/lib/bootstrap/js/bootstrap.js')?>></script>
     
     <!--Main site calls, for login etc.-->
     <script type="text/javascript" src=<?php echo base_url('/assets/js/site.js')?> ></script>
 
-    <script src=<?php echo base_url('/assets/lib/bootstrap/js/bootstrap.js')?>></script>
+   
     
     <!--Main site calls, for login etc.-->
     <script type="text/javascript" src=<?php //echo base_url() . ""?>></script>

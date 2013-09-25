@@ -6,7 +6,7 @@
 $(function() {
 
     ///
-    //submit the login form using an ajax call to the server
+    //submit the login form
     ///
     $('#loginForm').live('submit',function(){
 
@@ -14,6 +14,14 @@ $(function() {
         return true;
     }); 
 
+    ///
+    //submit the register form 
+    ///
+    $('#regForm').live('submit',function(){
+
+        $('#loadImg').attr('style', "display: block;");
+        return true;
+    }); 
 
 }); 
 
