@@ -28,9 +28,11 @@
             <ul id="navItems">
 <?php
                 $base_url = base_url();
+                $userName = $this->session->userdata('userName');
+                $userID   = $this->session->userdata('userId');
 
                  //show the login and registration options if the user is not logged on 
-                 if(!isset($_SESSION['userId']) && !isset($_SESSION['token'])){
+                 if(!$this->session->userdata('logged_in') ){
                     echo("<li class=\"navButton\">"); 
                     echo("<a href=\"{$base_url}user/login\" role=\"button\" class=\"btn\" >Login</a>");
                     echo("</li>");
@@ -40,14 +42,13 @@
                     echo("</li>");
                  }
                  else{
-                    $user = $_SESSION['userName'];
                     echo("<li class=\"dropdown\">");
 
                     echo <<<DROP
                     
                     <a class="btn" data-toggle="dropdown" role="button">
-                        <img src="images/mic.png" height="16" width="16" />
-                        $user
+                        <img src="{$base_url}assets/img/mic.png" height="16" width="16" />
+                        {$userName}
                         <b class="caret"></b>
                     </a>
 
