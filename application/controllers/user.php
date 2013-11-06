@@ -41,7 +41,7 @@ class User extends CI_Controller {
 	*	supplied for login
 	*/
 	public function login_user(){
-		$username    = $this->input->post('uname');
+		$username = $this->input->post('uname');
 		$password = md5($this->input->post('pword'));
 		$result   = $this->user_model->login($username,$password);
   		
@@ -121,7 +121,7 @@ class User extends CI_Controller {
 
 		$this->session->unset_userdata($newdata );
 		$this->session->sess_destroy();
-		//$this->index();
+		$this->login();
 	}
 
 

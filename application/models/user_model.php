@@ -11,6 +11,9 @@ class User_Model extends CI_Model {
 
 	/**
 	*	login as IMDC user
+	*	@param $user
+	*	@param $password
+	*	@return returns true is the users exists in the db, false otherwise
 	*/
 	public function login($user,$password){
 		$condition = array("username" => $user , "password" => $password);
@@ -31,9 +34,11 @@ class User_Model extends CI_Model {
 		}
 		return false;
 	}
+
  
  	/**
- 	*
+ 	*	adds a new user into the "users" 
+ 	*	table in the IMDC database
  	*/
 	public function add_user(){
 

@@ -17,9 +17,9 @@
         </ul>
 
       </div><!--/.nav-collapse -->
-      <form action=<?php echo base_url() . "main/test"?> class="nav form-search"  id="searchArea" method="POST" >
+      <form action=<?php echo base_url() . "main/videoFeed"?> class="nav form-search"  id="searchArea" method="POST" >
             <div class="input-append">
-                <input type="text"  id="searchBar" name="searchBar" class="span2 search-query" placeholder="Enter KeyWords or URL" required>
+                <input type="text"  id="searchBar" name="searchBar" class="span2 search-query" placeholder="Enter KeyWords" required>
                 <button type="submit" id="search" class="btn"><i class="icon-search"></i></button> 
             </div>
         </form> 
@@ -60,7 +60,7 @@
                         </li>
 
                         <li>
-                            <a id="logout" role="menu" href="#">
+                            <a id="logout" role="menu" href="{$base_url}user/logout">
                                 Log Out
                             </a>
                         </li>
