@@ -8,17 +8,14 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-
+    <!-- Mic icon -->
     <link rel="icon" type="image/png" href=<?php echo base_url('/assets/img/mic.png')?> />
 
     <!-- Bootstrap CSS -->
     <link href=<?php echo base_url('/assets/lib/bootstrap/css/bootstrap.css')?> rel="stylesheet">
+    <link href=<?php echo base_url('/assets/lib/bootstrap/css/bootstrap-responsive.css')?> rel="stylesheet">
 
-    <link rel="icon" type="image/png" href=<?php echo base_url('/assets/img/mic.png')?> />
-
-    <!-- Bootstrap CSS -->
-    <link href=<?php echo base_url('/assets/lib/bootstrap/css/bootstrap.css')?> rel="stylesheet">
-
+ 
     <style type="text/css">
       body {
         padding-top: 60px;
@@ -26,17 +23,10 @@
       }
     </style>
 
-    <link href=<?php echo base_url('/assets/lib/bootstrap/css/bootstrap-responsive.css')?> rel="stylesheet">
-    
+   
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href=<?php echo base_url('/assets/css/header.css')?> />
-
-    <link href=<?php echo base_url('/assets/lib/bootstrap/css/bootstrap-responsive.css')?> rel="stylesheet">
-    
-    <!-- CSS -->
-    <link rel="stylesheet" type="text/css" href=<?php echo base_url('/assets/css/header.css')?> />
-
-
+    <link rel="stylesheet" type="text/css" href=<?php echo base_url('/assets/css/navigation.css')?> />
     
 
     <!-- JQUERY -->
@@ -48,12 +38,6 @@
     
     <!--Main site calls, for login etc.-->
     <script type="text/javascript" src=<?php echo base_url('/assets/js/site.js')?> ></script>
-
-   
-    
-    <!--Main site calls, for login etc.-->
-    <script type="text/javascript" src=<?php //echo base_url() . ""?>></script>
-
 
   </head>
 
