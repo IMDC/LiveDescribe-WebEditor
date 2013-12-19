@@ -33,6 +33,25 @@ class VFeed_Model extends CI_Model {
 
 		return $feed;
 	}
+
+	/**
+	*	Checks if the given id is valid or not
+	*	@param $id : the video id
+	*	@return $valid : true if id is valid, false otherwise
+	*/
+	public function checkValidID($id){
+		$valid = FALSE;
+		$feed  = null;
+		
+		try{
+			$yt    = new Zend_Gdata_YouTube();
+			$feed  = $yt->getVideoEntry($id);
+			$valid = ($feed != null) ? TRUE : FALSE;
+		}
+		catch(Exception $e){}
+
+		return $valid;
+	}
  }
 
 ?>
