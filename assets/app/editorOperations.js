@@ -125,7 +125,6 @@ $(function() {
                 }
         }
     );
-
 });
 
 
@@ -474,12 +473,12 @@ function play_pause() {
         //pauses the video
         if (sStatus == 1){                        
             player.pauseVideo();
-            playpause.src = "images/playButton3.png" ;
+            playpause.src = base_url + "assets/img/playButton3.png" ;
         }     
 
         //plays the video
         else {
-            playpause.src = "images/pauseButton2.png" ;  
+            playpause.src = base_url + "assets/img/pauseButton2.png" ;  
             player.playVideo();
         }	
     }
@@ -488,7 +487,7 @@ function play_pause() {
 
 function stopVideo() {
     var playpause = document.images["playpause"]
-    playpause.src = "images/playButton3.png" ;
+    playpause.src = base_url + "assets/img/playButton3.png" ;
 
     player.pauseVideo();	 
 }
@@ -508,13 +507,13 @@ function onPlayerStateChange(event){
     //if the player was stopped or paused, and the state is changed to 
     //play, then change the play image to the pause image
     if (player.getPlayerState() == 1 ){
-        playpause.src = "images/pauseButton2.png" ;
+        playpause.src = base_url + "assets/img/pauseButton2.png" ;
     }
 
     //if the player was playing, and the state is changed to 
     //paused, then change the pause image to the play image
     if (player.getPlayerState() == 2) {
-        playpause.src = "images/playButton3.png" ;
+        playpause.src = base_url + "assets/img/playButton3.png" ;
     }
 }
 
@@ -545,24 +544,27 @@ function positionUpdate(){
 }
 
 /**
-  Converts the time to the form mm:ss
+*  Converts the time to the form hh:mm:ss
 */
 function convertTime(org){
-    var minute = Math.floor(org / 60) % 60;
+    var minute = Math.floor(org / 60);
     var second = Math.floor(org % 60);
     
     if(minute < 10)
         minute = "0" + minute;
     if(second < 10)
         second = "0" + second;
-    return( minute + ' : ' + second);
+
+    timeCode = minute + " : " + second;
+    
+    return timeCode;
 }
 
 
 
-/*
-  finds where to seek to in the video given the mouse location
-  Will need to introduce paging functionality here
+/**
+*  finds where to seek to in the video given the mouse location
+*  Will need to introduce paging functionality here
 */
 function getSeekLocation(xPos){
     var canvasWidth  = document.getElementById('segments').clientWidth;
@@ -599,12 +601,12 @@ function mute(){
     previousVol =  $( "#slider" ).slider( "value" );
     console.log('Mute: '+previousVol);
     if(!muted){
-        document.getElementById("volumeimg").src = "./images/vol-mute.png";
+        document.getElementById("volumeimg").src = base_url + "assets/img/vol-mute.png";
         changeVolume(0);
         muted = true;
     }
     else{
-        document.getElementById("volumeimg").src = "./images/volume_img.png";
+        document.getElementById("volumeimg").src = base_url + "assets/img/volume_img.png";
         changeVolume(previousVol);
         muted = false;
     }

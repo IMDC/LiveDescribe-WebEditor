@@ -52,7 +52,7 @@ function wamiReady(){
   console.log('Wami ready: ' + flash_loaded);
   document.getElementById("recordButton").disabled = false;
   recordIMG = document.images["record"];
-  recordIMG.src = "images/recordButton.png";
+  recordIMG.src = base_url + "assets/img/recordButton.png";
 }
 
 /**
@@ -71,7 +71,7 @@ function wamiLoad(){
 *   with the time codes and the audio clip
 */
 function recordAudio(){
-    var sStatus =player.getPlayerState();
+    var sStatus = player.getPlayerState();
     var videoDuration = player.getDuration();
     var descTag = document.getElementById("descriptions");
     var segments = document.getElementById("segments");
@@ -103,7 +103,7 @@ function recordAudio(){
         }
         
         recordIMG = document.images["record"];
-        recordIMG.src = "images/stopButton.png" ;
+        recordIMG.src = base_url + "assets/img/stopButton.png" ;
         isRecording = true;
     }
     else{
@@ -117,7 +117,7 @@ function recordAudio(){
        
        $("#slider").slider("value",init_vol);
        recordIMG = document.images["record"];
-       recordIMG.src = "images/loading.gif";
+       recordIMG.src = base_url + "assets/img/loading.gif";
        isRecording = false;
        timeFinished = player.getCurrentTime();
        stopVideo();
@@ -157,7 +157,7 @@ function recordAudio(){
 
         timeStart = null;
         timeFinished = null;
-        recordIMG.src = "images/recordButton.png" ;
+        recordIMG.src = base_url + "assets/img/recordButton.png" ;
         descriptionCollision = false; //reset the flag
     }
 }
@@ -335,10 +335,8 @@ function checkForCollision(newStart, newEnd){
         //new description completely covers an existing one
         if(newStart < existingStart && newEnd > existingEnd){
             descriptionCollision = true;
-        }
-            
+        }       
     }
-    
 }
 
 

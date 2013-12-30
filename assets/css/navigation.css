@@ -19,7 +19,7 @@
 */
 
 /* below is used in the bootstrap nav bar */
-#searchArea{
+/*#searchArea{
     margin: 6px 8px 8px 8px;
 }
 
@@ -31,7 +31,7 @@
 
 #search{
     border-radius: 0px 4px 4px 0px;
-}
+}*/
 
 /****************************************/
 
@@ -182,14 +182,14 @@ nav{
     min-height: 120px;
 }
 
-header{
+/*header{
     height: 80px;
     min-width: 1110px;
     position: relative;
     width: 100%;
     top: 0px;
     left: 0px;
-}
+}*/
 
 #credentialError{
     color: red;

@@ -18,13 +18,12 @@ $(document).ready(function(){
   $('#segments').setUpCanvas();
 
   //receive the video duration
-   $.ajax({
-       type:'POST',
+  $.ajax({
+       type:'GET',
        async: false,
-       url: "/projects/livedescribe/testing/ytRequest.php",
+       url: base_url + "app/getDuration", //"/projects/livedescribe/testing/ytRequest.php",
        data:{
-              id: video_id,
-              request_type: "videoDuration"
+              vID: video_id
             },
        success: function(response){
             videoDuration = response;
@@ -43,15 +42,13 @@ $(document).ready(function(){
 
 
    //receive the data for the video audio
-   $.ajax({
-      type:'POST',
-      url:  "/projects/livedescribe/testing/ytRequest.php",
+  $.ajax({
+      type:'GET',
+      url:  base_url + "app/getAudioInfo", ///projects/livedescribe/testing/ytRequest.php",
       dataType: 'json',
       cache: false,
       data:{
-            id: video_id,
-            request_type: "strip",
-            duration: videoDuration
+            vID: video_id,
       },
       success: function(json){
         $('#segments').css('visibility', 'visible');
@@ -130,7 +127,7 @@ function startUserMedia(stream) {
 
   document.getElementById("recordButton").disabled = false;
   recordIMG = document.images["record"];
-  recordIMG.src = "/projects/livedescribe/testing/images/recordButton.png";
+  recordIMG.src = base_url + "assets/img/recordButton.png";
 }
 
 

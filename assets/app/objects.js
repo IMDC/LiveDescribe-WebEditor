@@ -36,8 +36,5 @@ function Description(filename, startTime,endTime, textDescription, id){
 	    context.strokeStyle = 'black';
 	     
 	}
-
-
-
 }
 

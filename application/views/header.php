@@ -13,20 +13,24 @@
 
     <!-- Bootstrap CSS -->
     <link href=<?php echo base_url('/assets/lib/bootstrap/css/bootstrap.css')?> rel="stylesheet">
+
+    <style type="text/css">
+      body {
+        padding-top: 46px;
+        padding-bottom: 0px;
+      }
+    </style>
+    
     <link href=<?php echo base_url('/assets/lib/bootstrap/css/bootstrap-responsive.css')?> rel="stylesheet">
 
  
-    <style type="text/css">
-      body {
-        padding-top: 60px;
-        padding-bottom: 40px;
-      }
-    </style>
+    
 
    
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href=<?php echo base_url('/assets/css/header.css')?> />
     <link rel="stylesheet" type="text/css" href=<?php echo base_url('/assets/css/navigation.css')?> />
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
     
 
     <!-- JQUERY -->
