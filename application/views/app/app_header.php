@@ -7,6 +7,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
+ 
+<!-- Set up global url variable -->
+    <?php
+        $base_url = base_url();
+        echo(" 
+            <script type=\"text/javascript\"> 
+                var base_url = \"{$base_url}\";
+            </script>
+        ");
+    ?> 
 
     <!-- Mic icon -->
     <link rel="icon" type="image/png" href=<?php echo base_url('/assets/img/mic.png')?> />
@@ -38,16 +48,7 @@
     <!-- Bootstrap JS -->
     <script src=<?php echo base_url('/assets/lib/bootstrap/js/bootstrap.js')?>></script>
    
-    <!-- Set up global url variable -->
-    <?php
-        $base_url = base_url();
-        echo(" 
-            <script type=\"text/javascript\"> 
-                base_url = \"".$base_url ."\";
-            </script>
-        ");
-    ?> 
-
+   <!--  -->
     
     <!-- swfobject is a commonly used library to embed Flash content -->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
@@ -71,20 +72,22 @@
     <script type="text/javascript" src=<?php echo base_url("/assets/js/site.js") ?> ></script>
 
 
-    <!-- Insert the video id as a javascript variable so that the player can access it. -->
-    <?php 
-        echo("
-            <script  type=\"text/javascript\">
-                video_id = \"{$vID}\";
-            </script>
-        ");
-    ?>
-
     <!--Setup Recording Tools-->
     <script type="text/javascript" src=<?php echo base_url("/assets/app/editorSetup.js") ?> ></script>
     
+<!-- Insert the video id as a javascript variable so that the player can access it.
+  $vID is passed in as a variable when the view is loaded-->
+    <?php 
+        echo("
+            <script  type=\"text/javascript\">
+               var userID = {$userID};
+               var video_id = \"{$vID}\";
+            </script>
+        ");
+    ?>
 
   </head>
 
   <body>
 
+   

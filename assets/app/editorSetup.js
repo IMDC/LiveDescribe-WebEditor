@@ -156,14 +156,15 @@ function uploadToServer(blob , video_id , descID){
   fd.append('data', blob);
   fd.append('id', video_id);
   fd.append('descID', descID);
+  fd.append('userID', userID);
 
   $.ajax({
       type: 'POST',
-      url: 'record.php',
+      url: base_url + 'app/recordAudio',
       data: fd,
       processData: false,
       contentType: false
   }).done(function(data) {
-         console.log(" " + data);
+      console.log(" " + data);
   });
 }

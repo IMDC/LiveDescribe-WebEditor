@@ -80,40 +80,41 @@ function recordAudio(){
     var recordIMG = null;
 
     if( !isRecording ){
-        if(sStatus != 1){ //video is stopped, so start playing it.
-            play_pause();
-        }    
-        console.log("recording");
-        init_vol = $( "#slider" ).slider( "value" );
-        $("#slider").slider("value",1);
-        timeStart = player.getCurrentTime();
-        globalTimeStart = timeStart;
-        descID = createID();
+      if(sStatus != 1){ //video is stopped, so start playing it.
+        play_pause();
+      }    
+      console.log("recording");
+      init_vol = $( "#slider" ).slider( "value" );
+      $("#slider").slider("value",1);
+      timeStart = player.getCurrentTime();
+      globalTimeStart = timeStart;
+      descID = createID();
 
-        if(flash_loaded){
-          Wami.startRecording(
-            'http://imdc.ca/projects/livedescribe/testing/record/record_FLASH.php?'+
-            'name=description.wav&'+
-            'id='+video_id + '&' +
-            'descID=' + descID
-          );
-        }
-        else{
-          startRecording();
-        }
-        
-        recordIMG = document.images["record"];
-        recordIMG.src = base_url + "assets/img/stopButton.png" ;
-        isRecording = true;
+      if(flash_loaded){
+        Wami.startRecording(base_url +
+          'app/recordAudio?'+
+          'name=description.wav&'+
+          'id=' + video_id + '&' +
+          'descID=' + descID + '&' +
+          'userID=' + userID
+        );
+      }
+      else{
+        startRecording();
+      }
+      
+      recordIMG = document.images["record"];
+      recordIMG.src = base_url + "assets/img/stopButton.png" ;
+      isRecording = true;
     }
     else{
 
       if(flash_loaded){
           Wami.stopRecording();
         }
-        else{
-          stopRecording(video_id , descID);
-        }
+      else{
+        stopRecording(video_id , descID);
+      }
        
        $("#slider").slider("value",init_vol);
        recordIMG = document.images["record"];
@@ -131,27 +132,27 @@ function recordAudio(){
     
        if((timeFinished-timeStart) > 0 && !descriptionCollision){
            
-            // creating new description objects and inserting them into an array.
-            // the array is then sorted based on the start time of the description
-            var descriptionText = document.getElementById("transcript").value;
-            var description = new Description(
-                             'description_' + video_id +'_'+ descID + '.wav',
-                             timeStart, timeFinished,
-                             descriptionText, 
-                             descID
-                       );
-            descriptionList.push(description);
-            descriptionList = sortDescriptionObjectList(descriptionList);
+        // creating new description objects and inserting them into an array.
+        // the array is then sorted based on the start time of the description
+        var descriptionText = document.getElementById( "transcript" ).value;
+        var description = new Description(
+                                'description_' + userID + '_' + video_id +'_'+ descID + '.wav',
+                                timeStart, timeFinished,
+                                descriptionText, 
+                                descID
+                          );
+        descriptionList.push(description);
+        descriptionList = sortDescriptionObjectList(descriptionList);
 
-            console.log("Recorded description: " +  'description_' + video_id +'_'+ descID + '.wav');
-            
-            //create text description area
-            var recordStart = convertTime(timeStart);
-            var recordFinished = convertTime(timeFinished);
-            var newText = updateDescriptionText(recordStart, recordFinished,
-                                    timeStart, timeFinished, descID);
-            descTag.appendChild(newText);
-            description.draw(videoDuration, segmentsWidth, segmentsHeight);
+        console.log("Recorded description: " +  description.filename);
+        
+        //create text description area
+        var recordStart = convertTime(timeStart);
+        var recordFinished = convertTime(timeFinished);
+        var newText = updateDescriptionText(recordStart, recordFinished,
+                                timeStart, timeFinished, descID);
+        descTag.appendChild(newText);
+        description.draw(videoDuration, segmentsWidth, segmentsHeight);
 
        } 
 
@@ -163,11 +164,11 @@ function recordAudio(){
 }
 
 
-///NOTE: Unused. Replaced with the draw mehtod in the description object
-//
-//
-//Creates a highlighted section within the timeline 
-//to indicate a recorded description
+/**
+*   NOTE: Unused. Replaced with the draw mehtod in the description object
+*  Creates a highlighted section within the timeline 
+*  to indicate a recorded description
+*/
 function drawDescriptionSpace(timeStart, timeFinished, videoDuration,segmentsWidth, segmentsHeight){
     var startPercentage = timeStart / videoDuration  ;
     var endPercentage = timeFinished / videoDuration  ;
@@ -191,13 +192,12 @@ function drawRect(x,y, width, height, context){
 }
 ///////////////////////////////////////////////////////////
 
-///
-//Uses insertion sort to sort the array of description objects
-//in chronological order
-///
+/**
+*   Uses insertion sort to sort the array of description objects
+*   in chronological order
+*/
 function sortDescriptionObjectList(descriptionList){
-    var len = descriptionList.length,
-        min,i,j;
+    var len = descriptionList.length, min, i, j;
 
     for (i=0; i < len; i++){
         min = i;
@@ -216,25 +216,12 @@ function sortDescriptionObjectList(descriptionList){
 }
 
 
-
-///
-// Parses audio filename to obtain
-// the start time
-//NOTE: This is no longer used
-///
-function getTimeFromFile(file, extension){
-    var fileChunks = file.split("_");
-    var time = fileChunks[fileChunks.length -1].split(extension).shift();
-    
-    return time;
-}
-
-///
-//Creates a highlighted section within the timeline 
-//to indicate a recorded description
-// NOTE: this is not used currently since the timeline
-//  was changed to a canvas element. This method is replaced by "drawDescriptionSpace"
-///
+/**
+*  Creates a highlighted section within the timeline 
+*  to indicate a recorded description
+*  NOTE: this is not used currently since the timeline
+*  was changed to a canvas element. This method is replaced by "drawDescriptionSpace"
+**/
 function createDescriptionSegment(timeStart, timeFinished, videoDuration, segmentsWidth, segmentsHeight){
     
     var startPercentage = timeStart / videoDuration  ;
@@ -254,10 +241,10 @@ function createDescriptionSegment(timeStart, timeFinished, videoDuration, segmen
     return newSegment;    
 }
 
-///
-//Creates a text box that will contain the script information for a description
-//with the start and end time of the description (not currently being used)
-///
+/**
+*  Creates a text box that will contain the script information for a description
+*  with the start and end time of the description (not currently being used)
+*/
 function createDescriptionTextBox(recordStart, recordFinished, timeStart, timeFinished){
     
     var newItem = document.createElement("LI");
@@ -271,10 +258,10 @@ function createDescriptionTextBox(recordStart, recordFinished, timeStart, timeFi
     return newItem;
 }
 
-///
-//Creates a text box that will contain the script information for a description
-//with the start and end time of the description (replaced above function)
-///
+/**
+*  Creates a text box that will contain the script information for a description
+*  with the start and end time of the description (replaced above function)
+*/
 function updateDescriptionText(recordStart, recordFinished,timeStart, timeFinished, id){
     var newItem = document.createElement("LI");
     var text = document.createElement("textarea");
@@ -313,11 +300,11 @@ function stop(){
     Wami.stopPlaying();
 }
 
-///
-//Checks if the current recorded description conflicts with already
-//recorded descriptions. the description collision flag will then be set 
-//to true if there is a conflict
-///
+/**
+*  Checks if the current recorded description conflicts with already
+*  recorded descriptions. the description collision flag will then be set 
+*  to true if there is a conflict
+*/
 function checkForCollision(newStart, newEnd){
     
     for(var i=0; i < descriptionList.length; i++){
@@ -342,11 +329,11 @@ function checkForCollision(newStart, newEnd){
 
 
 
-///
-//Creates a unique id that is assigned to the description
-//used as a link between the visual description space and 
-//the text area for the description 
-///
+/**
+*  Creates a unique id that is assigned to the description
+*  used as a link between the visual description space and 
+*  the text area for the description 
+*/
 function createID() {
   return ("" + 1e10).replace(/[018]/g, function(a) {
     return (a ^ Math.random() * 16 >> a / 4).toString(16)

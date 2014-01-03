@@ -20,11 +20,12 @@
                 <!-- Display edit button if user is logged in -->
                 <?php 
                 	if($this->session->userdata('logged_in') == TRUE ){
-                		echo("<a id=\"videoEdit\" role=\"button\" class=\"btn\" href=\"./editor.php?vID=" .$videoId. "\"\>");
+                        $base_url = base_url();
+                		echo("<a id=\"videoEdit\" role=\"button\" class=\"btn\" href=\"{$base_url}app/editor?vID=" . $videoId . "\"\>");
 	                	echo("Add Description");
 	            		echo("</a>");	
                 	}
-                	echo("<a id=\"videoPlay\" role=\"button\" class=\"btn\" href=\"./player.php?id=" .$videoId. "\">"); 
+                	echo("<a id=\"videoPlay\" role=\"button\" class=\"btn\" href=\"./player.php?id=" . $videoId . "\">"); 
                 ?>
                     Play Video
                 </a>

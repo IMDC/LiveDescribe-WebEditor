@@ -48,38 +48,32 @@ var audioSamples = new Array();
 var spaces       = new Array();
 
 
-//////////////////////////JQuery Functions///////////////////////////////
-
 ///
 ///when the browser window is resized, the 
 ///canvas width is adjusted accordingly
 ///
 $(window).resize(function() {
+    if( document.readyState === 'complete' ){
         console.log("window resized");
-        //var canvas       = document.getElementById("segments");
         var canvasWidth  = canvas.clientWidth;
-        //var ctx          = canvas.getContext('2d');
         ctx.canvas.width = canvasWidth;
         
-
-
         //the size has changed so the paging needs to be changed
         setUpPaging();
         
         bottomSectionResize();
         
-
         //when the canvas size changes, the drawn objects get 
         //removed so we need to go through the array of description 
         //objects and re-draw them
         reDrawSpaces();
         
-
         var currentTime = player.getCurrentTime();
         moveMarker(currentTime);
 
         createWaveform(audioSamples);
         drawRecomendedSpaces();
+    }
 });
 
 
@@ -108,7 +102,6 @@ $(function() {
           }
     }
     );
-
 });
 
 
@@ -118,32 +111,26 @@ $(function() {
 ///
 $(function() {
     $( "#slider" ).slider(
-        {value:30},
+        {value: 30 },
         {change: function( event, ui ) {
                     var value = $( "#slider" ).slider( "value" );
                     changeVolume(value);
                 }
         }
     );
+
+    //Drop down menus enabled
+    $('.dropdown-toggle').dropdown();
 });
 
 
-
-///
-//Drop down menus enabled
-///
-$('.dropdown-toggle').dropdown();
-
-
-
-
-///
-//Canvas Listener, Used to move the description spaces, initialized 
-//when 'editor.php' is finished loading
-//
-//NOTE: the clickTime variable is always zero when using html5 video
-//this is probably a problem with the YouTUbe API for the html5 video trial
-///
+/**
+*  Canvas Listener, Used to move the description spaces, initialized 
+*  when 'editor' is finished loading
+*
+*  NOTE: the clickTime variable is always zero when using html5 video
+*  this is probably a problem with the YouTUbe API for the html5 video trial
+*/
 jQuery.fn.setUpCanvas = function(){
     
     var found = false;
@@ -231,7 +218,6 @@ jQuery.fn.setUpCanvas = function(){
 
 
 function updateDescriptionList(description, newStart, newEnd){
-
     var start        = convertTime(newStart);
     var end          = convertTime(newEnd);
     var newTimeStamp = start + ' - ' + end;
@@ -244,7 +230,6 @@ function updateDescriptionList(description, newStart, newEnd){
 */
 function getClickTime(event){
     var clickStart  = event.offsetX; 
-    //var canvas      = document.getElementById("segments");
     var canvasWidth = canvas.clientWidth;
     var clickTime   = (clickStart /canvasWidth)* player.getDuration();
     return clickTime;
@@ -254,13 +239,9 @@ function clear(){
     var segments       = document.getElementById("segments");
     var segmentsWidth  = segments.clientWidth;
     var segmentsHeight = segments.clientHeight;
-    //var canvas         = document.getElementById('segments');
-    //var context        = canvas.getContext('2d');
    
     ctx.clearRect(0,(segmentsHeight / 2) + 40, segmentsWidth * 2 , segmentsHeight * 2);
 }
-
-
 
 
 /**
@@ -283,12 +264,7 @@ function getCanvasElements(){
 *   the timeline canvas
 */
 function drawMarker(){
-    //var markerCanvas = document.getElementById("positionMarker");
-    //var timeCanvas   = document.getElementById("timeBar");
-    //var marker       = markerCanvas.getContext('2d');
-    //var canvas       = document.getElementById("segments");
     var canvasWidth  = canvas.clientWidth;
-    //var ctx          = canvas.getContext('2d');
     var headerHeight = $('#header').height();
     var upperHeight  = $('#AVControls').height();
     var screenHeight = $(window).height();
@@ -327,12 +303,7 @@ function drawMarker(){
 *    Sets up the paging functionality for the timeline
 */
 function setUpPaging(){
-    //var markerCanvas         = document.getElementById("positionMarker");
-    //var timeCanvas           = document.getElementById("timeBar");
-    //var canvas               = document.getElementById("segments");
     var canvasWidth          = document.getElementById("timeline").clientWidth;
-    //var ctx                  = canvas.getContext('2d');
-    //var tcx                  = timeCanvas.getContext('2d');
     var seconds_between_tics = 1;
     var mainTic              = 5;
     var maxCanvasWidth       = 4096;//8192;//32000;
@@ -374,7 +345,9 @@ function setUpPaging(){
     var numTics         =  videoDuration / seconds_between_tics;
     var px_between_tics = width_total / numTics;
     var tic             = 0; //start at the 0 position
-    positionTimeout     = 1000/px_between_tics;
+    positionTimeout     = (1000 * seconds_between_tics)/px_between_tics; 
+
+    
 
     tcx.fillStyle = "black";
     tcx.font      = "bold 14px calibri";
@@ -409,10 +382,11 @@ function setUpPaging(){
       }
     }
   
-    if(posInt != null){
-      clearInterval(posInt);
-    }
-    posInt = setInterval(positionUpdate, positionTimeout);
+    // if(posInt != null){
+    //   clearInterval(posInt);
+    // }
+    // posInt = setInterval(positionUpdate, positionTimeout);
+    positionInterval = setInterval(positionUpdate, 42);
     drawMarker();
 }
 
@@ -441,9 +415,9 @@ function onYouTubeIframeAPIReady(){
                 });
 }
 
-///
-// The API will call this function when the video player is ready.
-///
+/**
+* The YT API will call this function when the video player is ready.
+*/
 function onPlayerReady(event) {
     var url        = player.getVideoUrl();
     var urlChunks  = url.split('=');
@@ -464,7 +438,6 @@ function onPlayerReady(event) {
 }
 
 
-//this function pauses or plays the video
 function play_pause() {
     var sStatus =player.getPlayerState();
     var playpause = document.images["playpause"];
@@ -493,15 +466,11 @@ function stopVideo() {
 }
 
 
-function setTimer(){
-    player.getCurrentTime();
-}
 
-
-///
-//  The API calls this function when the player's state changes.
-//    The function indicates that when playing a video (state=1)
-///
+/**
+*  The API calls this function when the player's state changes.
+*    The function indicates that when playing a video (state=1)
+*/
 function onPlayerStateChange(event){
     var playpause = document.images["playpause"];
     //if the player was stopped or paused, and the state is changed to 
@@ -517,9 +486,9 @@ function onPlayerStateChange(event){
     }
 }
 
-/*
-  This function is called on a set interval and it updates the position
-  marker on the timeline and the time display
+/**
+*  This function is called on a set interval and it updates the position
+*  marker on the timeline and the time display
 */
 function timeupdate() { 
     if(!dragging){
@@ -531,15 +500,20 @@ function timeupdate() {
 }
 
 
-/*
-  Update the position marker
+/**
+*  Update the position marker
 */
 function positionUpdate(){
   
     if(!dragging && (player.getPlayerState() == 1)){
-        var markerPos = document.getElementById("positionMarker").offsetLeft;
+        //var markerPos = document.getElementById("positionMarker").offsetLeft;
+        //document.getElementById("positionMarker").style.left = markerPos +  1  + "px";
+
+        var currentTime = player.getCurrentTime();
+        var duration    = player.getDuration();
+        var percentage  = canvas.width * (currentTime / duration);
+        document.getElementById("positionMarker").style.left = percentage  + "px";
         
-        document.getElementById("positionMarker").style.left = markerPos +  1  + "px";
     }
 }
 
@@ -596,7 +570,9 @@ function changeVolume(volume){
 }
 
 
-///Mute the audio
+/**
+*   Mute the audio
+*/
 function mute(){
     previousVol =  $( "#slider" ).slider( "value" );
     console.log('Mute: '+previousVol);
@@ -613,30 +589,30 @@ function mute(){
 }
 
 
-///
-//Checks if there is a recording at the current time of the video
-//if a recording exists, play it with the video
-///
+/**
+*  Checks if there is a recording at the current time of the video
+*  if a recording exists, play it with the video
+*/
 function checkForDescription(){
     var currentTime = player.getCurrentTime();
     var tollerance = 0.1; //play a description if currentTime is +/- tollerance
     
     if(!dragging && !isRecording && !descriptionPlaying){
 
-           for(var i=0; i < descriptionList.length; i++){
-               if(descriptionList[i].startTime >= (currentTime - tollerance) &&
-                descriptionList[i].startTime <= (currentTime + tollerance) ){
-                    console.log("description detected");
-                    playAudio(descriptionList[i], video_id);
-                }
-           }
+       for(var i=0; i < descriptionList.length; i++){
+           if(descriptionList[i].startTime >= (currentTime - tollerance) &&
+            descriptionList[i].startTime <= (currentTime + tollerance) ){
+                console.log("description detected");
+                playAudio(descriptionList[i], video_id);
+            }
+       }
     }
     
 }
 
-///
-//plays the given audio file
-///
+/**
+*   plays the given audio file
+*/
 function playAudio(description, video_id){
     var init_vol =  $( "#slider" ).slider( "value" );
     descriptionPlaying = true;
@@ -644,7 +620,8 @@ function playAudio(description, video_id){
 
     console.log("Playing Description: " + description.filename);
     var audio = new Audio();
-    audio.src = 'http://imdc.ca/projects/livedescribe/testing/record/uploads/' + video_id + '/'
+    audio.src = 'http://imdc.ca/projects/livedescribe/res-www/uploads/user' 
+                + userID + '/' + video_id + '/'
                 + description.filename;
     audio.play();
     descriptionLengthMS = (description.endTime - description.startTime) * 1000;
@@ -653,12 +630,11 @@ function playAudio(description, video_id){
                     $("#slider").slider("value",init_vol);
                 },descriptionLengthMS
             );
-
 }
 
-///
-///Re-draws the description spaces on the canvas
-///
+/**
+*  Re-draws the description spaces on the canvas
+*/
 function reDrawSpaces(){
     
     var videoDuration  = player.getDuration();
@@ -666,56 +642,53 @@ function reDrawSpaces(){
     var segmentsWidth  = segments.clientWidth;
     var segmentsHeight = segments.clientHeight;
 
-    
     for (var i=0; i<descriptionList.length;i++){
         descriptionList[i].draw(videoDuration,segmentsWidth,segmentsHeight);
-    }
-    
+    }  
 }
 
 
-///
-//  Delete the seleceted desription from the description list
-//  and remove any corresponding elements in the document
-///
+/**
+*   Delete the seleceted desription from the description list
+*   and remove any corresponding elements in the document
+*/
 function deleteDescription(descID){
 
     //remove the description from the array
     for(i=0; i < descriptionList.length; i++){
         if(descriptionList[i].id == descID){//then remove the description
-            console.log('Removed: ' + descriptionList[i].id);
+            console.log('Removed from list: ' + descriptionList[i].id);
             descriptionList.splice(i,1);
             break;
         }
     }
-    deleteRemoteFile(video_id, descID);
-    
+    deleteRemoteFile(video_id, descID);    
 }
 
 
-///
-//Deletes the file from the server with the given videio id and description id
-//if it is successful, then the visual description elements are removed from the page
-///
+/**
+*   Deletes the file from the server with the given videio id and description id
+*   if it is successful, then the visual description elements are removed from the page
+*/
 function deleteRemoteFile(video_id, description_ID){
-     $.ajax({
-           type:'POST',
-           url: "record/clear.php",
-           data:{
-                  id: video_id,
-                  d_id: description_ID
-                },
-           success: function(response){
-                //remove the list item
-                $('#' + description_ID).fadeOut("slow", function(){
-                    $('#' + description_ID).remove();
-                });
-
-                //remove the visual description area
-                clear();
-                reDrawSpaces();
-           }    
-       });              
+    $.ajax({
+       type:'POST',
+       url: base_url + "app/removeFile",
+       data:{
+              vID: video_id,
+              descID: description_ID,
+            },
+       success: function(response){
+            console.log(response);
+            //remove the list item
+            $('#' + description_ID).fadeOut("slow", function(){
+                $('#' + description_ID).remove();
+            });
+            //remove the visual description area
+            clear();
+            reDrawSpaces();
+       }    
+    });              
 }
 
 
@@ -736,10 +709,10 @@ function changeDescription(id){
 }
 
 
-/*
-    This will check if the marker is within view of the 
-    canvas element, if it is about to be then it will
-    scroll the canvas in order for it to be in view 
+/**
+*    This will check if the marker is within view of the 
+*    canvas element, if it is about to be then it will
+*    scroll the canvas in order for it to be in view 
 */
 function checkMarker(){
 
@@ -764,10 +737,10 @@ function checkMarker(){
 
 
 
-/*
-  Gets the video file, given the video ID using youtube-dl stored
-  in /media/storage/projects/livedescribe/public_html/testing/yt.
-  Strips the audio from the video file using ffmpeg.
+/**
+*  Gets the video file, given the video ID using youtube-dl stored
+*  in /media/storage/projects/livedescribe/public_html/testing/yt.
+*  Strips the audio from the video file using ffmpeg.
 */
 function stripAudio(){
 
@@ -784,9 +757,9 @@ function stripAudio(){
   }
 }
 
-/*
-  Find the remaining height of the window and fills\
-  it with the bottom section of the app
+/**
+*   Find the remaining height of the window and fills\
+*   it with the bottom section of the app
 */
 function bottomSectionResize(){
   var headerHeight = $('#navBar').height();
@@ -851,7 +824,6 @@ function createWaveform(){
 *   Draws a line on the canvas element
 */
 function drawLine(x1,x2,y1,y2){
-
   ctx.lineWidth = 1;
   ctx.beginPath();
   ctx.moveTo(x1,y1);
