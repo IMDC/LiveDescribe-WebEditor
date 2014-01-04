@@ -86,9 +86,9 @@ function recordAudio(){
       console.log("recording");
       init_vol = $( "#slider" ).slider( "value" );
       $("#slider").slider("value",1);
-      timeStart = player.getCurrentTime();
+      timeStart       = player.getCurrentTime();
       globalTimeStart = timeStart;
-      descID = createID();
+      descID          = createID();
 
       if(flash_loaded){
         Wami.startRecording(base_url +
@@ -230,7 +230,6 @@ function createDescriptionSegment(timeStart, timeFinished, videoDuration, segmen
     var descriptionStartPoint = startPercentage *  segmentsWidth;
     var newSegment = document.createElementNS("http://www.w3.org/2000/svg", "rect");
  
-    
     newSegment.setAttribute("height", segmentsHeight);
     newSegment.setAttribute("width", descriptionWidth);
     newSegment.setAttribute("x", descriptionStartPoint);
@@ -325,8 +324,6 @@ function checkForCollision(newStart, newEnd){
         }       
     }
 }
-
-
 
 
 /**

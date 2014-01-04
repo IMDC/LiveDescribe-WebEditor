@@ -854,3 +854,16 @@ function drawRecomendedSpaces(){
     }
   }
 }
+
+/**
+*
+*
+*/
+function saveProject(){
+    console.log("save submit");
+    $( '#saveForm' ).submit();
+    
+    $.ajax({
+
+    });
+}

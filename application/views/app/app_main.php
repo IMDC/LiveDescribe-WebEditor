@@ -1,18 +1,4 @@
-<!-- Only show this page if the user is not logged on -->
-<?php
-  // if($this->session->userdata('logged_in')){
-  //   redirect(base_url(), 'refresh');
-  // }
-?>
-<!-- 
-<div>
-	Hello, the video id is: <script type="text/javascript">alert(video_id);</script>
-	<?php //echo($vID); ?>
-</div> 
-
-<script type="text/javascript">alert(video_id);</script>
--->
-
+<!--  -->
 <div id="wami" style="margin-left: 0%;position:relative;top:32px;"></div>
 <div id="load"></div>
 
@@ -20,37 +6,104 @@
 
   <section id="mainUpper">
       
-      <section id="AVControls">
+      <section id="controls">
           
-          <div id="playpauseControl">
-              <button name="playpause" class="controls" onclick="play_pause();">
-                  <img name="playpause" src=<?php echo base_url("/assets/img/playButton3.png") ?>  class="imgcontrols"  />
-              </button>
-          </div>
-          <div id="recordControl">
-              <button name="record" id="recordButton" class="controls" onclick="recordAudio();" disabled="true">
-                  <img name="record" src=<?php echo base_url("/assets/img/loading.gif") ?>  class="imgcontrols"  />
-              </button>
-          </div>
-          <div id="volumeControl">
-              <img id="volumeimg" name="volume" src=<?php echo base_url("/assets/img/volume_img.png" )?> onclick="mute();" />
-              <!--<input id="volume" type="range" name="volume" class="controls" min="0" max="100" value="30" step="1" onchange="changeVolume(this.value);" />-->
-              <div id="slider"></div>
-          </div>
-          
-          <div id="timeInfo">
+          <div id="AVControls">
+            <div id="playpauseControl">
+                <button name="playpause" class="controls" onclick="play_pause();">
+                    <img name="playpause" src=<?php echo base_url("/assets/img/playButton3.png") ?>  class="imgcontrols"  />
+                </button>
+            </div>
+
+            <div id="recordControl">
+                <button name="record" id="recordButton" class="controls" onclick="recordAudio();" disabled="true">
+                    <img name="record" src=<?php echo base_url("/assets/img/loading.gif") ?>  class="imgcontrols"  />
+                </button>
+            </div>
+            
+            <div id="volumeControl">
+                <img id="volumeimg" name="volume" src=<?php echo base_url("/assets/img/volume_img.png" )?> onclick="mute();" />
+                <!--<input id="volume" type="range" name="volume" class="controls" min="0" max="100" value="30" step="1" onchange="changeVolume(this.value);" />-->
+                <div id="slider"></div>
+            </div>
+            
+            <div id="timeInfo">
+            </div>
+
           </div>
 
-         
-          <a href="#" id="saveProject" role="button" class="btn" data-toggle="modal">
+          <div id="projectControl">
+            <!-- Button trigger modal -->
+            <button id="saveProject" class="btn btn-lg" data-toggle="modal" data-target="#saveModal" data-backdrop="static" data-keyboard="false">
               Save Project
-          </a>
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="saveModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">Save Project</h4>
+                  </div>
+                  <div class="modal-body">
+                    
+                    <!-- Fields to be filled out before saving -->
+                    <?php 
+                      $name = isset($name) ? $name : "";
+                      $desc = isset($desc) ? $desc : "";
+
+                      $attributes = array('id' => 'saveForm');
+                      echo form_open("#", $attributes);
+                      echo form_label("Project Name:", 'projName');
+                      $data = array(
+                                    'id' => 'projName', 
+                                    'name' => 'projName',
+                                    'type' => 'text' ,
+                                    'size' => '30',
+                                    'autofocus' => 'autofocus',
+                                    'style' => 'height: 45px; width: 100%;',
+                                    'required' => 'true',
+                                    'value' => $name
+                                  );
+                      echo form_input($data);
+
+                      echo form_label("Project Description:", 'projDesc');
+                      $data = array(
+                                    'id' => 'projDesc', 
+                                    'name' => 'projDesc',
+                                    'rows' => '30',
+                                    'cols' => '20',
+                                    'autofocus' => 'autofocus',
+                                    'style' => 'height: 45px; width: 100%;',
+                                    'required' => 'false',
+                                    'value' => $desc
+                                  );
+                      echo form_textarea($data);
+                      echo form_close();
+                    ?>
+
+                    <div id="loginLoad"> 
+                      <img id="loadImg" src=<?php echo base_url("/assets/img/loading.gif" )?>
+                            style="display: none;" width=40 alt="loading"/> 
+                    </div>
+
+                  </div>
+                  
+                  <div class="modal-footer">
+
+                    <button id="saveClose" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button id="saveButton" type="button" class="btn btn-primary" onclick="saveProject();"> Save </button>
+                  
+                  </div> <!-- /.modal-footer -->
+                </div><!-- /.modal-content -->
+              </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+          </div>
 
          
       </section>
       
       <section id="videoPlayer">
-          <div id="videoscreen"></div>
           <!--  The <iframe> (and video player) will replace this <div> tag. -->
           <div id="player"></div>
       </section>
@@ -90,12 +143,9 @@
                           position: relative;
                           left: 6px;
                           height: 80%;
-                          max-width: 180px;
-          "></textarea>
-          
-          
-          
-          
+                          max-width: 180px;">
+          </textarea>
+                    
       </section>
       
       
@@ -112,8 +162,7 @@
 
         <canvas id="segments"  height="230" ></canvas>
         <canvas id="timeBar" height="30"></canvas>
-        <canvas id="positionMarker"></canvas>
-              
+        <canvas id="positionMarker"></canvas>        
          
       </section>
 
