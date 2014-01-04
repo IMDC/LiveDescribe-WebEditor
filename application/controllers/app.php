@@ -41,11 +41,6 @@ class App extends CI_Controller {
 			redirect(base_url(), 'refresh');
 		}
 		else{
-			$this->load->library('form_validation');
-			// field name, error message, validation rules
-			$this->form_validation->set_rules('projName', 'Project Name', 'trim|required|min_length[2]|xss_clean');
-			$this->form_validation->set_rules('projDesc', 'Project Description', 'xss_clean' );
-			
 			$this->load->view('app/app_header', $data);
 			$this->load->view('navigation');
 			$this->load->view('app/app_main');
@@ -153,6 +148,17 @@ class App extends CI_Controller {
 		else{
 			echo "File was not removed: " . $file;
 		}
+	}
+
+
+
+	/**
+	*
+	*/
+	public function saveProject(){
+		$json = $this->input->post("saveData");
+		$data = json_decode($json);
+		print_r($data);
 	}
 
 }

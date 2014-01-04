@@ -860,10 +860,42 @@ function drawRecomendedSpaces(){
 *
 */
 function saveProject(){
-    console.log("save submit");
-    $( '#saveForm' ).submit();
-    
-    $.ajax({
-
+    $( '#errorBox' ).text("");
+    $( '#saveForm' ).submit(function(e){
+        e.preventDefault();
     });
+
+    var name = $( '#projName' ).val();  
+    if(name === "" || name.length === 0){
+        $( '#projName' ).focus();
+        $( '#errorBox' ).text("Fill in the Required Fields!");
+        console.log("Project Name not entered.");
+    }
+    else{
+        $( '#errorBox' ).text("");        
+        var from = $( '#saveForm' );
+        
+        var data = {};
+        data.formData = JSON.stringify(from.serializeArray());
+
+        if(descriptionList.length >= 1){
+            data.descriptionData = JSON.stringify(descriptionList);
+        }
+
+        console.log("Save Submit...");
+
+        $.ajax({
+          type: "POST",
+          url: base_url + "app/saveProject",
+          //dataType: "json",
+          data: {"saveData": JSON.stringify(data)},
+
+          success: function(response){
+            console.log("Saved: " + response);
+          },
+          error: function(response){
+            console.log("Save Error");
+          }
+        });
+    } 
 }

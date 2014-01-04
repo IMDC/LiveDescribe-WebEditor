@@ -51,10 +51,11 @@
                     <?php 
                       $name = isset($name) ? $name : "";
                       $desc = isset($desc) ? $desc : "";
+                      $vID  = $this->input->get('vID');
 
                       $attributes = array('id' => 'saveForm');
-                      echo form_open("#", $attributes);
-                      echo form_label("Project Name:", 'projName');
+                      echo form_open('', $attributes);
+                      echo form_label("Project Name (Required):", 'projName');
                       $data = array(
                                     'id' => 'projName', 
                                     'name' => 'projName',
@@ -62,7 +63,7 @@
                                     'size' => '30',
                                     'autofocus' => 'autofocus',
                                     'style' => 'height: 45px; width: 100%;',
-                                    'required' => 'true',
+                                    'required' => '',
                                     'value' => $name
                                   );
                       echo form_input($data);
@@ -72,13 +73,15 @@
                                     'id' => 'projDesc', 
                                     'name' => 'projDesc',
                                     'rows' => '30',
-                                    'cols' => '20',
+                                    'cols' => '30',
                                     'autofocus' => 'autofocus',
-                                    'style' => 'height: 45px; width: 100%;',
+                                    'style' => 'height: 75px; width: 100%;',
                                     'required' => 'false',
                                     'value' => $desc
                                   );
                       echo form_textarea($data);
+                      echo form_hidden("vID", $vID);
+                      echo('<div id="errorBox" name="errorBox" style="color: red;"></div>');
                       echo form_close();
                     ?>
 
