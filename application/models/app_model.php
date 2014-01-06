@@ -75,27 +75,35 @@ class App_Model extends CI_Model {
 	}
 
 	/**
-	*	
+	*	Saves both project data and description data
+	*   by calling saveProjectData() and saveDescriptionData()
+	*
+	*	@param $saveData : data to be inserted / updated to DB
+	*	@param $uID : user id 
 	*/
 	public function save($saveData, $uID){
-		/*
+		/*  $saveData example:
 			stdClass Object
 			(
 			    [formData] => [{"name":"projName","value":"testPorj"},{"name":"projDesc","value":"helohellohelllo"},{"name":"vID","value":"T7HXli3cBOw"}]
 			    [descriptionData] => [{"filename":"description_7_T7HXli3cBOw_b4fb260dab2.wav","startTime":0,"endTime":5.539,"textDescription":"  ","id":"b4fb260dab2"},{"filename":"description_7_T7HXli3cBOw_66188901ef0.wav","startTime":7.409,"endTime":11.008,"textDescription":"","id":"66188901ef0"}]
-			)
-			 
+			)	 
 		*/
 
 		$formData = json_decode($saveData->formData);
 		$this->saveProjectData($formData, $uID);
 
 		$descriptionData = json_decode($saveData->descriptionData);
-
+		$this->saveDescriptionData($descriptionData, $uID, $formData[2]->value);
 	}
 
 	/**
-	*	
+	*	Saves project data the user supplies, inserts the 
+	*   data into the database if the project is new to the 
+	*   user, or updates the data otherwise
+	*
+	*	@param $formData : (project name, project description, video id)
+	*	@param $uID : user id
 	*/
 	private function saveProjectData($formData, $uID){
 
@@ -118,15 +126,40 @@ class App_Model extends CI_Model {
 		}
 		else{ //insert new record
 			$this->db->insert('projects',$data);
-			return $data;
 		}
 	}
 
 	/**
+	*	Saves description data, inserts the 
+	*   data into the database if the description doesn't exist
+	*   or updates the data otherwise
 	*
+	*	@param $descriptionData
+	*	@param $uID : user id
 	*/
-	private function saveDescriptionData($descriptionData, $uID){
+	private function saveDescriptionData($descriptionData, $uID, $vID){
 
+		foreach($descriptionData as $obj){
+			$data = array(
+					'user_id'   => $uID,
+					'desc_id'   => $obj->id,
+					'start' 	=> $obj->startTime,
+					'end'   	=> $obj->endTime,
+					'filename'  => $obj->filename,
+					'desc_text' => $obj->textDescription,
+					'video_id'  => $vID
+					);
+
+			$condition = array("user_id" => $uID , "video_id" => $vID, "desc_id" => $obj->id);
+			$query = $this->db->get_where("descriptions", $condition);
+		
+			if($query->num_rows() > 0){ //need to update record
+				$this->db->update('descriptions',$data);
+			}
+			else{ //insert new record
+				$this->db->insert('descriptions',$data);
+			}
+		}
 	}
 	
  }
