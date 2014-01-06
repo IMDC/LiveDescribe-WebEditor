@@ -31,9 +31,9 @@ class App extends CI_Controller {
 	*	Loads the editor view of the app
 	*/
 	public function editor(){
-		$data = null; //resest data
-		$get = $this->input->get("vID",TRUE);
-		$data["vID"] = isset($get) ? $get : null;
+		$data           = null; //resest data
+		$get            = $this->input->get("vID",TRUE);
+		$data["vID"]    = isset($get) ? $get : null;
 		$data["userID"] = $this->session->userdata("userID");
 
 		//print_r($this->vfeed_model->checkvalidID($get));
@@ -104,8 +104,8 @@ class App extends CI_Controller {
 	*/
 	public function recordAudioFLASH(){
 		parse_str($_SERVER['QUERY_STRING'], $params);
-		$vID = isset($params['id']) ? $params['id'] : null;
-		$name = isset($params['name']) ? $params['name'] : 'temp.wav';
+		$vID    = isset($params['id']) ? $params['id'] : null;
+		$name   = isset($params['name']) ? $params['name'] : 'temp.wav';
 		$descID = isset($params['descID'])? $params['descID'] : null;
 		$userID = isset($params['userID'])? $params['userID'] : null;
 		
@@ -123,9 +123,9 @@ class App extends CI_Controller {
 
 		chdir($dirname);
 		
-		$name = basename($name,'.wav') . '_' . $userID . "_" . $vID . "_" . $descID . ".wav";
+		$name    = basename($name,'.wav') . '_' . $userID . "_" . $vID . "_" . $descID . ".wav";
 		$content = file_get_contents('php://input');
-		$fh = fopen($name ,'w') or die("can't open file");
+		$fh      = fopen($name ,'w') or die("can't open file");
 		fwrite($fh,$content);
 		fclose($fh);
 		chmod($name, 0766);
@@ -158,7 +158,8 @@ class App extends CI_Controller {
 	public function saveProject(){
 		$json = $this->input->post("saveData");
 		$data = json_decode($json);
-		print_r($data);
+		$result = $this->app_model->save($data, $this->userID);
+		print_r($result);
 	}
 
 }

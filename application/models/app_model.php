@@ -73,8 +73,62 @@ class App_Model extends CI_Model {
 
 		return(json_encode($response)); //send back a json object that will be used in the javascript file		
 	}
+
+	/**
+	*	
+	*/
+	public function save($saveData, $uID){
+		/*
+			stdClass Object
+			(
+			    [formData] => [{"name":"projName","value":"testPorj"},{"name":"projDesc","value":"helohellohelllo"},{"name":"vID","value":"T7HXli3cBOw"}]
+			    [descriptionData] => [{"filename":"description_7_T7HXli3cBOw_b4fb260dab2.wav","startTime":0,"endTime":5.539,"textDescription":"  ","id":"b4fb260dab2"},{"filename":"description_7_T7HXli3cBOw_66188901ef0.wav","startTime":7.409,"endTime":11.008,"textDescription":"","id":"66188901ef0"}]
+			)
+			 
+		*/
+
+		$formData = json_decode($saveData->formData);
+		$this->saveProjectData($formData, $uID);
+
+		$descriptionData = json_decode($saveData->descriptionData);
+
+	}
+
+	/**
+	*	
+	*/
+	private function saveProjectData($formData, $uID){
+
+		$projName = $formData[0]->value;
+		$projDesc = $formData[1]->value;
+		$vID      = $formData[2]->value;
+		
+		$data = array(
+				'user_id'             => $uID,
+				'video_id'            => $vID,
+				'project_name'        => $projName,
+				'project_description' => $projDesc,
+				);
+
+		$condition = array("user_id" => $uID , "video_id" => $vID);
+		$query = $this->db->get_where("projects", $condition);
+		
+		if($query->num_rows() > 0){ //need to update record
+			$this->db->update('projects',$data);
+		}
+		else{ //insert new record
+			$this->db->insert('projects',$data);
+			return $data;
+		}
+	}
+
+	/**
+	*
+	*/
+	private function saveDescriptionData($descriptionData, $uID){
+
+	}
 	
  }
 
-?>
 
