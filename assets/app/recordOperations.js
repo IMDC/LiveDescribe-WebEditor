@@ -1,22 +1,25 @@
-/*
- *  Main Recording operations 
- */
+/**
+*
+*   Main Recording operations 
+*
+*/
 
-var isRecording = false; //flag that indicates whether or not the flash object is recording
-var timeStart=null;
-var timeFinished=null;
-var descriptionFiles = new Array();
-var timeCodes = new Array();
-var descriptionList = new Array();
+var isRecording          = false; //flag that indicates whether or not the flash object is recording
+var timeStart            =null;
+var timeFinished         =null;
+var descriptionFiles     = new Array();
+var timeCodes            = new Array();
+var descriptionList      = new Array();
 var descriptionCollision = false; //flag to indicate if descriptions conflict
+var flash_loaded         = false;
 var init_vol;
 var globalTimeStart;
 var descID;
-var flash_loaded = false;
 
-///
-//Sets up the flash object for the recording functionality 
-///
+
+/**
+*   Sets up the flash object for the recording functionality 
+*/
 function setupRecorder(){
    Wami.setup({
         id: "wami",
@@ -24,7 +27,6 @@ function setupRecorder(){
         onLoaded: wamiLoad
     });
 }
-
 
 
 /**
@@ -135,6 +137,11 @@ function recordAudio(){
         // creating new description objects and inserting them into an array.
         // the array is then sorted based on the start time of the description
         var descriptionText = document.getElementById( "transcript" ).value;
+        
+        /* next two commented lines should replace rest of this "if" block */
+        //var filename        = 'description_' + userID + '_' + video_id +'_'+ descID + '.wav';
+        //createDescription(descID, timeStart, timeFinished, descriptionText, filename);
+
         var description = new Description(
                                 'description_' + userID + '_' + video_id +'_'+ descID + '.wav',
                                 timeStart, timeFinished,
@@ -163,6 +170,38 @@ function recordAudio(){
     }
 }
 
+/**
+*   Creates all aspects corresponding to a description
+*/
+function createDescription(descID, timeStart, timeFinished, descriptionText, filename){
+  var videoDuration  = player.getDuration();
+  var descTag        = document.getElementById("descriptions");
+  var segments       = document.getElementById("segments");
+  var segmentsWidth  = segments.clientWidth;
+  var segmentsHeight = segments.clientHeight;
+
+  // creating new description objects and inserting them into an array.
+  // the array is then sorted based on the start time of the description
+  var description = new Description(
+                          filename,
+                          timeStart, timeFinished,
+                          descriptionText, 
+                          descID
+                    );
+  descriptionList.push(description);
+  descriptionList = sortDescriptionObjectList(descriptionList);
+
+  console.log("Aded description: " +  description.filename);
+  
+  //create text description area
+  var recordStart = convertTime(timeStart);
+  var recordFinished = convertTime(timeFinished);
+  var newText = updateDescriptionText(recordStart, recordFinished,
+                          timeStart, timeFinished, descID);
+  descTag.appendChild(newText);
+  description.draw(videoDuration, segmentsWidth, segmentsHeight);
+}
+
 
 /**
 *   NOTE: Unused. Replaced with the draw mehtod in the description object
@@ -178,10 +217,14 @@ function drawDescriptionSpace(timeStart, timeFinished, videoDuration,segmentsWid
     var canvas = document.getElementById('segments');
     var context = canvas.getContext('2d');
 
-    drawRect(descriptionStartPoint,32,descriptionWidth, segmentsHeight,context);  
-     
+    drawRect(descriptionStartPoint,32,descriptionWidth, segmentsHeight,context);      
 }
 
+/**
+*   Creates a rectangle with given parameters
+*   for the given context. Will have a Blue interior
+*   with a thin, orange border.
+*/
 function drawRect(x,y, width, height, context){
     context.beginPath();
     context.rect(x , y, width  , height - 32);
@@ -215,30 +258,6 @@ function sortDescriptionObjectList(descriptionList){
     return descriptionList;
 }
 
-
-/**
-*  Creates a highlighted section within the timeline 
-*  to indicate a recorded description
-*  NOTE: this is not used currently since the timeline
-*  was changed to a canvas element. This method is replaced by "drawDescriptionSpace"
-**/
-function createDescriptionSegment(timeStart, timeFinished, videoDuration, segmentsWidth, segmentsHeight){
-    
-    var startPercentage = timeStart / videoDuration  ;
-    var endPercentage = timeFinished / videoDuration  ;
-    var descriptionWidth = (endPercentage - startPercentage) * segmentsWidth;
-    var descriptionStartPoint = startPercentage *  segmentsWidth;
-    var newSegment = document.createElementNS("http://www.w3.org/2000/svg", "rect");
- 
-    newSegment.setAttribute("height", segmentsHeight);
-    newSegment.setAttribute("width", descriptionWidth);
-    newSegment.setAttribute("x", descriptionStartPoint);
-    newSegment.setAttribute("y", 0);
-    newSegment.setAttribute("fill", "blue");
-    newSegment.setAttribute("id", "segmentspace");
-
-    return newSegment;    
-}
 
 /**
 *  Creates a text box that will contain the script information for a description

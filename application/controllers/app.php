@@ -178,8 +178,8 @@ class App extends CI_Controller {
 	public function getDescriptionData(){
 		$vID = $this->input->post("vID");
 		$result = $this->app_model->getDescriptionData($vID, $this->userID);
-		print_r($result);
-		//echo(json_encode($result));
+	
+		echo(json_encode($result));
 	}
 
 }

@@ -42,7 +42,7 @@ $(document).ready(function(){
   $.ajax({
     type: 'POST',
     url: base_url + "app/getDescriptionData",
-    //dataType: 'json',
+    dataType: 'json',
     cache: false,
     data: {vID: video_id},
 
@@ -57,9 +57,7 @@ $(document).ready(function(){
     error: function(response){
       console.log("Description retrieving error." + response);
     }
-
   });
-   
 
 
    //receive the data for the video audio
