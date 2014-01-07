@@ -49,8 +49,8 @@
                     
                     <!-- Fields to be filled out before saving -->
                     <?php 
-                      $name = isset($name) ? $name : "";
-                      $desc = isset($desc) ? $desc : "";
+                      $project_name = isset($project_name) ? $project_name : "";
+                      $project_description = isset($project_description) ? $project_description : "";
                       $vID  = $this->input->get('vID');
 
                       $attributes = array('id' => 'saveForm');
@@ -64,7 +64,7 @@
                                     'autofocus' => 'autofocus',
                                     'style' => 'height: 45px; width: 100%;',
                                     'required' => '',
-                                    'value' => $name
+                                    'value' => $project_name
                                   );
                       echo form_input($data);
 
@@ -77,7 +77,7 @@
                                     'autofocus' => 'autofocus',
                                     'style' => 'height: 75px; width: 100%;',
                                     'required' => 'false',
-                                    'value' => $desc
+                                    'value' => $project_description
                                   );
                       echo form_textarea($data);
                       echo form_hidden("vID", $vID);

@@ -38,6 +38,27 @@ $(document).ready(function(){
       }   
    });
 
+  //receive previous descriptions, if they exist
+  $.ajax({
+    type: 'POST',
+    url: base_url + "app/getDescriptionData",
+    //dataType: 'json',
+    cache: false,
+    data: {vID: video_id},
+
+    success: function(json){
+      if(json != null){
+        console.log(json);
+      }
+      else{
+        console.log("No Previous Descriptions");
+      }
+    },
+    error: function(response){
+      console.log("Description retrieving error." + response);
+    }
+
+  });
    
 
 

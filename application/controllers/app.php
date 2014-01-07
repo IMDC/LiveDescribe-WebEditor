@@ -41,9 +41,16 @@ class App extends CI_Controller {
 			redirect(base_url(), 'refresh');
 		}
 		else{
+
+			if($this->app_model->checkProject($data["vID"], $data["userID"])){
+				$formData = $this->app_model->getFormData($data["vID"], $data["userID"]);
+				$data["project_name"] = $formData["project_name"];
+				$data["project_description"] = $formData["project_description"];
+			}
+
 			$this->load->view('app/app_header', $data);
 			$this->load->view('navigation');
-			$this->load->view('app/app_main');
+			$this->load->view('app/app_main', $data);
 			$this->load->view('footer');
 		}
 	}
@@ -134,7 +141,7 @@ class App extends CI_Controller {
 
 	/**
 	*	delete the file associated with the description ID.
-	*	Called from ajax call in editorOperations.js
+	*	Called from ajax call in "editorOperations.js"
 	*/
 	public function removeFile(){
 		$vID    = $this->input->post("vID");
@@ -153,13 +160,26 @@ class App extends CI_Controller {
 
 
 	/**
-	*
+	*	Saves the project, along with the recorded descriptions
+	*	in the db. Gets called from an AJAX call in "editorOperations.js"
 	*/
 	public function saveProject(){
 		$json = $this->input->post("saveData");
 		$data = json_decode($json);
 		$result = $this->app_model->save($data, $this->userID);
+		print_r($data);
+	}
+
+	/**
+	*	Gets description data from app_model and echo's
+	*	json representation of the data, if the data exists.
+	*	Called from AJAX call in "editorSetup.js"
+	*/
+	public function getDescriptionData(){
+		$vID = $this->input->post("vID");
+		$result = $this->app_model->getDescriptionData($vID, $this->userID);
 		print_r($result);
+		//echo(json_encode($result));
 	}
 
 }
