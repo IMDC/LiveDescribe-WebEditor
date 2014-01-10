@@ -19,7 +19,7 @@ class User_Model extends CI_Model {
 		$condition = array("username" => $user , "password" => $password);
 		$query=$this->db->get_where("users", $condition);
 
-		if($query->num_rows()>0){
+		if($query->num_rows() > 0){
 			foreach($query->result() as $rows){
 				//add all data to session
 				$newdata = array(

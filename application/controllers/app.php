@@ -146,15 +146,10 @@ class App extends CI_Controller {
 	public function removeFile(){
 		$vID    = $this->input->post("vID");
 		$descID = $this->input->post("descID");
-		$userID = $this->userID;
-		$file   = "/media/storage/projects/livedescribe/public_html/res-www/uploads/user" . $userID . "/" . $vID . "/"
-					. "description_" . $userID . "_" . $vID . "_" . $descID . ".wav";
-		if(unlink($file)){
-			echo $file;
-		}
-		else{
-			echo "File was not removed: " . $file;
-		}
+		$userID = $this->session->userdata("userID");
+
+		$this->app_model->removeFile($vID, $descID, $userID);
+		
 	}
 
 

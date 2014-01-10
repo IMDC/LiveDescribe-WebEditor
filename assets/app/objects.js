@@ -6,11 +6,11 @@
 */
 function Description(filename, startTime,endTime, textDescription, id){
     
-    this.filename = filename;
-    this.startTime = startTime;
-    this.endTime = endTime;
-    this.textDescription = textDescription;
-    this.id = id;
+	this.filename        = filename;
+	this.startTime       = startTime;
+	this.endTime         = endTime;
+	this.textDescription = textDescription;
+	this.id              = id;
 
 
 	/**

@@ -140,14 +140,11 @@
           <h6 style="position: relative;left: 6px;">
               Description Text
           </h6>
-          <textarea id="transcript" cols="10" rows="10"
-                    style="
-                          width: 180px;
-                          position: relative;
-                          left: 6px;
-                          height: 80%;
-                          max-width: 180px;">
-          </textarea>
+          <textarea id="transcript" cols="10" rows="10" style="width: 180px;
+                                                              position: relative;
+                                                              left: 6px;
+                                                              height: 80%;
+                                                              max-width: 180px;"></textarea>
                     
       </section>
       

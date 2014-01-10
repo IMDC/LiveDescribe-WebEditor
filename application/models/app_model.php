@@ -133,8 +133,8 @@ class App_Model extends CI_Model {
 			foreach($query->result() as $rows){
 				//add all data to session
 				$result = array(
-				  'project_name'  => $rows->project_name,
-				  'project_description'  => $rows->project_description,
+					'project_name'        => $rows->project_name,
+					'project_description' => $rows->project_description,
 				);
 			}
 		}
@@ -169,6 +169,21 @@ class App_Model extends CI_Model {
 			}
 		}
 		return $result;
+	}
+
+
+	public function removeFile($vID, $descID, $userID){
+		$file   = "/media/storage/projects/livedescribe/public_html/res-www/uploads/user" . $userID . "/" . $vID . "/"
+					. "description_" . $userID . "_" . $vID . "_" . $descID . ".wav";
+
+		if(unlink($file)){
+			$condition = array("user_id" => $userID , "desc_id" => $descID);
+			$query = $this->db->delete("descriptions", $condition);
+			echo "Removed: " . $file;
+		}
+		else{
+			echo "File was not removed: " . $file;
+		}
 	}
 
 
@@ -225,7 +240,7 @@ class App_Model extends CI_Model {
 					'video_id'  => $vID
 					);
 
-			$condition = array("user_id" => $uID , "video_id" => $vID, "desc_id" => $obj->id);
+			$condition = array("desc_id" => $obj->id);//array("user_id" => $uID , "video_id" => $vID, "desc_id" => $obj->id);
 			$query = $this->db->get_where("descriptions", $condition);
 		
 			if($query->num_rows() > 0){ //need to update record
@@ -236,6 +251,7 @@ class App_Model extends CI_Model {
 			}
 		}
 	}
+
 	
  }
 

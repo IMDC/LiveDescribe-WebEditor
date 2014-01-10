@@ -595,9 +595,10 @@ function mute(){
 */
 function checkForDescription(){
     var currentTime = player.getCurrentTime();
-    var tollerance = 0.1; //play a description if currentTime is +/- tollerance
+    var tollerance  = 0.1; //play a description if currentTime is +/- tollerance
+    var sStatus     = player.getPlayerState();
     
-    if(!dragging && !isRecording && !descriptionPlaying){
+    if(!dragging && !isRecording && !descriptionPlaying && sStatus==1){
 
        for(var i=0; i < descriptionList.length; i++){
            if(descriptionList[i].startTime >= (currentTime - tollerance) &&
@@ -612,6 +613,9 @@ function checkForDescription(){
 
 /**
 *   plays the given audio file
+*
+*   File location: 
+*    http://imdc.ca/projects/livedescribe/res-www/uploads/user/ userID / video_id / filename
 */
 function playAudio(description, video_id){
     var init_vol =  $( "#slider" ).slider( "value" );

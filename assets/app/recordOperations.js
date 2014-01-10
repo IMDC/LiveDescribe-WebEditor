@@ -73,112 +73,93 @@ function wamiLoad(){
 *   with the time codes and the audio clip
 */
 function recordAudio(){
-    var sStatus = player.getPlayerState();
-    var videoDuration = player.getDuration();
-    var descTag = document.getElementById("descriptions");
-    var segments = document.getElementById("segments");
-    var segmentsWidth = segments.clientWidth;
-    var segmentsHeight = segments.clientHeight;
-    var recordIMG = null;
+  var sStatus = player.getPlayerState();
+  var videoDuration = player.getDuration();
+  var descTag = document.getElementById("descriptions");
+  var segments = document.getElementById("segments");
+  var segmentsWidth = segments.clientWidth;
+  var segmentsHeight = segments.clientHeight;
+  var recordIMG = null;
 
-    if( !isRecording ){
-      if(sStatus != 1){ //video is stopped, so start playing it.
-        play_pause();
-      }    
-      console.log("recording");
-      init_vol = $( "#slider" ).slider( "value" );
-      $("#slider").slider("value",1);
-      timeStart       = player.getCurrentTime();
-      globalTimeStart = timeStart;
-      descID          = createID();
+  if( !isRecording ){
+    if(sStatus != 1){ //video is stopped, so start playing it.
+      play_pause();
+    }    
+    console.log("Recording...");
+    init_vol = $( "#slider" ).slider( "value" );
+    $( "#slider" ).slider("value",1);
+    timeStart       = player.getCurrentTime();
+    globalTimeStart = timeStart;
+    descID          = createID();
 
-      if(flash_loaded){
-        Wami.startRecording(base_url +
-          'app/recordAudio?'+
-          'name=description.wav&'+
-          'id=' + video_id + '&' +
-          'descID=' + descID + '&' +
-          'userID=' + userID
-        );
-      }
-      else{
-        startRecording();
-      }
-      
-      recordIMG = document.images["record"];
-      recordIMG.src = base_url + "assets/img/stopButton.png" ;
-      isRecording = true;
+    if(flash_loaded){
+      Wami.startRecording(base_url +
+        'app/recordAudio?'+
+        'name=description.wav&'+
+        'id=' + video_id + '&' +
+        'descID=' + descID + '&' +
+        'userID=' + userID
+      );
     }
     else{
-
-      if(flash_loaded){
-          Wami.stopRecording();
-        }
-      else{
-        stopRecording(video_id , descID);
-      }
-       
-       $("#slider").slider("value",init_vol);
-       recordIMG = document.images["record"];
-       recordIMG.src = base_url + "assets/img/loading.gif";
-       isRecording = false;
-       timeFinished = player.getCurrentTime();
-       stopVideo();
-       checkForCollision(timeStart,timeFinished);
-
-       if(descriptionCollision){
-           alert("Ooops! The description you just recorded is conflicting"+
-               "with an existing one. Please try again.");
-       }
-           
-    
-       if((timeFinished-timeStart) > 0 && !descriptionCollision){
-           
-        // creating new description objects and inserting them into an array.
-        // the array is then sorted based on the start time of the description
-        var descriptionText = document.getElementById( "transcript" ).value;
-        
-        /* next two commented lines should replace rest of this "if" block */
-        //var filename        = 'description_' + userID + '_' + video_id +'_'+ descID + '.wav';
-        //createDescription(descID, timeStart, timeFinished, descriptionText, filename);
-
-        var description = new Description(
-                                'description_' + userID + '_' + video_id +'_'+ descID + '.wav',
-                                timeStart, timeFinished,
-                                descriptionText, 
-                                descID
-                          );
-        descriptionList.push(description);
-        descriptionList = sortDescriptionObjectList(descriptionList);
-
-        console.log("Recorded description: " +  description.filename);
-        
-        //create text description area
-        var recordStart = convertTime(timeStart);
-        var recordFinished = convertTime(timeFinished);
-        var newText = updateDescriptionText(recordStart, recordFinished,
-                                timeStart, timeFinished, descID);
-        descTag.appendChild(newText);
-        description.draw(videoDuration, segmentsWidth, segmentsHeight);
-
-       } 
-
-        timeStart = null;
-        timeFinished = null;
-        recordIMG.src = base_url + "assets/img/recordButton.png" ;
-        descriptionCollision = false; //reset the flag
+      startRecording();
     }
+
+    recordIMG = document.images["record"];
+    recordIMG.src = base_url + "assets/img/stopButton.png" ;
+    isRecording = true;
+  }
+  else{
+
+    if(flash_loaded){
+        Wami.stopRecording();
+      }
+    else{
+      stopRecording(video_id , descID);
+    }
+     
+     $("#slider").slider("value",init_vol);
+     recordIMG = document.images["record"];
+     recordIMG.src = base_url + "assets/img/loading.gif";
+     isRecording = false;
+     timeFinished = player.getCurrentTime();
+     stopVideo();
+     checkForCollision(timeStart,timeFinished);
+
+     if(descriptionCollision){
+       alert("Ooops! The description you just recorded is conflicting" +
+           "with an existing one. Please try again.");
+     }
+     else if((timeFinished-timeStart) > 0 && !descriptionCollision){
+        var descriptionText = document.getElementById( "transcript" ).value;
+        var filename        = 'description_' + userID + '_' + video_id +'_'+ descID + '.wav';
+        createDescription(descID, timeStart, timeFinished, descriptionText, filename);
+     } 
+
+    timeStart = null;
+    timeFinished = null;
+    recordIMG.src = base_url + "assets/img/recordButton.png" ;
+    descriptionCollision = false; //reset the flag
+  }
 }
 
 /**
 *   Creates all aspects corresponding to a description
 */
 function createDescription(descID, timeStart, timeFinished, descriptionText, filename){
-  var videoDuration  = player.getDuration();
   var descTag        = document.getElementById("descriptions");
   var segments       = document.getElementById("segments");
   var segmentsWidth  = segments.clientWidth;
   var segmentsHeight = segments.clientHeight;
+
+  //create text description area
+  var recordStart    = convertTime(timeStart);
+  var recordFinished = convertTime(timeFinished);
+  var newText        = updateDescriptionText(recordStart, recordFinished,
+                          timeStart, timeFinished, descID, descriptionText);
+
+  addDescOrdered(descTag, newText, timeStart);
+  //descTag.appendChild(newText);
 
   // creating new description objects and inserting them into an array.
   // the array is then sorted based on the start time of the description
@@ -191,22 +172,40 @@ function createDescription(descID, timeStart, timeFinished, descriptionText, fil
   descriptionList.push(description);
   descriptionList = sortDescriptionObjectList(descriptionList);
 
-  console.log("Aded description: " +  description.filename);
+  console.log("Added description: " +  description.filename);
   
-  //create text description area
-  var recordStart = convertTime(timeStart);
-  var recordFinished = convertTime(timeFinished);
-  var newText = updateDescriptionText(recordStart, recordFinished,
-                          timeStart, timeFinished, descID);
-  descTag.appendChild(newText);
   description.draw(videoDuration, segmentsWidth, segmentsHeight);
 }
 
+/**
+*   This assumes the description list is already stored 
+*   in order by the start time. This then inserts the text
+*   description tag in the proper spot in the view.
+*   
+*/
+function addDescOrdered(parent, child, childStart){
+  var i, t, currID;
+  
+  for(i=0; i < descriptionList.length; i++){
+    
+    t = descriptionList[i].startTime;
+    currID = "" + descriptionList[i].id;
+    if( childStart > t) continue;
+    else{
+      parent.insertBefore(child, document.getElementById(currID));
+      break;
+    }
+  }
+
+  if(i === descriptionList.length || descriptionList.length === 0){
+    parent.appendChild(child);
+  }
+}
 
 /**
 *   NOTE: Unused. Replaced with the draw mehtod in the description object
-*  Creates a highlighted section within the timeline 
-*  to indicate a recorded description
+*   Creates a highlighted section within the timeline 
+*   to indicate a recorded description
 */
 function drawDescriptionSpace(timeStart, timeFinished, videoDuration,segmentsWidth, segmentsHeight){
     var startPercentage = timeStart / videoDuration  ;
@@ -261,52 +260,36 @@ function sortDescriptionObjectList(descriptionList){
 
 /**
 *  Creates a text box that will contain the script information for a description
-*  with the start and end time of the description (not currently being used)
-*/
-function createDescriptionTextBox(recordStart, recordFinished, timeStart, timeFinished){
-    
-    var newItem = document.createElement("LI");
-    newItem.innerHTML= 
-           "<h6>" + recordStart+ " - "+ recordFinished + "</h6>"+
-           "<textarea  cols=\"35\" rows=\"2\" ></textarea>" +
-           "<input type=\"hidden\" name=\"start\" value=\" " + timeStart + "\"/>"
-           + "<input type=\"hidden\" name=\"finish\" value=\" " + timeFinished + "\" />"
-           + "<button type=\"button\" id=\"delete\"  value=\"Delete\"> </button>"
-         ;
-    return newItem;
-}
-
-/**
-*  Creates a text box that will contain the script information for a description
 *  with the start and end time of the description (replaced above function)
 */
-function updateDescriptionText(recordStart, recordFinished,timeStart, timeFinished, id){
-    var newItem = document.createElement("LI");
-    var text = document.createElement("textarea");
-    var descriptionText = document.getElementById("transcript").value;
-    var deleteButton = document.createElement("button");
+function updateDescriptionText(recordStart, recordFinished,timeStart, timeFinished, id, desc_text){
+    var newItem            = document.createElement("LI");
+    var text               = document.createElement("textarea");
+    var deleteButton       = document.createElement("button");
     
-    newItem.id = id;
-    deleteButton.id = "delete";
-    deleteButton.value = "Delete";
+    newItem.id             = id;
+    deleteButton.id        = "delete";
+    deleteButton.value     = "Delete";
     deleteButton.innerHTML = "Delete";
-    deleteButton.onclick = function(){deleteDescription(id);};
-    text.id = 'text_' + id;
-    text.style.width = "80%";
-    text.style.maxWidth = "80%";
-    text.style.position = "relative";
-    text.style.left = "5px";
-    text.onkeyup = function(){changeDescription(id);};
-    newItem.innerHTML= "<h6 id=" + "timeStamp_" + id +">" + recordStart+ " - "+ recordFinished + "</h6>";
-    text.innerHTML = descriptionText;
+    deleteButton.onclick   = function(){deleteDescription(id);};
+    text.id                = 'text_' + id;
+    text.style.width       = "80%";
+    text.style.maxWidth    = "80%";
+    text.style.position    = "relative";
+    text.style.left        = "5px";
+    text.onkeyup           = function(){changeDescription(id);};
+    newItem.innerHTML      = "<h6 id=" + "timeStamp_" + id +">" + recordStart+ " - "+ recordFinished + "</h6>";
+    text.innerHTML         = desc_text;
+    
     newItem.appendChild(text);
     newItem.appendChild(deleteButton);
-    document.getElementById("transcript").value = "";
-    newItem.style.backgroundColor = "#0088cc";
-    newItem.style.position = "relative";
-    newItem.style.left = "-20px";
-    newItem.style.borderRadius = "10px";
     
+    newItem.style.backgroundColor = "#0088cc";
+    newItem.style.position        = "relative";
+    newItem.style.left            = "-20px";
+    newItem.style.borderRadius    = "10px";
+    document.getElementById("transcript").value = "";
+
     return newItem;
 }
 
