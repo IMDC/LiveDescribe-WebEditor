@@ -48,7 +48,16 @@ $(document).ready(function(){
 
     success: function(json){
       if(json != null){
-        console.log(json);
+        for(var i in json){
+          console.log(json[i]);
+          var descID = json[i].desc_id;
+          var timeStart = json[i].start;
+          var timeFinished = json[i].end;
+          var filename = json[i].filename;
+          var descriptionText = json[i].desc_text;
+          createDescription(descID, timeStart, timeFinished, descriptionText, filename);
+        }
+        
       }
       else{
         console.log("No Previous Descriptions");
@@ -138,8 +147,16 @@ function startUserMedia(stream) {
   var input = audio_context.createMediaStreamSource(stream);
   console.log('Media stream created.');
 
-  input.connect(audio_context.destination);
-  console.log('Input connected to audio context destination.');
+  var zeroGain = audio_context.createGain();
+  zeroGain.gain.value = 0;
+  input.connect(zeroGain);
+  zeroGain.connect(audio_context.destination);
+  console.log("Input connected to muted gain node connected to audio context destination.")
+  
+  /* This causes feedback, replaced with the zero gain node.*/
+  //input.connect(audio_context.destination);
+  //console.log('Input connected to audio context destination.');
+  
 
   recorder = new Recorder(input);
   console.log('Recorder initialised.');
