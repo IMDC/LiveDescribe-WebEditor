@@ -736,7 +736,6 @@ function checkMarker(){
     $('#timeline').scrollLeft(0);
     player.pauseVideo();
   }
-  
 }
 
 
@@ -749,7 +748,6 @@ function checkMarker(){
 function stripAudio(){
 
   if(video_id != null){
-
     $.ajax({
       type: "POST",
       url: "ytRequest.php",
@@ -770,10 +768,6 @@ function bottomSectionResize(){
   var upperHeight  = $('#AVControls').height();
   var screenHeight = $(window).height();
   var bottomHeight = screenHeight - headerHeight - upperHeight - 7;
-  //var markerCanvas = document.getElementById("positionMarker");
-  //var canvas       = document.getElementById("segments");
-  //var ctx          = canvas.getContext('2d');
-  //var mtx          = markerCanvas.getContext('2d');
 
   if(bottomHeight >= 240){
     $('#mainLower').height(bottomHeight);
@@ -794,10 +788,8 @@ function bottomSectionResize(){
 */
 function moveMarker(time){
   var duration    = player.getDuration();
-  //var canvas       = document.getElementById("segments");
   var canvasWidth  = canvas.clientWidth;
   var timePercent = Math.round(((time/ duration) *  canvasWidth));
-
   document.getElementById("positionMarker").style.left = timePercent + "px";
 }
 

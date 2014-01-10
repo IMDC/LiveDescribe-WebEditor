@@ -171,7 +171,13 @@ class App_Model extends CI_Model {
 		return $result;
 	}
 
-
+	/**
+	*	Removes the file on the server and from the DB
+	*
+	*	@param $vID : video id
+	*	@param $descID : unique id of the description
+	*	@param $userID : id of the user
+	*/
 	public function removeFile($vID, $descID, $userID){
 		$file   = "/media/storage/projects/livedescribe/public_html/res-www/uploads/user" . $userID . "/" . $vID . "/"
 					. "description_" . $userID . "_" . $vID . "_" . $descID . ".wav";

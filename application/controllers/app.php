@@ -100,10 +100,6 @@ class App extends CI_Controller {
 
 		echo $destination . " recorded on server.";
 		/* end of JS Recoder save */
-		
-		
-
-		/* send info to DB */
 	}
 
 	/**
@@ -147,9 +143,7 @@ class App extends CI_Controller {
 		$vID    = $this->input->post("vID");
 		$descID = $this->input->post("descID");
 		$userID = $this->session->userdata("userID");
-
 		$this->app_model->removeFile($vID, $descID, $userID);
-		
 	}
 
 
