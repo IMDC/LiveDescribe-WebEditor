@@ -32,7 +32,11 @@
     </style>
     
     <link href=<?php echo base_url('/assets/lib/bootstrap/css/bootstrap-responsive.css')?> rel="stylesheet">
+
  
+    
+
+   
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href=<?php echo base_url('/assets/css/header.css')?> />
     <link rel="stylesheet" type="text/css" href=<?php echo base_url('/assets/css/navigation.css')?> />
@@ -48,6 +52,19 @@
     
     <!--Main site calls, for login etc.-->
     <script type="text/javascript" src=<?php echo base_url('/assets/js/site.js')?> ></script>
+
+    <!--Javascript for setting up the player-->
+    <script type="text/javascript" src=<?php echo base_url('/assets/player/videoControl.js')?> ></script>
+
+    <!-- Insert the video id as a javascript variable so that the player can access it.
+    $vID is passed in as a variable when the view is loaded-->
+    <?php 
+        echo("
+            <script  type=\"text/javascript\">
+               var playerID = \"{$vID}\";
+            </script>
+        ");
+    ?>
 
   </head>
 

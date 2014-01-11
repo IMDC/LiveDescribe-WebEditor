@@ -1,7 +1,3 @@
-
-
-<!-- <div class="container"> -->
-
 <!-- Only show this page if the user is not logged on -->
 <?php
   

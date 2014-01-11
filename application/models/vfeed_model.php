@@ -52,6 +52,26 @@ class VFeed_Model extends CI_Model {
 
 		return $valid;
 	}
+
+	/**
+	*	Gets the title of the given video id
+	*	
+	*	@param $id : video id
+	*	@return $title : videos title
+	*/
+	public function getTitle($id){
+		$feed  = null;
+		$title = null;
+		
+		try{
+			$yt    = new Zend_Gdata_YouTube();
+			$feed  = $yt->getVideoEntry($id);
+			$title = (string)$feed->getVideoTitle();
+		}
+		catch(Exception $e){}
+
+		return $title;
+	}
  }
 
 ?>

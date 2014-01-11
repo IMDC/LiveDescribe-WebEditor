@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
  
-<!-- Set up global url variable -->
+    <!-- Set up global url variable -->
     <?php
         $base_url = base_url();
         echo(" 
@@ -75,8 +75,8 @@
     <!--Setup Recording Tools-->
     <script type="text/javascript" src=<?php echo base_url("/assets/app/editorSetup.js") ?> ></script>
     
-<!-- Insert the video id as a javascript variable so that the player can access it.
-  $vID is passed in as a variable when the view is loaded-->
+    <!-- Insert the video id as a javascript variable so that the player can access it.
+    $vID is passed in as a variable when the view is loaded-->
     <?php 
         echo("
             <script  type=\"text/javascript\">

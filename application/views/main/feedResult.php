@@ -25,7 +25,7 @@
 	                	echo("Add Description");
 	            		echo("</a>");	
                 	}
-                	echo("<a id=\"videoPlay\" role=\"button\" class=\"btn\" href=\"./player.php?id=" . $videoId . "\">"); 
+                	echo("<a id=\"videoPlay\" role=\"button\" class=\"btn\" href=\"{$base_url}player?vID=" . $videoId . "\">"); 
                 ?>
                     Play Video
                 </a>

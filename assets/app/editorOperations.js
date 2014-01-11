@@ -868,7 +868,9 @@ function saveProject(){
         console.log("Project Name not entered.");
     }
     else{
-        $( '#errorBox' ).text("");        
+        $( '#errorBox' ).text("");
+        $( '#loadImg' ).css("display", "block");
+        $( '#saveClose' ).attr("disabled", true);        
         var from = $( '#saveForm' );
         
         var data = {};
@@ -892,6 +894,11 @@ function saveProject(){
           error: function(response){
             console.log("Save Error");
           }
+
+        }).complete(function(){
+            $( '#loadImg' ).css("display", "none");
+            $( '#saveClose' ).removeAttr("disabled"); 
+            $( '#saveModal' ).modal('hide');
         });
     } 
 }

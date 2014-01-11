@@ -21,7 +21,7 @@ class User extends CI_Controller {
 	public function login($data = null){
 		$this->load->view('header');
 		$this->load->view('navigation');
-		$this->load->view('login' , $data);
+		$this->load->view('user/login' , $data);
 		$this->load->view('footer');
 	}
 
@@ -31,7 +31,7 @@ class User extends CI_Controller {
 	public function register($data = null){
 		$this->load->view('header');
 		$this->load->view('navigation');
-		$this->load->view('register' , $data);
+		$this->load->view('user/register' , $data);
 		$this->load->view('footer');
 	}
 	
@@ -113,10 +113,10 @@ class User extends CI_Controller {
 
 	public function logout(){
 		$newdata = array(
-			'user_id'   =>'',
+			'user_id'    =>'',
 			'user_name'  =>'',
-			'user_email'     => '',
-			'logged_in' => FALSE,
+			'user_email' => '',
+			'logged_in'  => FALSE,
 		);
 
 		$this->session->unset_userdata($newdata );
@@ -136,10 +136,10 @@ class User extends CI_Controller {
 		$password = $this->input->post('pword');
 
 		try{
-			$ret = $this->dvx_model-> login($username, $password);
-			$regx = "/^[A-Za-z0-9]+$/";
-			$token = (string)$ret['token'];
-			$userId = (int) $ret['userID'];
+			$ret      = $this->dvx_model-> login($username, $password);
+			$regx     = "/^[A-Za-z0-9]+$/";
+			$token    = (string)$ret['token'];
+			$userId   = (int) $ret['userID'];
 			$userName = (string) $ret['userName'];
 
 			if(preg_match($regx, $token) != 1){

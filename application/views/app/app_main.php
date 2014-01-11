@@ -85,7 +85,7 @@
                       echo form_close();
                     ?>
 
-                    <div id="loginLoad"> 
+                    <div id="saveLoad"> 
                       <img id="loadImg" src=<?php echo base_url("/assets/img/loading.gif" )?>
                             style="display: none;" width=40 alt="loading"/> 
                     </div>

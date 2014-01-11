@@ -39,10 +39,10 @@ class Main extends CI_Controller {
 		$this->load->model('vfeed_model');
 		$keyword = $_POST['searchBar'];
 
-		$this->load->view('vfeed_top');
+		$this->load->view('main/vfeed_top');
 		//get described video feed --> future
 
-		$this->load->view('vfeed_mid');
+		$this->load->view('main/vfeed_mid');
 		//get standard video feed
 
 		//get video feed from model
@@ -58,9 +58,9 @@ class Main extends CI_Controller {
 		    $thumbnails          = $value->getVideoThumbnails();
 			$data['thumbnail']   = $thumbnails[0]['url'];
  
-			$this->load->view('feedResult', $data);
+			$this->load->view('main/feedResult', $data);
 		}
-		$this->load->view('vfeed_bottom');
+		$this->load->view('main/vfeed_bottom');
 		$this->load->view('footer');
 	}
 }
