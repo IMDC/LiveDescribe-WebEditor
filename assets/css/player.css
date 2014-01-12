@@ -1,4 +1,4 @@
-#video_area{
+/*#video_area{
 	position: absolute;
 	left: 28%;
 	width: 560px;
@@ -8,4 +8,45 @@
 	position: absolute;
 	left: 50px;
 	width: 400px;
+}
+
+*/
+#description_area > canvas{ 
+	width: 405px; 
+	height: 40px; 
+	background:#002D3C; 
+}
+
+#slider{
+    position: relative;
+    width: 80px;
+    height: 6px;
+    left: 40px;
+    bottom: 18px;
+}
+
+#slider >.ui-slider-handle{
+	height: 13px;
+	width: 13px;
+
+}
+
+#slider >.ui-slider-handle:hover{
+	cursor: pointer;
+}
+
+#volumeControl{
+    position: relative;
+    top:  5px;
+    left: 0px;
+}
+#volumeimg{
+    width   : 30px;
+    height  : 30px;
+    position: relative;
+    left    : 5px;
+}
+
+#volumeimg:hover{
+    cursor: pointer;
 }

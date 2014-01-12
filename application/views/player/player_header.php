@@ -33,13 +33,11 @@
     
     <link href=<?php echo base_url('/assets/lib/bootstrap/css/bootstrap-responsive.css')?> rel="stylesheet">
 
- 
-    
-
    
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href=<?php echo base_url('/assets/css/header.css')?> />
     <link rel="stylesheet" type="text/css" href=<?php echo base_url('/assets/css/navigation.css')?> />
+    <link rel="stylesheet" type="text/css" href=<?php echo base_url('/assets/css/player.css')?> />
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
     
 
@@ -55,6 +53,7 @@
 
     <!--Javascript for setting up the player-->
     <script type="text/javascript" src=<?php echo base_url('/assets/player/videoControl.js')?> ></script>
+    <script type="text/javascript" src=<?php echo base_url('/assets/player/descriptionControl.js')?> ></script>
 
     <!-- Insert the video id as a javascript variable so that the player can access it.
     $vID is passed in as a variable when the view is loaded-->

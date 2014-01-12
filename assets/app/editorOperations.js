@@ -607,8 +607,7 @@ function checkForDescription(){
                 playAudio(descriptionList[i], video_id);
             }
        }
-    }
-    
+    }    
 }
 
 /**

@@ -1,8 +1,8 @@
 
 <!--Description Options  -->
-<div class="span2 article-tree" >
+<div class="span2" >
     <h4>
-        Description Options
+        
     </h4>
   
 </div>

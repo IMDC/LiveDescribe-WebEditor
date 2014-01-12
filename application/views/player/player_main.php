@@ -1,5 +1,5 @@
-<div class="container-fluid wrapper">
-  <div class="row-fluid columns content">
+<div class="container-fluid">
+  <div class="row-fluid">
 
     <?php 
     	$data['title'] = $title;
@@ -9,3 +9,15 @@
   
   </div>
 </div>
+
+
+<!-- 
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span2">
+      Sidebar content
+    </div>
+    <div class="span10">
+    </div>
+  </div>
+</div> -->
