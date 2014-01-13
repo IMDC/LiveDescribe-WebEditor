@@ -19,8 +19,9 @@
                 
                 <!-- Display edit button if user is logged in -->
                 <?php 
+                    $base_url = base_url();
                 	if($this->session->userdata('logged_in') == TRUE ){
-                        $base_url = base_url();
+                        
                 		echo("<a id=\"videoEdit\" role=\"button\" class=\"btn\" href=\"{$base_url}app/editor?vID=" . $videoId . "\"\>");
 	                	echo("Add Description");
 	            		echo("</a>");	

@@ -1,19 +1,22 @@
-/*#video_area{
-	position: absolute;
-	left: 28%;
-	width: 560px;
-}
-
-#descriptionOptions{
-	position: absolute;
-	left: 50px;
-	width: 400px;
-}
-
+/**
+*
 */
+
+ html, body {
+    height: 100%;
+}
+
+#description_area{
+    border: solid;
+    border-width: 1px; 
+    min-width: 560px;
+    max-width: 560px;
+}
+
 #description_area > canvas{ 
-	width: 405px; 
-	height: 40px; 
+	width: 380px; 
+	height: 40px;
+    margin: 2px; 
 	background:#002D3C; 
 }
 
@@ -24,6 +27,7 @@
     left: 40px;
     bottom: 18px;
 }
+
 
 #slider >.ui-slider-handle{
 	height: 13px;
@@ -50,3 +54,4 @@
 #volumeimg:hover{
     cursor: pointer;
 }
+

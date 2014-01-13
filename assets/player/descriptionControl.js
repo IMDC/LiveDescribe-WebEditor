@@ -59,22 +59,25 @@ function frameLooper(){
     }
 }
 
-///
-//Volume control slider, calls the changeVolume 
-//function when the slider is changed
-///
+/**
+*   Volume control slider, calls the changeVolume 
+*   function when the slider is changed
+*/
 $(function() {
-    $( "#slider" ).slider(
-        {value: 30 },
+    $( "#slider" ).slider({
+        value: 30 , 
+        orientation: "horizontal",
+        range: "min",
+        min: 0,
+        max: 100,
+        value: 60,
+        },
         {change: function( event, ui ) {
                     var value = $( "#slider" ).slider( "value" );
                     changeVolume(value);
                 }
         }
     );
-
-    //Drop down menus enabled
-    $('.dropdown-toggle').dropdown();
 });
 
 function changeVolume(volume){

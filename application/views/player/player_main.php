@@ -3,8 +3,7 @@
 
     <?php 
     	$data['title'] = $title;
-        $this->load->view('player/options', $data);
-        $this->load->view('player/player');
+      $this->load->view('player/player',$data);
     ?>
   
   </div>
