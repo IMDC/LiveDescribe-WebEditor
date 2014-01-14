@@ -19,7 +19,7 @@
       </div><!--/.nav-collapse -->
       <form action=<?php echo base_url() . "main/videoFeed"?> class="nav form-search"  id="searchArea" method="POST" >
             <div class="input-append">
-                <input type="text"  id="searchBar" name="searchBar" class="span5 search-query" placeholder="Enter KeyWords" required>
+                <input type="text"  id="searchBar" name="searchBar" class="span5 search-query" placeholder="Enter KeyWords" autocomplete="on" required>
                 <button type="submit" id="search" class="btn"><i class="icon-search"></i></button> 
             </div>
         </form> 

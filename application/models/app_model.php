@@ -218,6 +218,7 @@ class App_Model extends CI_Model {
 		$query = $this->db->get_where("projects", $condition);
 		
 		if($query->num_rows() > 0){ //need to update record
+			$this->db->where($condition);
 			$this->db->update('projects',$data);
 		}
 		else{ //insert new record
