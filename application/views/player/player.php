@@ -2,7 +2,7 @@
  <div class="span6 offset2">
     
     <div id="video_area" class="row-fluid">
-    	<h4 id="videoTitle"> <?php echo $title; ?> </h4>
+    	<h3 id="videoTitle"> <?php echo $title; ?> </h3>
 
         <!--  The <iframe> (and video player) will replace this <div> tag. -->
         <div id="player"></div>

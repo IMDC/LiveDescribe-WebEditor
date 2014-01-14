@@ -1,4 +1,4 @@
-<!-- Common Header -->
+<!-- Player Header -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
