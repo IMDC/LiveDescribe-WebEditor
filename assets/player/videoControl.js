@@ -14,15 +14,6 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 var player;
 var playerID;
 
-/**
-*   Get the information from the player controler
-*   required for setup.
-*/
-$(document).ready(function(){
-  console.log("Base URL: " + base_url);
-  console.log("Video ID: " + playerID);
-  
-});
 
 
 
@@ -38,7 +29,7 @@ function onYouTubeIframeAPIReady(){
             width: '560',
             videoId: playerID,
             playerVars: { 
-                          'autoplay': 1, 
+                          'autoplay': 0, 
                           'autohide': 1,
                           'controls': 2,
                           'iv_load_policy': 3,
