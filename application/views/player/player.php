@@ -22,7 +22,16 @@
         <!-- Displays frequency analized audio animation -->
     	<canvas id="analyser_render" class="span3"></canvas>
 
-    	<div id="changeSource">
+    	<div id="projectInfo" class="span10 offset1">
+
+            <h4 id="project_title"></h4>
+            <h6 id="author"></h6>
+            <!-- <div class="rating">
+                <h6>Rate This Description:</h6>
+                <span id="r1">&#9734</span><span id="r2">&#9734</span><span id="r3">&#9734</span><span id="r4">&#9734</span><span id="r5">&#9734</span>
+            </div> -->
+
+            <p id="project_description"></p>
 
     	</div>
 

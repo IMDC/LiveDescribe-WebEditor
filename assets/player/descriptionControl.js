@@ -3,9 +3,11 @@
 */
 
 
-
+var descriptionList    = new Array();
 var descriptionPlaying = false;
 var muted              = false;
+var previousVol;
+
 // Establish all variables that the Analyser will use
 var canvas, ctx, source, context, analyser, fbc_array, bars, bar_x, bar_width, bar_height;
 
@@ -71,12 +73,13 @@ $(function() {
         min: 0,
         max: 100,
         value: 60,
-        },
-        {change: function( event, ui ) {
-                    var value = $( "#slider" ).slider( "value" );
-                    changeVolume(value);
-                }
-        }
+    },
+    {
+        change: function( event, ui ) {
+                var value = $( "#slider" ).slider( "value" );
+                changeVolume(value);
+            }
+    }
     );
 });
 
@@ -114,7 +117,7 @@ function checkForDescription(){
     var tollerance  = 0.1; //play a description if currentTime is +/- tollerance
     var sStatus     = player.getPlayerState();
     
-    if(!descriptionPlaying && sStatus==1){
+    if(!descriptionPlaying && sStatus == 1){
 
        for(var i=0; i < descriptionList.length; i++){
            if(descriptionList[i].startTime >= (currentTime - tollerance) &&
@@ -149,4 +152,20 @@ function playAudio(description, video_id){
                     $("#slider").slider("value",init_vol);
                 },descriptionLengthMS
             );
+}
+
+
+/**
+*   Creates all aspects corresponding to a description
+*/
+function createDescription(descID, timeStart, timeFinished, descriptionText, filename){
+  // creating new description objects and inserting them into an array.
+  var description = new Description(
+                          filename,
+                          timeStart, timeFinished,
+                          descriptionText, 
+                          descID
+                    );
+  descriptionList.push(description);
+  console.log("Added description: " +  description.filename);
 }

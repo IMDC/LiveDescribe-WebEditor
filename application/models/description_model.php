@@ -19,7 +19,6 @@ class Description_Model extends CI_Model {
 		$this->db->where("video_id", $vID);
 		$this->db->order_by("rating", "desc");
 		$this->db->limit(1);
-
 		$query = $this->db->get("projects");
 
 		if($query->num_rows() > 0){
@@ -31,6 +30,12 @@ class Description_Model extends CI_Model {
 					"rating"              => $row[0]["rating"],
 					"times_rated"         => $row[0]["times_rated"]
 				);
+
+			/* get the username */
+			$this->db->select("username");
+			$this->db->where("id", $row[0]["user_id"]);
+			$name = $this->db->get("users")->result_array();
+			$result["username"] = $name[0]["username"];
 		}
 		return $result;
 	}
@@ -44,6 +49,7 @@ class Description_Model extends CI_Model {
 	*	@return $result : array of description data
 	*/
 	public function getDescriptionData($vID, $userID){
+		$this->db->order_by("start");
 		$condition = array("user_id" => $userID , "video_id" => $vID);
 		$query     = $this->db->get_where("descriptions", $condition);
 		$result    = NULL;

@@ -55,6 +55,7 @@
     <script type="text/javascript" src=<?php echo base_url('/assets/player/videoControl.js')?> ></script>
     <script type="text/javascript" src=<?php echo base_url('/assets/player/descriptionControl.js')?> ></script>
     <script type="text/javascript" src=<?php echo base_url('/assets/player/init.js')?> ></script>
+    <script type="text/javascript" src=<?php echo base_url('/assets/app/objects.js')?> ></script>
 
     <!-- Insert the video id as a javascript variable so that the player can access it.
     $vID is passed in as a variable when the view is loaded-->
