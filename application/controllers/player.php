@@ -16,16 +16,24 @@ class Player extends CI_Controller {
 	 */
 	public function index(){
 		$data = null; //resest data
-		$get  = $this->input->get("vID",TRUE);
-		$data["vID"] = $get;
+		$vID  = $this->input->get("vID",TRUE);
+		$data["vID"] = $vID;
 
-		if(!$this->vfeed_model->checkvalidID($get) || $get == ""){ //invalid YT ID
+		if(!$this->vfeed_model->checkvalidID($vID) || $vID == ""){ //invalid YT ID
 			redirect(base_url(), 'refresh');
 		}
 		else{
-			$data['title'] = $this->vfeed_model->getTitle($get);
+			$data['title'] = $this->vfeed_model->getTitle($vID);
+
 			$this->load->view('player/player_header',$data);
 			$this->load->view('navigation');
+
+			$uID = $this->description_model->highestRating($vID);
+			if($uID != NULL){
+				//info or the related projects
+				$data['related_projects'] = $this->description_model->getRelatedProjects($vID, $uID);
+			}
+			
 			$this->load->view('player/player_main',$data);
 			$this->load->view('footer');
 		}

@@ -10,6 +10,28 @@ class Description_Model extends CI_Model {
 	}
 
 	/**
+	*	Returns the user id with the higest
+	*	rated project
+	*	
+	*	@param string $vID
+	*	@return string $uID 
+	*/
+	public function highestRating($vID){
+		$uID = NULL;
+		$this->db->select("*");
+		$this->db->where("video_id", $vID);
+		$this->db->order_by("rating", "desc");
+		$this->db->limit(1);
+		$query = $this->db->get("projects");
+
+		if($query->num_rows() > 0){
+			$row = $query->result_array();
+			$uID = $row[0]["user_id"];
+		}
+		return $uID;
+	}
+
+	/**
 	*	Gets the project data with the highest rating if
 	*	no user id is given. Otherwise the project data
 	*	corresponding to the parameters is obtained 
@@ -79,6 +101,52 @@ class Description_Model extends CI_Model {
 				);
 				$result[$index] = $newData;
 				$index++;
+			}
+		}
+		return $result;
+	}
+
+	/**
+	*	Finds the projects that have been described with
+	*	the given video id. 
+	*
+	*	@param string $vID
+	*	@param string $uID
+	*	@return array $result
+	*/
+	public function getRelatedProjects($vID, $uID = NULL){
+		$result = NULL;
+		
+		$this->db->order_by("rating", "desc");
+		$condition = array("video_id" => $vID);
+		$query     = $this->db->get_where("projects", $condition);
+		
+		if($query->num_rows() > 0){
+			$index = 0;
+			foreach($query->result() as $rows){
+
+				if($uID == $rows->user_id){ //dont list the entry
+					continue;
+				}
+				else{
+					//add all data to $result
+					$newData = array(
+							'user_id'             => $rows->user_id,
+							'project_name'        => $rows->project_name,
+							'project_description' => $rows->project_description,
+							'rating'              => $rows->rating,
+							'times_rated'         => $rows->times_rated,
+						);
+
+					/* get the username */
+					$this->db->select("username");
+					$this->db->where("id", $rows->user_id);
+					$name = $this->db->get("users")->result_array();
+					$newData["username"] = $name[0]["username"];
+
+					$result[$index] = $newData;
+					$index++;
+				}
 			}
 		}
 		return $result;
