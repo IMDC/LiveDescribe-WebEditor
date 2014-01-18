@@ -10,17 +10,29 @@ class Description_Model extends CI_Model {
 	}
 
 	/**
-	*	Gets the project data with the highest rating
+	*	Gets the project data with the highest rating if
+	*	no user id is given. Otherwise the project data
+	*	corresponding to the parameters is obtained 
+	*
+	*	@param string $vID
+	*	@param string $uID optional param
+	*	@return array $result
 	*/
-	public function getDefaultDescription($vID){
+	public function getProjectData($vID, $uID = NULL){
 		$result = NULL;
-		
-		$this->db->select("*");
-		$this->db->where("video_id", $vID);
-		$this->db->order_by("rating", "desc");
-		$this->db->limit(1);
-		$query = $this->db->get("projects");
 
+		if($uID != NULL){
+			$condition = array('video_id' => $vID , 'user_id' => $uID);
+			$query = $this->db->get_where("projects", $condition);
+		}
+		else{
+			$this->db->select("*");
+			$this->db->where("video_id", $vID);
+			$this->db->order_by("rating", "desc");
+			$this->db->limit(1);
+			$query = $this->db->get("projects");
+		}
+		
 		if($query->num_rows() > 0){
 			$row = $query->result_array();
 			$result = array(
@@ -40,7 +52,7 @@ class Description_Model extends CI_Model {
 		return $result;
 	}
 
-
+	
 	/**
 	*	Gets the description data from the db
 	*

@@ -9,13 +9,14 @@
 $(document).ready(function(){
   console.log("Base URL: " + base_url);
   console.log("Video ID: " + playerID);
+  console.log("User ID: " + getURLParameter("uID"));
 
   /* Check for descriptions */
   $.ajax({
   	type: "POST",
   	url: base_url + "player/getDescriptions",
     dataType: "json",
-  	data: { vID: playerID },
+  	data: { vID: playerID, uID: getURLParameter("uID") },
 
   	success: function(json){
       if(json != null){
@@ -36,6 +37,11 @@ $(document).ready(function(){
       }
       else{
         console.log("No Project data");
+        var msg = $('<div/>', {
+                      id: 'no_desc',
+                      text: 'No descriptions are available for this video.'
+                  }).appendTo('#description_area');
+        $('#description_area').html(msg);
       }
   	},
   	error: function(error){
@@ -45,6 +51,13 @@ $(document).ready(function(){
   });
   
 });
+
+/**
+*   Parse the url to receive parameters
+*/
+function getURLParameter(name) {
+  return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null
+}
 
 /**
 *   Add the project info to the corresponding feilds

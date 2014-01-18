@@ -38,14 +38,17 @@ class Player extends CI_Controller {
 	*	call from init.js
 	*
 	*	@param $vID : string
-	*	@return object
+	*	@return json-object
 	*/
 	public function getDescriptions(){
 		$result = NULL;
+		$project_info = NULL;
 		$vID = $this->input->post("vID");
-		$project_info = $this->description_model->getDefaultDescription($vID);
+		$uID = $this->input->post("uID");
+		
+		$project_info = $this->description_model->getProjectData($vID, $uID);
 
-		if($project_info != NULL){
+		if($project_info != NULL){//project exists
 			$descriptino_data = $this->description_model->getDescriptionData($vID, $project_info["user_id"]);
 			$result = array("project_info" => $project_info, "descriptino_data" => $descriptino_data);
 		}

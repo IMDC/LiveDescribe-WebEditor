@@ -13,6 +13,10 @@
     max-width: 560px;
 }
 
+#no_desc{
+  color: red;
+}
+
 #description_area > canvas{ 
 	width: 380px; 
 	height: 40px;

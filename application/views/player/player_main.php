@@ -4,6 +4,7 @@
     <?php 
     	$data['title'] = $title;
       $this->load->view('player/player',$data);
+      $this->load->view('player/player_related');
     ?>
   
   </div>
