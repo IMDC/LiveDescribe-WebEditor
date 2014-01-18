@@ -28,7 +28,7 @@ class Player extends CI_Controller {
 			$this->load->view('player/player_header',$data);
 			$this->load->view('navigation');
 
-			$uID = $this->description_model->highestRating($vID);
+			$uID = $this->input->get("uID", TRUE) ? $this->input->get("uID", TRUE) : $this->description_model->highestRating($vID);
 			if($uID != NULL){
 				//info or the related projects
 				$data['related_projects'] = $this->description_model->getRelatedProjects($vID, $uID);
