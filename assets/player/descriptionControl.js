@@ -7,6 +7,7 @@ var descriptionList    = new Array();
 var descriptionPlaying = false;
 var muted              = false;
 var previousVol;
+var audio;
 
 
 // Establish all variables that the Analyser will use
@@ -26,8 +27,7 @@ audio.autoplay = false;
 /**
 *
 */
-function initPlayer(){
-    document.getElementById('audio_box').appendChild(audio);
+function visualiser(audio){
     context = new webkitAudioContext(); // AudioContext object instance
     analyser = context.createAnalyser(); // AnalyserNode method
     canvas = document.getElementById('analyser_render');
@@ -85,7 +85,9 @@ $(function() {
 });
 
 function changeVolume(volume){
-    player.setVolume(volume);
+    if(audio.canplay){
+        audio.volume = volume;
+    }
     console.log("Volume level: " + volume);
 }
 
@@ -137,12 +139,13 @@ function checkForDescription(){
 *    http://imdc.ca/projects/livedescribe/res-www/uploads/user/ userID / video_id / filename
 */
 function playAudio(description, video_id){
-    var init_vol =  $( "#slider" ).slider( "value" );
+    var init_vol =  player.getVolume();
+    player.setVolume(5);
     descriptionPlaying = true;
-    $("#slider").slider("value",5);
 
     console.log("Playing Description: " + description.filename);
-    var audio = new Audio();
+    audio = new Audio();
+    visualiser(audio);
     audio.src = 'http://imdc.ca/projects/livedescribe/res-www/uploads/user' 
                 + user_id + '/' + video_id + '/'
                 + description.filename;
@@ -150,7 +153,7 @@ function playAudio(description, video_id){
     descriptionLengthMS = (description.endTime - description.startTime) * 1000;
     setTimeout(function(){
                     descriptionPlaying = false;     
-                    $("#slider").slider("value",init_vol);
+                    player.setVolume(init_vol);
                 },descriptionLengthMS
             );
 }
