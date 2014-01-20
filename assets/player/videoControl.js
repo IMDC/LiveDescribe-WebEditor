@@ -50,7 +50,11 @@ function onPlayerReady(event) {
     var url        = player.getVideoUrl();
     var urlChunks  = url.split('=');
     video_id_flash = urlChunks[urlChunks.length - 1];
-    videoDuration  = player.getDuration();   
+    videoDuration  = player.getDuration();
+
+    //Call the function timeupdate every 10 milliseconds.
+    var delay = 10; 
+    window.setInterval(function(){checkForDescription();} , delay);   
 }
 
 

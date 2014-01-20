@@ -8,6 +8,7 @@ var descriptionPlaying = false;
 var muted              = false;
 var previousVol;
 
+
 // Establish all variables that the Analyser will use
 var canvas, ctx, source, context, analyser, fbc_array, bars, bar_x, bar_width, bar_height;
 
@@ -50,7 +51,7 @@ function frameLooper(){
     ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
     ctx.fillStyle = '#00CCFF'; // Color of the bars
     
-    bars = 1000;
+    bars = 100;
     for (var i = 0; i < bars; i++) {
         bar_x = i * 3;
         bar_width = 2;
@@ -122,8 +123,8 @@ function checkForDescription(){
        for(var i=0; i < descriptionList.length; i++){
            if(descriptionList[i].startTime >= (currentTime - tollerance) &&
             descriptionList[i].startTime <= (currentTime + tollerance) ){
-                console.log("description detected");
-                playAudio(descriptionList[i], video_id);
+                console.log("Description Detected");
+                playAudio(descriptionList[i], playerID);
             }
        }
     }    
@@ -143,7 +144,7 @@ function playAudio(description, video_id){
     console.log("Playing Description: " + description.filename);
     var audio = new Audio();
     audio.src = 'http://imdc.ca/projects/livedescribe/res-www/uploads/user' 
-                + userID + '/' + video_id + '/'
+                + user_id + '/' + video_id + '/'
                 + description.filename;
     audio.play();
     descriptionLengthMS = (description.endTime - description.startTime) * 1000;
@@ -159,6 +160,7 @@ function playAudio(description, video_id){
 *   Creates all aspects corresponding to a description
 */
 function createDescription(descID, timeStart, timeFinished, descriptionText, filename){
+    console.log("Description Added.");
   // creating new description objects and inserting them into an array.
   var description = new Description(
                           filename,

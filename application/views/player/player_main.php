@@ -2,10 +2,8 @@
   <div class="row-fluid">
 
     <?php 
-    	$data['title'] = $title;
-      $this->load->view('player/player',$data);
-      $data['related_projects'] = $related_projects;
-      $this->load->view('player/player_related', $data);
+      $this->load->view('player/player');
+      $this->load->view('player/player_related');
     ?>
   
   </div>
@@ -21,4 +19,5 @@
     <div class="span10">
     </div>
   </div>
-</div> -->
+</div> 
+-->

@@ -30,7 +30,8 @@ class Player extends CI_Controller {
 
 			$uID = $this->input->get("uID", TRUE) ? $this->input->get("uID", TRUE) : $this->description_model->highestRating($vID);
 			if($uID != NULL){
-				//info or the related projects
+				//info of the related projects
+				$data['thumbnail'] = $this->vfeed_model->getThumbnail($vID);
 				$data['related_projects'] = $this->description_model->getRelatedProjects($vID, $uID);
 			}
 			
@@ -41,8 +42,8 @@ class Player extends CI_Controller {
 
 
 	/**
-	*	Get the description with highest rating (default)
-	*   and return the info as a json object. Called from ajax
+	*	Get the descriptions and return the 
+	*	info as a json object. Called from ajax
 	*	call from init.js
 	*
 	*	@param $vID : string
@@ -58,7 +59,7 @@ class Player extends CI_Controller {
 
 		if($project_info != NULL){//project exists
 			$descriptino_data = $this->description_model->getDescriptionData($vID, $project_info["user_id"]);
-			$result = array("project_info" => $project_info, "descriptino_data" => $descriptino_data);
+			$result = array("project_info" => $project_info, "description_data" => $descriptino_data);
 		}
 		echo(json_encode($result));
 		return;

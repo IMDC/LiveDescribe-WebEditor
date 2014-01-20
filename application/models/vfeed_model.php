@@ -72,6 +72,28 @@ class VFeed_Model extends CI_Model {
 
 		return $title;
 	}
+
+	/**
+	*	Gets the thumbnail of the given video id
+	*	
+	*	@param string $id : video id
+	*	@return string $thumbnail 
+	*/
+	public function getThumbnail($id){
+		$feed      = null;
+		$thumbnail = null;
+		
+		try{
+			$yt         = new Zend_Gdata_YouTube();
+			$feed       = $yt->getVideoEntry($id);
+			$thumbnails = $feed->getVideoThumbnails();
+			$thumbnail  = $thumbnails[0]['url'];
+		}
+		catch(Exception $e){}
+
+		return $thumbnail;
+	}
+
  }
 
 ?>

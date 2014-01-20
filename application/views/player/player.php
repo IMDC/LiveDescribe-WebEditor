@@ -1,5 +1,5 @@
  <!-- Player View -->
- <div class="span6 offset2">
+ <div id="player_column" class="span6 offset2">
     
     <div id="video_area" class="row-fluid">
     	<h3 id="videoTitle"> <?php echo $title; ?> </h3>

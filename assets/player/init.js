@@ -2,6 +2,8 @@
 *	Player Initialization
 */
 
+var user_id;
+
 /**
 *   Get the information from the player controler
 *   required for setup.
@@ -20,18 +22,20 @@ $(document).ready(function(){
 
   	success: function(json){
       if(json != null){
+        user_id = json.project_info.user_id;
         addProjectData(json.project_info.project_name, 
                        json.project_info.project_description, 
                        json.project_info.username
                       );
 
-        for(var i in json.description_info){
-          console.log(json[i]);
-          var descID = json[i].desc_id;
-          var timeStart = json[i].start;
-          var timeFinished = json[i].end;
-          var filename = json[i].filename;
-          var descriptionText = json[i].desc_text;
+        console.log(json.description_data);
+        for(var i in json.description_data){
+          console.log(json.description_data[i]);
+          var descID          = json.description_data[i].desc_id;
+          var timeStart       = json.description_data[i].start;
+          var timeFinished    = json.description_data[i].end;
+          var filename        = json.description_data[i].filename;
+          var descriptionText = json.description_data[i].desc_text;
           createDescription(descID, timeStart, timeFinished, descriptionText, filename);
         }
       }

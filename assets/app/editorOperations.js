@@ -427,7 +427,7 @@ function onPlayerReady(event) {
  
     //Call the function timeupdate every 10 milliseconds.
     //So that the progressbar can expand gradually.
-    var delay = 1; 
+    var delay = 10; 
     window.setInterval(function(){
                             timeupdate(); 
                             checkForDescription(); 
