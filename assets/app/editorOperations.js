@@ -764,9 +764,9 @@ function stripAudio(){
 */
 function bottomSectionResize(){
   var headerHeight = $('#navBar').height();
-  var upperHeight  = $('#AVControls').height();
+  var upperHeight  = $('#mainUpper').height();
   var screenHeight = $(window).height();
-  var bottomHeight = screenHeight - headerHeight - upperHeight - 7;
+  var bottomHeight = screenHeight - headerHeight - upperHeight;
 
   if(bottomHeight >= 240){
     $('#mainLower').height(bottomHeight);

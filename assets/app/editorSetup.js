@@ -147,6 +147,12 @@ function startUserMedia(stream) {
   var input = audio_context.createMediaStreamSource(stream);
   console.log('Media stream created.');
 
+  //create the canvas that the audio will be analysed for
+  var _rCanvas = document.createElement('canvas');
+  _rCanvas.id = "analyser_render";
+  var parent = document.getElementById("AVControls");
+  parent.appendChild(_rCanvas);
+
   var zeroGain = audio_context.createGain();
   zeroGain.gain.value = 0;
   input.connect(zeroGain);

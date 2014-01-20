@@ -17,13 +17,13 @@
     height: 231px;
     border-width: 1px;
     min-height: 231px;
-
 }
 
 #analyser_render{
-    width: 380px; 
-    height: 40px;
-    margin: 2px; 
+    position: relative;
+    top: -30px;
+    width: 198px; 
+    height: 60px;
     background:#002D3C; 
 }
 
@@ -47,6 +47,7 @@
     font-size: 20px;
     left: 15px;
     top: -50px;
+    width: 175px;
 }
 
 #text{
