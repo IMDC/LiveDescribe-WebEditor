@@ -48,10 +48,10 @@ var audioSamples = new Array();
 var spaces       = new Array();
 
 
-///
-///when the browser window is resized, the 
-///canvas width is adjusted accordingly
-///
+/**
+*   when the browser window is resized, the 
+*   canvas width is adjusted accordingly
+*/
 $(window).resize(function() {
     if( document.readyState === 'complete' ){
         console.log("window resized");

@@ -19,6 +19,14 @@
     min-height: 231px;
 
 }
+
+#analyser_render{
+    width: 380px; 
+    height: 40px;
+    margin: 2px; 
+    background:#002D3C; 
+}
+
 #controls{
     height: 340px;
     position: absolute;

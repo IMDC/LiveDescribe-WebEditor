@@ -27,6 +27,9 @@
                 <div id="slider"></div>
             </div>
             
+            <!-- Displays frequency analized audio animation (should add to DOM with JS) -->
+            <canvas id="analyser_render"></canvas>
+
             <div id="timeInfo">
             </div>
 

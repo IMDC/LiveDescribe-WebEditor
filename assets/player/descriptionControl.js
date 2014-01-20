@@ -25,7 +25,8 @@ audio.autoplay = false;
 //window.addEventListener("load", initPlayer, false);
 
 /**
-*
+*   Creates a frequency distribution graph 
+*   from the given audio input 
 */
 function visualiser(audio){
     context = new webkitAudioContext(); // AudioContext object instance

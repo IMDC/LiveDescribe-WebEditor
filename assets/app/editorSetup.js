@@ -152,11 +152,11 @@ function startUserMedia(stream) {
   input.connect(zeroGain);
   zeroGain.connect(audio_context.destination);
   console.log("Input connected to muted gain node connected to audio context destination.")
-  
+  visualiser(input, audio_context); //set up freq. analyser
+
   /* This causes feedback, replaced with the zero gain node.*/
   //input.connect(audio_context.destination);
   //console.log('Input connected to audio context destination.');
-  
 
   recorder = new Recorder(input);
   console.log('Recorder initialised.');
@@ -203,4 +203,39 @@ function uploadToServer(blob , video_id , descID){
   }).done(function(data) {
       console.log(" " + data);
   });
+}
+
+
+/**
+*   Creates a frequency distribution graph 
+*   from the given audio input 
+*/
+function visualiser(source, context){
+    analyser      = context.createAnalyser(); // AnalyserNode method
+    record_canvas = document.getElementById('analyser_render');
+    r_ctx         = record_canvas.getContext('2d');
+    source.connect(analyser);
+    frameLooper();
+}
+
+/** 
+* frameLooper() animates any style of graphics you wish to the audio frequency
+*   Looping at the default frame rate that the browser provides(approx. 60 FPS)
+*/
+function frameLooper(){
+    window.webkitRequestAnimationFrame(frameLooper);
+    fbc_array = new Uint8Array(analyser.frequencyBinCount);
+    analyser.getByteFrequencyData(fbc_array);
+    r_ctx.clearRect(0, 0, record_canvas.width, record_canvas.height); // Clear the canvas
+    r_ctx.fillStyle = '#00CCFF'; // Color of the bars
+    
+    bars = 100;
+    for (var i = 0; i < bars; i++) {
+        bar_x = i * 3;
+        bar_width = 2;
+        bar_height = -(fbc_array[i] / 2);
+
+        //fillRect( x, y, width, height ) // Explanation of the parameters below
+        r_ctx.fillRect(bar_x, canvas.height, bar_width, bar_height);
+    }
 }
