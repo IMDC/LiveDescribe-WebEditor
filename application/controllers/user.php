@@ -12,7 +12,15 @@ class User extends CI_Controller {
 	 *
 	 */
 	public function index(){
-		redirect(base_url(), 'refresh');
+		if(!($this->session->userdata("logged_in"))){ //dont load the app
+			redirect(base_url(), 'refresh');
+		}
+		else{
+			$this->load->view('user/user_header');
+			$this->load->view('navigation');
+			$this->load->view('user/user_manage');
+			$this->load->view('footer');
+		}
 	}
 
 	/**
@@ -162,6 +170,7 @@ class User extends CI_Controller {
 		}	
 		
 	}
+
 
 
 

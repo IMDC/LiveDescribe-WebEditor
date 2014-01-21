@@ -54,7 +54,7 @@
 
                     <ul id="dropList" class="dropdown-menu pull-right" role="menu">
                         <li>
-                            <a id="myVideos" role="menu" href="#">
+                            <a id="myVideos" role="menu" href="{$base_url}user/">
                                 My Videos
                             </a>
                         </li>
