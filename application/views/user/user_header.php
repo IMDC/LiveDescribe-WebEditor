@@ -22,7 +22,7 @@
     <link rel="icon" type="image/png" href=<?php echo base_url('/assets/img/mic.png')?> />
 
     <!-- Bootstrap CSS -->
-    <link href=<?php echo base_url('/assets/lib/bootstrap/css/bootstrap.css')?> rel="stylesheet">
+    <link href=<?php echo base_url('/assets/lib/bootstrap3/css/bootstrap.css')?> rel="stylesheet">
 
     <style type="text/css">
       body {
@@ -31,7 +31,7 @@
       }
     </style>
     
-    <link href=<?php echo base_url('/assets/lib/bootstrap/css/bootstrap-responsive.css')?> rel="stylesheet">
+    <link href=<?php //echo base_url('/assets/lib/bootstrap/css/bootstrap-responsive.css')?> rel="stylesheet">
  
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href=<?php echo base_url('/assets/css/header.css')?> />
@@ -41,14 +41,23 @@
     
 
     <!-- JQUERY -->
-    <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
-    <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
     
     <!-- Bootstrap JS -->
-    <script src=<?php echo base_url('/assets/lib/bootstrap/js/bootstrap.js')?>></script>
+    <script src=<?php echo base_url('/assets/lib/bootstrap3/js/bootstrap.js')?>></script>
     
     <!--Main site calls, for login etc.-->
     <script type="text/javascript" src=<?php echo base_url('/assets/js/site.js')?> ></script>
+
+    <script>
+        $(document).ready(function() {
+          $('[data-toggle=offcanvas]').click(function() {
+            $('.row-offcanvas').toggleClass('active');
+            $('#btnShow').toggle();
+          });
+        });
+    </script>
 
   </head>
 

@@ -2,7 +2,7 @@
         </li>
     </ul>
 </div>
-<div id="standardFeed" class="span5">
+<div id="standardFeed" class="col-md-5">
     <h4>
         Standard Feed
     </h4>

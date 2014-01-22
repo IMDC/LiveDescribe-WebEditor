@@ -11,11 +11,13 @@
 
 
   echo('<div class="container">');
-  echo('<div id="login_area" class="span6 offset3 login-reg">');
+  echo('<div id="login_area" class="col-md-6 col-md-offset-3 login-reg">');
   echo('<h2>Login to LiveDescribe</h2>');
 
-  $attributes = array('id' => 'loginForm');
+  $attributes = array('id' => 'loginForm', 'role'=>'form');
   echo form_open(base_url('user/login_user')  , $attributes);
+ 
+  echo('<div class="form-group">');
   echo form_label("Username:", 'uname');
   $data = array(
                 'id' => 'uname', 
@@ -24,18 +26,25 @@
                 'size' => '30',
                 'autofocus' => 'autofocus',
                 'style' => 'height:45px;width: 100%;',
+                'class'=> 'form-control',
                 'required' => ''
               );
   echo form_input($data);
+  echo('</div>');
+
+  echo('<div class="form-group">');
   echo form_label("Password:", 'pword');
   $data = array(
                 'id' => 'pword', 
                 'name' => 'pword',
                 'size' => '30',
                 'style' => 'height:45px;width: 100%;',
+                'class'=> 'form-control',
                 'required' => ''
               );
   echo form_password($data);
+  echo('</div>');
+
   echo('<br />');
   $msg = isset($error)?$error : null;
   echo('<div id="errorBox" name="errorBox" style="color: red;">'.$msg.'</div>');

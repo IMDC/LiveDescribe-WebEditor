@@ -229,19 +229,20 @@ function visualiser(source, context){
 *   Looping at the default frame rate that the browser provides(approx. 60 FPS)
 */
 function frameLooper(){
-    window.webkitRequestAnimationFrame(frameLooper);
-    fbc_array = new Uint8Array(analyser.frequencyBinCount);
-    analyser.getByteFrequencyData(fbc_array);
-    r_ctx.clearRect(0, 0, record_canvas.width, record_canvas.height); // Clear the canvas
-    r_ctx.fillStyle = '#00CCFF'; // Color of the bars
-    
-    bars = 100;
-    for (var i = 0; i < bars; i++) {
-        bar_x = i * 3;
-        bar_width = 2;
-        bar_height = -(fbc_array[i] / 2);
 
-        //fillRect( x, y, width, height ) // Explanation of the parameters below
-        r_ctx.fillRect(bar_x, canvas.height, bar_width, bar_height);
-    }
+  window.webkitRequestAnimationFrame(frameLooper);
+  fbc_array = new Uint8Array(analyser.frequencyBinCount);
+  analyser.getByteFrequencyData(fbc_array);
+  r_ctx.clearRect(0, 0, record_canvas.width, record_canvas.height); // Clear the canvas
+  r_ctx.fillStyle = '#00CCFF'; // Color of the bars
+  
+  bars = 100;
+  for (var i = 0; i < bars; i++) {
+      bar_x = i * 3;
+      bar_width = 2;
+      bar_height = (fbc_array[i] / 2);
+
+      //fillRect( x, y, width, height ) // Explanation of the parameters below
+      r_ctx.fillRect(bar_x, canvas.height, bar_width, bar_height);
+  }
 }

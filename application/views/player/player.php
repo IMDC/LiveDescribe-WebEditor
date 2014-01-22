@@ -1,7 +1,7 @@
  <!-- Player View -->
- <div id="player_column" class="span6 offset2">
+ <div id="player_column" class="col-md-6 col-md-offset-2">
     
-    <div id="video_area" class="row-fluid">
+    <div id="video_area" class="row">
     	<h3 id="videoTitle"> <?php echo $title; ?> </h3>
 
         <!--  The <iframe> (and video player) will replace this <div> tag. -->
@@ -9,20 +9,20 @@
     </div>
 
 
-    <div id="description_area" class="row-fluid">
+    <div id="description_area" class="row">
 
         <h4><u>Description Options</u></h4>
 
     	<!-- Controls the volume of the descriptions -->
-    	<div id="volumeControl" class="span3">
+    	<div id="volumeControl" class="col-md-3">
             <img id="volumeimg" name="volume" src=<?php echo base_url("/assets/img/volume_img.png" )?> onclick="mute();" />
             <div id="slider" class="ui-slider ui-slider-vertical ui-widget ui-widget-content ui-corner-all" aria-disabled="false"></div>
         </div>
 
         <!-- Displays frequency analized audio animation -->
-    	<canvas id="analyser_render" class="span3"></canvas>
+    	<canvas id="analyser_render" class="col-md-3"></canvas>
 
-    	<div id="projectInfo" class="span10 offset1">
+    	<div id="projectInfo" class="col-md-10 col-md-offset-1">
 
             <h4 id="project_title"></h4>
             <h6 id="author"></h6>

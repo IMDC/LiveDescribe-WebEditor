@@ -1,47 +1,43 @@
 /**
 *   Manage area styles
 */
+/*
+ * Style tweaks
+ * --------------------------------------------------
+ */
+body {
+  padding-top: 70px;
+}
+footer {
+  padding-left: 15px;
+  padding-right: 15px;
+}
 
-.menu {
-  height:100%;
-}
- 
-.menu.collapse {
-  float:left;
-  height: 100% !important;
-  width: auto;
-}
- 
-menu.collapse.height {
-  position: relative;
-  height: 0;
-  overflow: hidden;
-  -webkit-transition: height 0.35s ease;
-  -moz-transition: height 0.35s ease;
-  -o-transition: height 0.35s ease;
-  transition: height 0.35s ease;
-}
- 
-menu.collapse.width {
-  position: relative;
-  width: 0;
-  overflow: hidden;
-  -webkit-transition: width 0.35s ease;
-  -moz-transition: width 0.35s ease;
-  -o-transition: width 0.35s ease;
-  transition: width 0.35s ease;
-}
- 
-menu.collapse.in.width {
-  width: auto;
-}
- 
-menu.collapse.in.height {
-  height: auto;
-}
- 
-menu.collapse-inner {
-  position: relative;
-  width: 250px;
-  height: 100%;
+/*
+ * Off Canvas
+ * --------------------------------------------------
+ */
+@media screen and (max-width: 768px) {
+  .row-offcanvas {
+    position: relative;
+    -webkit-transition: all 0.25s ease-out;
+    -moz-transition: all 0.25s ease-out;
+    transition: all 0.25s ease-out;
+  }
+
+  .row-offcanvas-left
+  .sidebar-offcanvas {
+    left: -50%;
+  }
+
+  .row-offcanvas-left.active {
+    left: 50%;
+  }
+
+  .sidebar-offcanvas {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    margin-left: 12px;
+  }
 }

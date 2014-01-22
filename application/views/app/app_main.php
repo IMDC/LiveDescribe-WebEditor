@@ -37,7 +37,7 @@
 
           <div id="projectControl">
             <!-- Button trigger modal -->
-            <button id="saveProject" class="btn btn-lg" data-toggle="modal" data-target="#saveModal" data-backdrop="static" data-keyboard="false">
+            <button id="saveProject" class="btn btn-primary" data-toggle="modal" data-target="#saveModal" data-backdrop="static" data-keyboard="false">
               Save Project
             </button>
 
@@ -56,8 +56,10 @@
                       $project_description = isset($project_description) ? $project_description : "";
                       $vID  = $this->input->get('vID');
 
-                      $attributes = array('id' => 'saveForm');
+                      $attributes = array('id' => 'saveForm', 'role' => 'form');
                       echo form_open('', $attributes);
+
+                      echo('<div class="form-group">');
                       echo form_label("Project Name (Required):", 'projName');
                       $data = array(
                                     'id' => 'projName', 
@@ -66,11 +68,14 @@
                                     'size' => '30',
                                     'autofocus' => 'autofocus',
                                     'style' => 'height: 45px; width: 100%;',
+                                    'class' => 'form-control',
                                     'required' => '',
                                     'value' => $project_name
                                   );
                       echo form_input($data);
+                      echo('</div>');
 
+                      echo('<div class="form-group">');
                       echo form_label("Project Description:", 'projDesc');
                       $data = array(
                                     'id' => 'projDesc', 
@@ -79,11 +84,14 @@
                                     'cols' => '30',
                                     'autofocus' => 'autofocus',
                                     'style' => 'height: 75px; width: 100%;',
+                                    'class' => 'form-control',
                                     'required' => 'false',
                                     'value' => $project_description
                                   );
                       echo form_textarea($data);
                       echo form_hidden("vID", $vID);
+                      echo('</div>');
+
                       echo('<div id="errorBox" name="errorBox" style="color: red;"></div>');
                       echo form_close();
                     ?>

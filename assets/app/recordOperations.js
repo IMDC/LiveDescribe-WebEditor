@@ -263,31 +263,31 @@ function sortDescriptionObjectList(descriptionList){
 *  with the start and end time of the description (replaced above function)
 */
 function updateDescriptionText(recordStart, recordFinished,timeStart, timeFinished, id, desc_text){
-    var newItem            = document.createElement("LI");
-    var text               = document.createElement("textarea");
-    var deleteButton       = document.createElement("button");
+    var newItem             = document.createElement("LI");
+    var text                = document.createElement("textarea");
+    var deleteButton        = document.createElement("button");
     
-    newItem.id             = id;
-    deleteButton.id        = "delete";
-    deleteButton.value     = "Delete";
-    deleteButton.innerHTML = "Delete";
-    deleteButton.onclick   = function(){deleteDescription(id);};
-    text.id                = 'text_' + id;
-    text.style.width       = "80%";
-    text.style.maxWidth    = "80%";
-    text.style.position    = "relative";
-    text.style.left        = "5px";
-    text.onkeyup           = function(){changeDescription(id);};
-    newItem.innerHTML      = "<h6 id=" + "timeStamp_" + id +">" + recordStart+ " - "+ recordFinished + "</h6>";
-    text.innerHTML         = desc_text;
+    newItem.id              = id;
+    deleteButton.id         = "delete";
+    deleteButton.value      = "Delete";
+    deleteButton.innerHTML  = "Delete";
+    deleteButton.onclick    = function(){deleteDescription(id);};
+    text.id                 = 'text_' + id;
+    text.style.width        = "80%";
+    text.style.maxWidth     = "80%";
+    text.style.position     = "relative";
+    text.style.marginBottom = "10px";
+    text.style.left         = "5px";
+    text.onkeyup            = function(){changeDescription(id);};
+    newItem.innerHTML       = "<h6 id=" + "timeStamp_" + id +">" + recordStart+ " - "+ recordFinished + "</h6>";
+    text.innerHTML          = desc_text;
     
     newItem.appendChild(text);
     newItem.appendChild(deleteButton);
     
     newItem.style.backgroundColor = "#0088cc";
     newItem.style.position        = "relative";
-    newItem.style.left            = "-20px";
-    newItem.style.borderRadius    = "10px";
+    newItem.style.left            = "0px";
     document.getElementById("transcript").value = "";
 
     return newItem;

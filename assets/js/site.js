@@ -8,7 +8,7 @@ $(function() {
     ///
     //submit the login form
     ///
-    $('#loginForm').live('submit',function(){
+    $('#loginForm').on('submit',function(){
 
         $('#loadImg').attr('style', "display: block;");
         return true;
@@ -17,7 +17,7 @@ $(function() {
     ///
     //submit the register form 
     ///
-    $('#regForm').live('submit',function(){
+    $('#regForm').on('submit',function(){
 
         $('#loadImg').attr('style', "display: block;");
         return true;

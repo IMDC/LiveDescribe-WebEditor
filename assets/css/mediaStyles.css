@@ -175,6 +175,7 @@ div.videoInfo{
 #saveProject{
     position: relative;
     left: 35px;
+    top: -10px;
 }
 
 #timelineLoad{
