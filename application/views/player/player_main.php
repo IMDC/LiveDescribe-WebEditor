@@ -1,5 +1,5 @@
-<div class="container-fluid">
-  <div class="row-fluid">
+<div class="container">
+  <div class="row">
 
     <?php 
       $this->load->view('player/player');

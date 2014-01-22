@@ -34,6 +34,10 @@ class Player extends CI_Controller {
 				$data['thumbnail'] = $this->vfeed_model->getThumbnail($vID);
 				$data['related_projects'] = $this->description_model->getRelatedProjects($vID, $uID);
 			}
+			else{
+				$data['thumbnail'] = NULL;
+				$data['related_projects'] = NULL;
+			}
 			
 			$this->load->view('player/player_main',$data);
 			$this->load->view('footer');

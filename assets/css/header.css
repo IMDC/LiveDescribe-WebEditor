@@ -9,26 +9,3 @@
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
 }
-
-#searchArea{
-    margin: 6px 8px 8px 8px;
-}
-
-#searchBar{
-    height: 30px;
-    border-radius: 4px 0px 0px 4px;
-}
-
-#search{
-    border-radius: 0px 4px 4px 0px;
-}
-
-#navItems{
-    list-style-type: none;
-}
-
-.navButton{
-    padding-right: 15px;
-    display: inline-block;
-    border-radius: 0px;
-}

@@ -28,7 +28,7 @@ class User extends CI_Controller {
 	*/
 	public function login($data = null){
 		$this->load->view('header');
-		$this->load->view('navigation');
+		$this->load->view('_navigation');
 		$this->load->view('user/login' , $data);
 		$this->load->view('footer');
 	}

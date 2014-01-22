@@ -1,36 +1,43 @@
- <li id="resultItem" class="media">		        
-    <div id="resultContainer" class="accordion-group">
-        <div class="accordion-heading">
-            <?php echo("<div class=\"accordion-toggle\" data-toggle=\"collapse\" data-parent=\"#searchResults\" href='#" .$videoId."'>"); ?>
-                <a class="pull-left" href="#">
-                   <?php echo("<img class=\"media-object\" src=\"" .$thumbnail. "\" width=\"124px\" style=\"padding-bottom: 20px;\" alt=\"" .$title. "\" />"); ?> 
-                </a>
-                
-                <div id="resultInfo" class="media-body">
-                    <a class="media-heading" id="videoTitle"> <?php echo($title); ?> </a>
-                    <p id="videoDesc"> <?php echo($description); ?> </p>    
+ <li id="resultItem" class="media">	
+
+    <div id="resultContainer" class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div data-toggle="collapse" data-parent="#resultContainer" href=<?php echo('#' .$videoId);?> >
+                    <a class="pull-left" href="#">
+                       <img class="media-object" src=<?php echo($thumbnail);?> width="124px" style="padding-bottom: 20px; margin: 5px;" alt=<?php echo($title);?> /> 
+                    </a>
+                    
+                    <div id="resultInfo" class="media-body">
+                        <h4>
+                            <a class="media-heading" id="videoTitle"> <?php echo($title); ?> </a>
+                        </h4>
+                        <p id="videoDesc"> <?php echo($description); ?> </p>    
+                    </div>
+
                 </div>
-
             </div>
-        </div>
 
-        <?php echo("<div id=\"" .$videoId. "\" class=\"accordion-body collapse out\">"); ?>
-            <div id="videoOptions" class="accordion-inner">
-                
-                <!-- Display edit button if user is logged in -->
-                <?php 
-                    $base_url = base_url();
-                	if($this->session->userdata('logged_in') == TRUE ){
-                        
-                		echo("<a id=\"videoEdit\" role=\"button\" class=\"btn\" href=\"{$base_url}app/editor?vID=" . $videoId . "\"\>");
-	                	echo("Add Description");
-	            		echo("</a>");	
-                	}
-                	echo("<a id=\"videoPlay\" role=\"button\" class=\"btn\" href=\"{$base_url}player?vID=" . $videoId . "\">"); 
-                ?>
-                    Play Video
-                </a>
+            <div id=<?php echo($videoId); ?> class="panel-collapse collapse out">
+                <div id="videoOptions" class="panel-body">
+                    
+                    <!-- Display edit button if user is logged in -->
+                    <?php 
+                        $base_url = base_url();
+                    	if($this->session->userdata('logged_in') == TRUE ){
+                            
+                    		echo("<a id=\"videoEdit\" role=\"button\" class=\"btn btn-default\" href=\"{$base_url}app/editor?vID=" . $videoId . "\"\>");
+    	                	echo("Add Description");
+    	            		echo("</a>");	
+                    	}
+                    ?>
+                    <a id="videoPlay" role="button" class="btn btn-default" href=<?php echo($base_url . "player?vID=" . $videoId );?> > 
+                        Play Video
+                    </a>
+                </div>
             </div>
         </div>
     </div>
+
 </li>
+

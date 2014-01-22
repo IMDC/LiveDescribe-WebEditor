@@ -2,7 +2,7 @@
     
     <div class="row">
         <!-- Section for the already described videos -->
-         <div id="describedFeed" class="span5">
+         <div id="describedFeed" class="col-md-5">
             <h4>
                 Described Videos
             </h4>
