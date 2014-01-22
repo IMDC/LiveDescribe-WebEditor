@@ -766,7 +766,7 @@ function bottomSectionResize(){
   var headerHeight = $('#navBar').height();
   var upperHeight  = $('#mainUpper').height();
   var screenHeight = $(window).height();
-  var bottomHeight = screenHeight - headerHeight - upperHeight;
+  var bottomHeight = screenHeight - headerHeight - upperHeight - 46; //46 is the amount the page is shifted down
 
   if(bottomHeight >= 240){
     $('#mainLower').height(bottomHeight);

@@ -30,8 +30,6 @@
         padding-bottom: 0px;
       }
     </style>
-    
-    <link href=<?php //echo base_url('/assets/lib/bootstrap/css/bootstrap-responsive.css')?> rel="stylesheet">
  
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href=<?php echo base_url('/assets/css/header.css')?> />

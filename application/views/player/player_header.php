@@ -30,10 +30,7 @@
         padding-bottom: 0px;
       }
     </style>
-    
-    <link href=<?php //echo base_url('/assets/lib/bootstrap/css/bootstrap-responsive.css')?> rel="stylesheet">
 
-   
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href=<?php echo base_url('/assets/css/header.css')?> />
     <link rel="stylesheet" type="text/css" href=<?php echo base_url('/assets/css/navigation.css')?> />
@@ -52,10 +49,10 @@
     <script type="text/javascript" src=<?php echo base_url('/assets/js/site.js')?> ></script>
 
     <!--Javascript for setting up the player-->
-    <script type="text/javascript" src=<?php echo base_url('/assets/player/videoControl.js')?> ></script>
-    <script type="text/javascript" src=<?php echo base_url('/assets/player/descriptionControl.js')?> ></script>
-    <script type="text/javascript" src=<?php echo base_url('/assets/player/init.js')?> ></script>
-    <script type="text/javascript" src=<?php echo base_url('/assets/app/objects.js')?> ></script>
+    <script type="text/javascript" src=<?php echo base_url('/assets/js/player/videoControl.js')?> ></script>
+    <script type="text/javascript" src=<?php echo base_url('/assets/js/player/descriptionControl.js')?> ></script>
+    <script type="text/javascript" src=<?php echo base_url('/assets/js/player/init.js')?> ></script>
+    <script type="text/javascript" src=<?php echo base_url('/assets/js/app/objects.js')?> ></script>
 
     <!-- Insert the video id as a javascript variable so that the player can access it.
     $vID is passed in as a variable when the view is loaded-->

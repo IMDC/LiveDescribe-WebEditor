@@ -52,26 +52,26 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
 
     <!-- Setup the JS recorder interface -->
-    <script type="text/javascript" src=<?php echo base_url("/assets/app/recorderJS/recorder.js")?> ></script>
+    <script type="text/javascript" src=<?php echo base_url("/assets/js/app/recorderJS/recorder.js")?> ></script>
 
     <!-- Setup the FLASH recorder interface -->
-    <script type="text/javascript" src=<?php echo base_url('/assets/app/recorderFLASH.js') ?> ></script>
+    <script type="text/javascript" src=<?php echo base_url('/assets/js/app/recorderFLASH.js') ?> ></script>
 
     <!-- basic recording operations -->
-    <script type="text/javascript" src=<?php echo base_url("/assets/app/recordOperations.js") ?> ></script>
+    <script type="text/javascript" src=<?php echo base_url("/assets/js/app/recordOperations.js") ?> ></script>
     
     <!-- Video Controls and various others -->
-    <script type="text/javascript" src=<?php echo base_url("/assets/app/editorOperations.js") ?> ></script>
+    <script type="text/javascript" src=<?php echo base_url("/assets/js/app/editorOperations.js") ?> ></script>
     
     <!-- Objects -->
-    <script type="text/javascript" src=<?php echo base_url("/assets/app/objects.js") ?> ></script>
+    <script type="text/javascript" src=<?php echo base_url("/assets/js/app/objects.js") ?> ></script>
 
     <!--Main site calls, for login etc.-->
     <script type="text/javascript" src=<?php echo base_url("/assets/js/site.js") ?> ></script>
 
 
     <!--Setup Recording Tools-->
-    <script type="text/javascript" src=<?php echo base_url("/assets/app/editorSetup.js") ?> ></script>
+    <script type="text/javascript" src=<?php echo base_url("/assets/js/app/editorSetup.js") ?> ></script>
     
     <!-- Insert the video id as a javascript variable so that the player can access it.
     $vID is passed in as a variable when the view is loaded-->

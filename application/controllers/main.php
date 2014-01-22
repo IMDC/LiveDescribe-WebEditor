@@ -22,7 +22,7 @@ class Main extends CI_Controller {
 	 */
 	public function index(){
 		$this->load->view('header');
-		$this->load->view('_navigation');
+		$this->load->view('navigation');
 		$this->load->view('footer');
 	}
 

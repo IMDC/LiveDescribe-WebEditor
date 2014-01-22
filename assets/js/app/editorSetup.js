@@ -7,6 +7,9 @@
 var audio_context;
 var recorder;
 
+var record_canvas; //displays mic input
+var r_ctx;
+
 $(document).ready(function(){  
   
 
@@ -240,9 +243,9 @@ function frameLooper(){
   for (var i = 0; i < bars; i++) {
       bar_x = i * 3;
       bar_width = 2;
-      bar_height = (fbc_array[i] / 2);
+      bar_height = -(fbc_array[i] / 2);
 
       //fillRect( x, y, width, height ) // Explanation of the parameters below
-      r_ctx.fillRect(bar_x, canvas.height, bar_width, bar_height);
+      r_ctx.fillRect(bar_x, record_canvas.height, bar_width, bar_height);
   }
 }

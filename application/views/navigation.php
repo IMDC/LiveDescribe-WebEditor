@@ -48,7 +48,7 @@
           ?>
               <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown">
-                  <img src=<?php echo base_url()."assets/img/mic.png"?> height="16" width="16" />
+                  <img src=<?php echo base_url()."assets/img/3mic.png"?> height="40" width="40" />
                   <?php echo $userName;?>
                   <b class="caret"></b>
                 </a>
