@@ -12,15 +12,7 @@ class User extends CI_Controller {
 	 *
 	 */
 	public function index(){
-		if(!($this->session->userdata("logged_in"))){ //dont load the app
-			redirect(base_url(), 'refresh');
-		}
-		else{
-			$this->load->view('user/user_header');
-			$this->load->view('navigation');
-			$this->load->view('user/user_manage');
-			$this->load->view('footer');
-		}
+		redirect(base_url(), 'refresh');
 	}
 
 	/**
@@ -171,8 +163,36 @@ class User extends CI_Controller {
 		
 	}
 
+	/**
+	*	Displays the user's edited videos
+	*/
+	public function projects(){
+		if(!($this->session->userdata("logged_in"))){ //dont load the app
+			redirect(base_url(), 'refresh');
+		}
+		else{
+			$data["result"] = $this->user_model->getUserProjects($this->session->userdata("userID"));
+			$this->load->view('user/user_header');
+			$this->load->view('navigation');
+			$this->load->view('user/user_projects', $data);
+			$this->load->view('footer');
+		}
+	} 
 
-
+	/**
+	*	Displays the user's account settings
+	*/
+	public function account(){
+		if(!($this->session->userdata("logged_in"))){ //dont load the app
+			redirect(base_url(), 'refresh');
+		}
+		else{
+			$this->load->view('user/user_header');
+			$this->load->view('navigation');
+			$this->load->view('user/user_projects');
+			$this->load->view('footer');
+		}
+	} 
 
 }
 

@@ -41,3 +41,11 @@ footer {
     margin-left: 12px;
   }
 }
+
+.results{
+    list-style: none;
+}
+
+#resultContainer{
+    min-height: 120px;
+}

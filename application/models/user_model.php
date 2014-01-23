@@ -52,6 +52,42 @@ class User_Model extends CI_Model {
 		);
 		$this->db->insert('users',$data);
 	}
+
+	/**
+	*	Gets the previous projects that the user has
+	*	created
+	*
+	*	@param string : $uID
+	*	@return array
+	*/
+	public function getUserProjects($uID){
+		$this->load->model('vfeed_model'); //for getting thumbnails
+		$result = NULL;
+		$condition = array(
+						'user_id' => $uID
+					);
+		$this->db->order_by("date_modified", "desc");
+		$query = $this->db->get_where('projects', $condition);
+
+		if($query->num_rows() > 0){
+			$index = 0;
+			foreach($query->result() as $rows){
+				//add all data to session
+				$newdata = array(
+					'userID'      => $uID,
+					'videoID'     => $rows->video_id,
+					'thumbnail'   => $this->vfeed_model->getThumbnail($rows->video_id),
+					'title'       => $rows->project_name,
+					'description' => $rows->project_description,
+					'rating'      => $rows->rating,
+					'date'        => $rows->date_modified,
+				);
+				$result[$index] = $newdata;
+				$index++;
+			}
+		}
+		return $result;
+	}
  }
 
 ?>

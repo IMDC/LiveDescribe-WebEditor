@@ -55,8 +55,14 @@
 
                  <ul id="dropList" class="dropdown-menu pull-right" >
                       <li>
-                          <a id="myVideos" role="menu" href=<?php echo base_url() . "user/"?>>
-                              My Videos
+                          <a id="myVideos" role="menu" href=<?php echo base_url() . "user/projects"?>>
+                              My Projects
+                          </a>
+                      </li>
+
+                      <li>
+                          <a id="myVideos" role="menu" href=<?php echo base_url() . "user/account"?>>
+                              Account
                           </a>
                       </li>
 
