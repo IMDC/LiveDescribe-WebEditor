@@ -32,24 +32,45 @@ class Main extends CI_Controller {
 	*	Currently getting the searchBar field using POST
 	*/
 	public function videoFeed(){
+		$this->load->model('description_model');
+		$this->load->model('vfeed_model');
+		
+		$keyword = $_POST['searchBar'];
+		$described_feed = array();
+		$index = 0;
+		
 		//load navigation bar
 		$this->load->view('header');
 		$this->load->view('navigation');
 
-		$this->load->model('vfeed_model');
-		$keyword = $_POST['searchBar'];
-
 		$this->load->view('main/vfeed_top');
-		//get described video feed --> future
-
-		$this->load->view('main/vfeed_mid');
-		//get standard video feed
 
 		//get video feed from model
 		$feed = $this->vfeed_model->getFeed($keyword, 'viewCount');
 
-		// //display the feed, maybe load multiple views?
+		//display the feed
 		foreach ($feed as $key => $value){
+
+			//find described projects for each video in the standard feed
+			$related = $this->description_model->getRelatedProjects( $value->getVideoId() );
+			if( $related != NULL ){
+				$thumbnails = $value->getVideoThumbnails();
+
+				foreach($related as $k => $v){
+					$described_feed[$index++] =  array(
+													'vID'                 => $value->getVideoId(),
+													'duration'            => $value->getVideoDuration(),
+													'user_id'             => $v['user_id'],
+													'project_name'        => $v['project_name'],
+													'project_description' => $v['project_description'],
+													'rating'              => $v['rating'],
+													'times_rated'         => $v['times_rated'],
+													'thumbnail'           => $thumbnails[0]['url'],
+													'username'            => $v['username'],
+												);
+				}
+			}
+
 			$data = null;
  			$data['videoId']     = $value->getVideoId();
 		    $data['duration']    = $value->getVideoDuration();
@@ -60,6 +81,12 @@ class Main extends CI_Controller {
  
 			$this->load->view('main/feedResult', $data);
 		}
+
+		$this->load->view('main/vfeed_mid');
+		
+		$data['described_feed'] = $described_feed;
+		$this->load->view('main/descriptionResult', $data);
+		
 		$this->load->view('main/vfeed_bottom');
 		$this->load->view('footer');
 	}

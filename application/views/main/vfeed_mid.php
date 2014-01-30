@@ -4,7 +4,7 @@
 </div>
 <div id="standardFeed" class="col-md-5">
     <h4>
-        Standard Feed
+        Described Videos
     </h4>
     <ul id="searchResults"  class="media-list">
 

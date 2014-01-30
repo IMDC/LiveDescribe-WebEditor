@@ -2,7 +2,7 @@
 
     <div id="resultContainer" class="panel-group">
         <div class="panel panel-default">
-            <div class="panel-heading">
+            <div class="panel-heading" style="min-height: 125px;">
                 <div data-toggle="collapse" data-parent="#resultContainer" href=<?php echo('#' .$videoId);?> >
                     <a class="pull-left" href="#">
                        <img class="media-object" src=<?php echo($thumbnail);?> width="124px" style="padding-bottom: 20px; margin: 5px;" alt=<?php echo($title);?> /> 
@@ -19,7 +19,7 @@
             </div>
 
             <div id=<?php echo($videoId); ?> class="panel-collapse collapse out">
-                <div id="videoOptions" class="panel-body">
+                <div id="videoOptions" class="panel-body pull-left">
                     
                     <!-- Display edit button if user is logged in -->
                     <?php 
