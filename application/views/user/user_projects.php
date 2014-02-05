@@ -12,7 +12,7 @@
         <ul class="nav">
 
           <li><a href=<?php echo(base_url() . "user/projects"); ?> ><h4>My Projects</h4></a></li>
-          <!-- <li><a href="#"><h4>Account</h4></a></li> -->
+          <li><a href=<?php echo(base_url() . "user/account"); ?>><h4>Account</h4></a></li>
         </ul>
       </div><!--/.well -->
     </div><!--/span-->

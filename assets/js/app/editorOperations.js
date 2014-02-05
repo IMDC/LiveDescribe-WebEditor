@@ -552,17 +552,19 @@ function getSeekLocation(xPos){
 function moveTo(event){
   var scrolledPixels = $('#timeline').scrollLeft();
   var seekLocation = getSeekLocation(event.clientX - 200 + scrolledPixels);
-  console.log("seekLocation " + seekLocation);
-  moveMarker(seekLocation);
-  player.seekTo(seekLocation);  
+  
+  if(seekLocation > 0){
+    console.log("seekLocation " + seekLocation);
+    moveMarker(seekLocation);
+    player.seekTo(seekLocation);  
+  }
+  else{
+    console.log("seekLocation out of bounds, set to: 0");
+    moveMarker(0);
+    player.seekTo(0);  
+  }
+  
 }
-
-function playAt(event){
-    var seekLocation = getSeekLocation(event.offsetX);
-    //player.seekTo(seekLocation); 
-    player.playVideoAt(seekLocation);
-}
-
 
 function changeVolume(volume){
     player.setVolume(volume);

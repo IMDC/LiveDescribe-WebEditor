@@ -167,7 +167,7 @@ class User extends CI_Controller {
 	*	Displays the user's edited videos
 	*/
 	public function projects(){
-		if(!($this->session->userdata("logged_in"))){ //dont load the app
+		if(!($this->session->userdata("logged_in"))){ //dont load
 			redirect(base_url(), 'refresh');
 		}
 		else{
@@ -183,13 +183,13 @@ class User extends CI_Controller {
 	*	Displays the user's account settings
 	*/
 	public function account(){
-		if(!($this->session->userdata("logged_in"))){ //dont load the app
+		if(!($this->session->userdata("logged_in"))){ //dont load 
 			redirect(base_url(), 'refresh');
 		}
 		else{
 			$this->load->view('user/user_header');
 			$this->load->view('navigation');
-			$this->load->view('user/user_projects');
+			$this->load->view('user/user_account');
 			$this->load->view('footer');
 		}
 	} 
