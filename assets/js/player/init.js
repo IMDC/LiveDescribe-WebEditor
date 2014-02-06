@@ -41,10 +41,11 @@ $(document).ready(function(){
       }
       else{
         console.log("No Project data");
-        var msg = $('<div/>', {
+        var msg = $('<h6/>', {
                       id: 'no_desc',
                       text: 'No descriptions are available for this video.'
                   }).appendTo('#description_area');
+        msg.addClass('alert alert-warning');
         $('#description_area').html(msg);
       }
   	},
