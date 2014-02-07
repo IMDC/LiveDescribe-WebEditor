@@ -14,13 +14,6 @@ var audio;
 var canvas, ctx, source, context, analyser, fbc_array, bars, bar_x, bar_width, bar_height;
 
 
-// Create a new instance of an audio object and adjust some of its properties
-var audio = new Audio();
-audio.src = 'yt/downloads/trash/out2.wav';
-audio.controls = true;
-audio.loop = true;
-audio.autoplay = false;
-
 // Initialize the MP3 player after the page loads all of its HTML into the window
 //window.addEventListener("load", initPlayer, false);
 
@@ -29,7 +22,8 @@ audio.autoplay = false;
 *   from the given audio input 
 */
 function visualiser(audio){
-    context = new webkitAudioContext(); // AudioContext object instance
+    window.AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext;
+    context = new AudioContext(); // AudioContext object instance
     analyser = context.createAnalyser(); // AnalyserNode method
     canvas = document.getElementById('analyser_render');
     ctx = canvas.getContext('2d');
@@ -46,7 +40,9 @@ function visualiser(audio){
 *   Looping at the default frame rate that the browser provides(approx. 60 FPS)
 */
 function frameLooper(){
-    window.webkitRequestAnimationFrame(frameLooper);
+    window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
+                             window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+    requestAnimationFrame(frameLooper);
     fbc_array = new Uint8Array(analyser.frequencyBinCount);
     analyser.getByteFrequencyData(fbc_array);
     ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas

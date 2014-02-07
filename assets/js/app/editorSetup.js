@@ -126,7 +126,8 @@ function jsRecorderInit(){
   try {
       // webkit shim
       window.AudioContext = window.AudioContext || window.webkitAudioContext;
-      navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
+      navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia ||
+                            navigator.mozGetUserMedia || navigator.msGetUserMedia;
       window.URL = window.URL || window.webkitURL;
       
       audio_context = new AudioContext;
@@ -157,9 +158,9 @@ function startUserMedia(stream) {
   parent.appendChild(_rCanvas);
 
   var zeroGain = audio_context.createGain();
-  zeroGain.gain.value = 0;
-  input.connect(zeroGain);
-  zeroGain.connect(audio_context.destination);
+  // zeroGain.gain.value = 0;
+  // input.connect(zeroGain);
+  // zeroGain.connect(audio_context.destination);
   console.log("Input connected to muted gain node connected to audio context destination.")
   visualiser(input, audio_context); //set up freq. analyser
 
@@ -233,7 +234,10 @@ function visualiser(source, context){
 */
 function frameLooper(){
 
-  window.webkitRequestAnimationFrame(frameLooper);
+  window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
+                             window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+  requestAnimationFrame(frameLooper);
+
   fbc_array = new Uint8Array(analyser.frequencyBinCount);
   analyser.getByteFrequencyData(fbc_array);
   r_ctx.clearRect(0, 0, record_canvas.width, record_canvas.height); // Clear the canvas
