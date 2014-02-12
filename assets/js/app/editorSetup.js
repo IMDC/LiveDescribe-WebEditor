@@ -124,7 +124,7 @@ $(document).ready(function(){
 
 function jsRecorderInit(){
   try {
-      // webkit shim
+    
       window.AudioContext = window.AudioContext || window.webkitAudioContext;
       navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia ||
                             navigator.mozGetUserMedia || navigator.msGetUserMedia;
@@ -158,9 +158,9 @@ function startUserMedia(stream) {
   parent.appendChild(_rCanvas);
 
   var zeroGain = audio_context.createGain();
-  // zeroGain.gain.value = 0;
-  // input.connect(zeroGain);
-  // zeroGain.connect(audio_context.destination);
+  zeroGain.gain.value = 0;
+  input.connect(zeroGain);
+  zeroGain.connect(audio_context.destination);
   console.log("Input connected to muted gain node connected to audio context destination.")
   visualiser(input, audio_context); //set up freq. analyser
 
