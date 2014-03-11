@@ -26,16 +26,14 @@
                 <div id="videoOptions" class="panel-body pull-left">
                     
                     <!-- Display edit button if user is logged in -->
-                    <?php 
-                        $base_url = base_url();
-                    	if($this->session->userdata('logged_in') == TRUE ){
+                    <?php if($this->session->userdata('logged_in') == TRUE ): ?>
                             
-                    		echo("<a id=\"videoEdit\" role=\"button\" class=\"btn btn-default\" href=\"{$base_url}app/editor?vID=" . $videoId . "\"\>");
-    	                	echo("Add Description");
-    	            		echo("</a>");	
-                    	}
-                    ?>
-                    <a id="videoPlay" role="button" class="btn btn-default" href=<?php echo($base_url . "player?vID=" . $videoId );?> > 
+                    	<a id="videoEdit" role="button" class="btn btn-default" href=<?php echo(base_url() . "app/editor?vID=" . $videoId );?> >
+    	                	Add Description
+    	            	</a>	
+                    	
+                    <?php endif;?>
+                    <a id="videoPlay" role="button" class="btn btn-default" href=<?php echo(base_url() . "player?vID=" . $videoId );?> > 
                         Play Video
                     </a>
                 </div>

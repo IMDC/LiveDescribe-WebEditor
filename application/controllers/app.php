@@ -68,7 +68,7 @@ class App extends CI_Controller {
 	*/
 	public function getAudioInfo(){
 		$id = $this->input->get("vID", TRUE);
-		echo $this->app_model->stripAudio($id);
+		echo json_encode("");//$this->app_model->stripAudio($id); //removed for now until bugs are fixed. 
 	}
 
 	/**

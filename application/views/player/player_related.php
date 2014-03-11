@@ -1,11 +1,11 @@
 <!-- Related Video Feed -->
 <div class="col-md-4">
 	<h4>Related Videos</h4>
-	<?php if($related_projects != NULL){?>
+	<?php if($related_projects != NULL):?>
 
 	<ul id="relatedResults" class="media-list">
 
-	<?php foreach($related_projects as $key => $value){ ?>
+	<?php foreach($related_projects as $key => $value): ?>
 
 		<?php $link = base_url()."player?vID=".$vID."&uID=".$value["user_id"]; ?>		
 		<li id="resultItem" class="media">
@@ -33,10 +33,7 @@
 		</li>
 
 
-	<?php 
-			}
-		} 
-	?>
-
+	<?php endforeach;?>
+	<?php endif;?>
 	</ul>
 </div>

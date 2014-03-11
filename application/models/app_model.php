@@ -32,6 +32,13 @@ class App_Model extends CI_Model {
 	}
 
 
+	/**
+	*	This method needs to be fixed. Contains Synchronization problems with
+	*	file I/O. Also, our servers phython interpretor is out of date and 
+	*	the youtube-dl dependancy will no longer work.
+	*
+	*	@param $video_id : String
+	*/
 	public function stripAudio($video_id){
 		$arg = escapeshellarg($video_id);
 		$cmd = "/media/storage/projects/livedescribe/public_html/res-www/yt/youtube-dl " . $arg .
@@ -43,15 +50,12 @@ class App_Model extends CI_Model {
 
 		$ret = shell_exec($cmd);
 
-		if( $ret != null){
+		if( $ret != null ){
+			
 			//parse the shell output to obtain the video filename
 			$title = explode("\n", $ret);
 			$title = explode(" " , $title[4]);
 			$title = count($title) > 3 ? $title[1] : $title[2];
-			
-			// $title = shell_exec("ls | grep " . $arg);
-			// $title = str_replace("\n", "", $title);
-			//echo("title: " . $title . "\n");
 
 			$outFile = $video_id . '.wav';
 			$ffmpeg_cmd ="/usr/local/bin/ffmpeg -y -i $title -f wav $outFile";
@@ -61,6 +65,7 @@ class App_Model extends CI_Model {
 		}
 		else{
 			echo("failure");
+			return;
 		}
 
 		unlink("./$title"); //remove the video file

@@ -75,13 +75,14 @@ $(document).ready(function(){
    //receive the data for the video audio
   $.ajax({
       type:'GET',
-      url:  base_url + "app/getAudioInfo", ///projects/livedescribe/testing/ytRequest.php",
+      url:  base_url + "app/getAudioInfo", 
       dataType: 'json',
       cache: false,
       data:{
             vID: video_id,
       },
       success: function(json){
+        console.log(json);
         $('#segments').css('visibility', 'visible');
         $('#timelineLoad').css('visibility', 'hidden');
         $('#timelineLoad').remove();
@@ -125,12 +126,12 @@ $(document).ready(function(){
 function jsRecorderInit(){
   try {
       // webkit shim
-      window.AudioContext = window.AudioContext || window.webkitAudioContext;
+      window.AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext;
       navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia ||
                             navigator.mozGetUserMedia || navigator.msGetUserMedia;
       window.URL = window.URL || window.webkitURL;
       
-      audio_context = new AudioContext;
+      audio_context = new AudioContext();
       console.log('Audio context set up.');
       console.log('navigator.getUserMedia ' + (navigator.getUserMedia ? 'available.' : 'not present!'));
   } 
@@ -149,7 +150,7 @@ function jsRecorderInit(){
 
 function startUserMedia(stream) {
   var input = audio_context.createMediaStreamSource(stream);
-  console.log('Media stream created.');
+  console.log('Media stream created.' + input);
 
   //create the canvas that the audio will be analysed for
   var _rCanvas = document.createElement('canvas');
@@ -158,9 +159,9 @@ function startUserMedia(stream) {
   parent.appendChild(_rCanvas);
 
   var zeroGain = audio_context.createGain();
-  // zeroGain.gain.value = 0;
-  // input.connect(zeroGain);
-  // zeroGain.connect(audio_context.destination);
+  zeroGain.gain.value = 0;
+  input.connect(zeroGain);
+  zeroGain.connect(audio_context.destination);
   console.log("Input connected to muted gain node connected to audio context destination.")
   visualiser(input, audio_context); //set up freq. analyser
 

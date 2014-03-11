@@ -26,4 +26,4 @@
 		</div>
 	</li>
 
-<?php endforeach ?>
+<?php endforeach; ?>

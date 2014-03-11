@@ -125,7 +125,7 @@
       <section id="descriptionInfo">
          <div id="transcriptBox">
 
-             <h5>Descriptions</h5>
+             <h4>Descriptions</h4>
 
              <div id="navigation" style="padding:5px; background-color:#FAF9F8; border:2px black solid;">
                  <ol id="descriptions">

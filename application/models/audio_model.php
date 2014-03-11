@@ -210,7 +210,7 @@ class Audio_Model extends CI_Model {
 
 		//check if sample data exists
 		if(!$this->sampleData){
-			throw new Exception("No sample data exists.");
+			//throw new Exception("No sample data exists.");
 		}
 
 		$frameDecision = array();		
