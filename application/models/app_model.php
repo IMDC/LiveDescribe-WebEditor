@@ -33,50 +33,55 @@ class App_Model extends CI_Model {
 
 
 	/**
-	*	This method needs to be fixed. Contains Synchronization problems with
-	*	file I/O. Also, our servers phython interpretor is out of date and 
-	*	the youtube-dl dependancy will no longer work.
+	*	
 	*
 	*	@param $video_id : String
 	*/
 	public function stripAudio($video_id){
-		$arg = escapeshellarg($video_id);
-		$cmd = "/media/storage/projects/livedescribe/public_html/res-www/yt/youtube-dl " . $arg .
-		" --restrict-filenames";
+		define('SEM_KEY', 4245);
+		$audio_data = null;
+		$semRes     = sem_get(SEM_KEY, 1, 0666, 0); // get the resource for the semaphore
+		$arg        = escapeshellarg($video_id);
+		$json_data  = "/media/storage/projects/livedescribe/public_html/res-www/yt/downloads/$video_id.json";
 		
-		if(getcwd() != "/media/storage/projects/livedescribe/public_html/res-www/yt/downloads/"){
-			chdir("/media/storage/projects/livedescribe/public_html/res-www/yt/downloads/");
-		}
-
-		$ret = shell_exec($cmd);
-
-		if( $ret != null ){
+		if(sem_acquire($semRes)){ //enter semaphore block
 			
-			//parse the shell output to obtain the video filename
-			$title = explode("\n", $ret);
-			$title = explode(" " , $title[4]);
-			$title = count($title) > 3 ? $title[1] : $title[2];
+			if(file_exists($json_data)){ //read in json data
+				$audio_data = file_get_contents($json_data);
+			}
+			else{
+				$cmd = "/media/storage/projects/livedescribe/public_html/res-www/yt/youtube-dl -o \"%(id)s.%(ext)s\" $arg --extract-audio";
+				
+				if(getcwd() != "/media/storage/projects/livedescribe/public_html/res-www/yt/downloads/"){
+					chdir("/media/storage/projects/livedescribe/public_html/res-www/yt/downloads/");
+				}
 
-			$outFile = $video_id . '.wav';
-			$ffmpeg_cmd ="/usr/local/bin/ffmpeg -y -i $title -f wav $outFile";
-			$arg2 = escapeshellcmd($ffmpeg_cmd);
-			$val = shell_exec($arg2);
+				$ret = shell_exec($cmd);
+
+				if( $ret == null ) return;
 			
+				$inFile     = $video_id . '.m4a';
+				$outFile    = $video_id . '.wav';
+				$ffmpeg_cmd ="/usr/local/bin/ffmpeg -i " . escapeshellarg($inFile) . " " . escapeshellarg($outFile);
+				$val        = shell_exec($ffmpeg_cmd);
+			
+				unlink("/media/storage/projects/livedescribe/public_html/res-www/yt/downloads/$inFile"); //remove the video file
+				
+				$audioFile = "/media/storage/projects/livedescribe/public_html/res-www/yt/downloads/$outFile";
+				
+				$this->audio_model->initialise($audioFile);
+				$response = $this->audio_model->readData();
+
+				file_put_contents($json_data, json_encode($response));
+				
+				$audio_data = json_encode($response); //send back a json object that will be used in the javascript file
+			}
+			sem_release($semRes);
 		}
 		else{
-			echo("failure");
-			return;
-		}
-
-		unlink("./$title"); //remove the video file
-		
-		$audioFile = "/media/storage/projects/livedescribe/public_html/res-www/yt/downloads/" . $video_id . ".wav";
-		
-		$this->audio_model->initialise($audioFile);
-		$response = $this->audio_model->readData();
-		unlink($audioFile);
-
-		return(json_encode($response)); //send back a json object that will be used in the javascript file		
+			echo("semaphore failure");
+		}		
+		return $audio_data;	
 	}
 
 	/**

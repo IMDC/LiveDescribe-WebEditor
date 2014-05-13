@@ -82,7 +82,7 @@ $(document).ready(function(){
             vID: video_id,
       },
       success: function(json){
-        console.log(json);
+        console.log("Success: " + json + "\n\n\n\n");
         $('#segments').css('visibility', 'visible');
         $('#timelineLoad').css('visibility', 'hidden');
         $('#timelineLoad').remove();
@@ -104,7 +104,7 @@ $(document).ready(function(){
         $('#segments').css('visibility', 'visible');
         $('#timelineLoad').css('visibility', 'hidden');
         $('#timelineLoad').remove();
-
+        console.log("Error: " + json);
         alert( "An error occured while retrieving the videos audio data. Some information may not be displayed.");
       }
 
