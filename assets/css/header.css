@@ -9,3 +9,11 @@
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
 }
+
+#navigationHeader{
+	height: 0px;
+}
+
+#navItems:hover{
+    cursor: pointer;
+}

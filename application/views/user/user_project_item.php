@@ -7,7 +7,13 @@
                 <div data-toggle="collapse" data-parent="#resultContainer" href=<?php echo('#' .$data['videoID']);?> >
 
                     <a class="pull-left" href="#">
-                       <img class="media-object" src=<?php echo($data['thumbnail']);?> width="124px" style="padding-bottom: 20px; margin: 5px;" alt=<?php echo($data['title']);?> /> 
+                        <?php
+                            $thumbnail = $data['thumbnail'];
+                            if(!isset($data['thumbnail'])){
+                                $thumbnail = base_url() . "assets/img/image-not-found.png"; 
+                            }
+                        ?>
+                       <img class="media-object" src=<?php echo $thumbnail;?> width="124px" height="120px" style="padding-bottom: 20px; margin: 5px;" alt=<?php echo($data['title']);?> /> 
                     </a>
                     
                     <div id="resultInfo" class="media-body">

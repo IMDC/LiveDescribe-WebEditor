@@ -33,54 +33,49 @@ class App_Model extends CI_Model {
 
 
 	/**
+	*	Uses the Audio_model to extract the audio data.
+	*	The audio data is saved in a json file so that once the 
+	*	audio data has been read from the wav file, it does not need to happen 
+	*	when another user tries to access the same data
 	*	
-	*
 	*	@param $video_id : String
+	*	@return $audioData : array
 	*/
 	public function stripAudio($video_id){
-		define('SEM_KEY', 4245);
 		$audio_data = null;
-		$semRes     = sem_get(SEM_KEY, 1, 0666, 0); // get the resource for the semaphore
 		$arg        = escapeshellarg($video_id);
 		$json_data  = "/media/storage/projects/livedescribe/public_html/res-www/yt/downloads/$video_id.json";
 		
-		if(sem_acquire($semRes)){ //enter semaphore block
-			
-			if(file_exists($json_data)){ //read in json data
-				$audio_data = file_get_contents($json_data);
-			}
-			else{
-				$cmd = "/media/storage/projects/livedescribe/public_html/res-www/yt/youtube-dl -o \"%(id)s.%(ext)s\" $arg --extract-audio";
-				
-				if(getcwd() != "/media/storage/projects/livedescribe/public_html/res-www/yt/downloads/"){
-					chdir("/media/storage/projects/livedescribe/public_html/res-www/yt/downloads/");
-				}
-
-				$ret = shell_exec($cmd);
-
-				if( $ret == null ) return;
-			
-				$inFile     = $video_id . '.m4a';
-				$outFile    = $video_id . '.wav';
-				$ffmpeg_cmd ="/usr/local/bin/ffmpeg -i " . escapeshellarg($inFile) . " " . escapeshellarg($outFile);
-				$val        = shell_exec($ffmpeg_cmd);
-			
-				unlink("/media/storage/projects/livedescribe/public_html/res-www/yt/downloads/$inFile"); //remove the video file
-				
-				$audioFile = "/media/storage/projects/livedescribe/public_html/res-www/yt/downloads/$outFile";
-				
-				$this->audio_model->initialise($audioFile);
-				$response = $this->audio_model->readData();
-
-				file_put_contents($json_data, json_encode($response));
-				
-				$audio_data = json_encode($response); //send back a json object that will be used in the javascript file
-			}
-			sem_release($semRes);
+		if(file_exists($json_data)){ //read in json data
+			$audio_data = file_get_contents($json_data);
 		}
 		else{
-			echo("semaphore failure");
-		}		
+			$cmd = "/media/storage/projects/livedescribe/public_html/res-www/yt/youtube-dl -o \"%(id)s.%(ext)s\" $arg --extract-audio";
+			
+			if(getcwd() != "/media/storage/projects/livedescribe/public_html/res-www/yt/downloads/"){
+				chdir("/media/storage/projects/livedescribe/public_html/res-www/yt/downloads/");
+			}
+
+			$ret = shell_exec($cmd);
+
+			if( $ret == null ) return;
+		
+			$inFile     = $video_id . '.m4a';
+			$outFile    = $video_id . '.wav';
+			$ffmpeg_cmd ="/usr/local/bin/ffmpeg -i " . escapeshellarg($inFile) . " " . escapeshellarg($outFile);
+			$val        = shell_exec($ffmpeg_cmd);
+		
+			unlink("/media/storage/projects/livedescribe/public_html/res-www/yt/downloads/$inFile"); //remove the video file
+			
+			$audioFile = "/media/storage/projects/livedescribe/public_html/res-www/yt/downloads/$outFile";
+			
+			$this->audio_model->initialise($audioFile);
+			$response = $this->audio_model->readData();
+
+			file_put_contents($json_data, json_encode($response), LOCK_EX);
+			
+			$audio_data = json_encode($response); //send back a json object that will be used in the javascript file
+		}	
 		return $audio_data;	
 	}
 

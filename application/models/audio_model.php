@@ -95,7 +95,7 @@ class Audio_Model extends CI_Model {
 	*	Reads the header of the wav file and then calls 
 	*/
 	public function readData(){
-		ini_set('memory_limit', '512M');
+		ini_set('memory_limit', '1024M');
 		$fields = join('/',array('H8ChunkID', 'VChunkSize', 'H8Format',
 		'H8Subchunk1ID', 'VSubchunk1Size',
 		'vAudioFormat', 'vNumChannels', 'VSampleRate',
@@ -114,8 +114,8 @@ class Audio_Model extends CI_Model {
 
         $this->getSamples();
       	$this->audioData['sampleValues'] = $this->sampleData;
-      	$spaces = $this->findSpaces($this->duration);
-      	$this->audioData['spaces'] = $spaces;
+      	// $spaces = $this->findSpaces($this->duration);
+      	// $this->audioData['spaces'] = $spaces;
       	
       	//print_r($spaces);
      	//print_r($this->sampleData);
