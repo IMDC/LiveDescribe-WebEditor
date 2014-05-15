@@ -2,10 +2,9 @@
 <li id="resultItem" class="media">  
 
     <div id="resultContainer" class="panel-group">
-        <div class="panel panel-default">
+        <div class="media-content panel panel-default">
             <div class="panel-heading" style="min-height: 125px;">
-                <div data-toggle="collapse" data-parent="#resultContainer" href=<?php echo('#' .$data['videoID']);?> >
-
+               
                     <a class="pull-left" href="#">
                         <?php
                             $thumbnail = $data['thumbnail'];
@@ -32,20 +31,26 @@
                         <p id="videoDesc"> <?php echo($data['description']); ?> </p>    
                     </div>
 
-                </div>
             </div>
 
-            <div id=<?php echo($data['videoID']); ?> class="panel-collapse collapse out">
-                <div id="videoOptions" class="panel-body pull-left">
+            <div id="projectOptions" >
+                <div id="videoOptions" class="btn-group panel-body pull-left">
        
-                  <a id="videoEdit" role="button" class="btn btn-default" href=<?php echo(base_url() . "app/editor?vID=" . $data['videoID']); ?> >
+                  <a id="videoEdit" role="button" class="btn btn-primary" href=<?php echo(base_url() . "app/editor?vID=" . $data['videoID']); ?> >
                       Edit Video
                   </a>  
                       
-                  <a id="videoPlay" role="button" class="btn btn-default" href=<?php echo(base_url() . "player?vID=" . $data['videoID'] . "&uID=" . $data['userID']);?> > 
+                  <a id="videoPlay" role="button" class="btn btn-success" href=<?php echo(base_url() . "player?vID=" . $data['videoID'] . "&uID=" . $data['userID']);?> > 
                       Play Video
                   </a>
 
+                </div>
+
+                <div class="panel-body pull-right">
+                    <form id="deleteProject" method="POST" action=<?php echo(base_url() . "user/deleteProject"); ?> onsubmit="return confirm('Are you sure you want to delete this project?')">
+                        <input type="hidden" name="projectID" value= <?php echo($data['projectID']); ?> />
+                        <input type="submit" value="Delete Project" role="button" class="btn btn-danger" />
+                    </form>
                 </div>
             </div>
         </div>

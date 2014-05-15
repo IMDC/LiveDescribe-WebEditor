@@ -179,6 +179,18 @@ class User extends CI_Controller {
 		}
 	} 
 
+
+	/**
+	*	Delete the project with the given ID
+	*	called from a form in user_project_item.php
+	*
+	*/
+	public function deleteProject(){
+		$projectID = $this->input->post('projectID');
+		$this->user_model->deleteProject($projectID);
+		redirect(base_url() . "user/projects");
+	}
+
 	/**
 	*	Displays the user's account settings
 	*/

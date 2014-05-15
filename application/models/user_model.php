@@ -75,6 +75,7 @@ class User_Model extends CI_Model {
 				//add all data to session
 				$newdata = array(
 					'userID'      => $uID,
+					'projectID'   => $rows->id,
 					'videoID'     => $rows->video_id,
 					'thumbnail'   => $this->vfeed_model->getThumbnail($rows->video_id),
 					'title'       => $rows->project_name,
@@ -87,6 +88,20 @@ class User_Model extends CI_Model {
 			}
 		}
 		return $result;
+	}
+
+	/**
+	*	Remove the project with the given project ID
+	*
+	*	@param string : $projectID
+	*	@return $query : boolean
+	*/
+	public function deleteProject($projectID){
+		$condition = array(
+						'id' => $projectID
+					);
+		$query = $this->db->delete('projects', $condition);
+		return $query;
 	}
  }
 
