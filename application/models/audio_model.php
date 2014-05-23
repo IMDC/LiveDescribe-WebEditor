@@ -20,76 +20,6 @@ class Audio_Model extends CI_Model {
 		define("DETAIL", 5);
 	}
 
-
-	/**
-	 *	differnt way of reading the data. 
-	 *  Note: not used right now
-	 */
-	public function readWav(){
-		$handle = fopen ($this->fileName, "r");
-
-		$header[] = fread ($handle, 4);
-		$header[] = bin2hex(fread ($handle, 4));
-		$header[] = fread ($handle, 4);
-		$header[] = fread ($handle, 4);
-		$header[] = bin2hex(fread ($handle, 4));
-		$header[] = bin2hex(fread ($handle, 2));
-		$header[] = bin2hex(fread ($handle, 2));
-		$header[] = bin2hex(fread ($handle, 4));
-		$header[] = bin2hex(fread ($handle, 4));
-		$header[] = bin2hex(fread ($handle, 2));
-		$header[] = bin2hex(fread ($handle, 2));
-		$header[] = fread ($handle, 4);
-		$header[] = bin2hex(fread ($handle, 4));
-
-		
-		$peek = hexdec(substr($header[10], 0, 2));
-		$byte = $peek / 8;
-
-		
-		$channel = hexdec(substr($header[6], 0, 2));
-
-		if($channel == 2){
-			$ratio = 40;
-		}
-		else{
-			$ratio = 80;
-		}
-		
-		$data='';
-		while(!feof($handle)){
-			$bytes = array();
-			//get number of bytes depending on bitrate
-			for ($i = 0; $i < $byte; $i++){
-				$bytes[$i] = fgetc($handle);
-			}
-
-			switch($byte){
-				//get value for 8-bit wav
-				case 1:
-					$data .= $this->findValues($bytes[0], $bytes[1]) . ',';
-					break;
-
-				//get value for 16-bit wav
-				case 2:
-					if(ord($bytes[1]) & 128){
-						$temp = 0;
-					}
-					else{
-						$temp = 128;
-					}
-					$temp = chr((ord($bytes[1]) & 127) + $temp);
-					$data .=floor($this->findValues($bytes[0], $temp) / 256). ',';
-					break;
-			}
-			//skip bytes for memory optimization
-			fread ($handle, $ratio);
-
-		}
-
-		fclose ($handle);
-	}
-
 	/**
 	*	@return array audioData
 	*	Reads the header of the wav file and then calls 
@@ -109,16 +39,12 @@ class Audio_Model extends CI_Model {
 		$this->sampleRate = $this->audioData['SampleRate'];
 		$this->duration = ($this->audioData['ChunkSize'] * 8 ) / ( $this->audioData['SampleRate'] * $this->audioData['BitsPerSample']  * $this->audioData['NumChannels']);
 
-		//echo "duaration: " . $this->duration . '\n';
-		//print_r($this->audioData);
-
         $this->getSamples();
       	$this->audioData['sampleValues'] = $this->sampleData;
       	// $spaces = $this->findSpaces($this->duration);
-      	// $this->audioData['spaces'] = $spaces;
-      	
-      	//print_r($spaces);
-     	//print_r($this->sampleData);
+      	$spaces = array(); //not fully implemented so leave as empty array for now
+        $this->audioData['spaces'] = $spaces;
+
       	return $this->audioData;
 	}
 

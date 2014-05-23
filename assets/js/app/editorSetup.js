@@ -24,7 +24,7 @@ $(document).ready(function(){
   $.ajax({
        type:'GET',
        async: false,
-       url: base_url + "app/getDuration", //"/projects/livedescribe/testing/ytRequest.php",
+       url: base_url + "app/getDuration", 
        data:{
               vID: video_id
             },
@@ -87,16 +87,10 @@ $(document).ready(function(){
         $('#timelineLoad').css('visibility', 'hidden');
         $('#timelineLoad').remove();
 
-        //put all sampleData values into an array
-        for(var i in json.sampleValues){
-          audioSamples.push(json.sampleValues[i]);
-        }
-        
-        //put all space values into an array
-        for(var i in json.spaces){
-          spaces.push(json.spaces[i]);
-        }
-        
+        audioHeader = json;
+        audioSamples = json.sampleValues;
+        spaces = json.spaces;
+
         createWaveform();
         drawRecomendedSpaces();
       },

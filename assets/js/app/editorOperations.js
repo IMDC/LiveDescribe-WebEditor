@@ -46,7 +46,7 @@ var mtx;
 */
 var audioSamples = new Array();
 var spaces       = new Array();
-
+var audioHeader;
 
 /**
 *   when the browser window is resized, the 
@@ -225,9 +225,7 @@ function updateDescriptionList(description, newStart, newEnd){
     $('#timeStamp_' + description.id).html(newTimeStamp);
 }
 
-/*
-  Will need to introduce paging functionality here
-*/
+
 function getClickTime(event){
     var clickStart  = event.offsetX; 
     var canvasWidth = canvas.clientWidth;
@@ -805,16 +803,26 @@ function createWaveform(){
   var height = (canvas.clientHeight / 2) + 30;
   var xpos   = 0;
 
-  var chunks = Math.round(audioSamples.length / width);
+  console.log("Data Size: " + audioSamples.length);
+  console.log("Width: " + width);
 
-  for(var p = 0 ; p < width; p++){
-    
-    var chunkSet = audioSamples.slice(chunks * p, (chunks * p + chunks));
-    var min      = Math.min.apply(null,chunkSet);
-    var max      = Math.max.apply(null,chunkSet);
-    drawLine(p,p,min*height,max*height);
+  var samplesPerPixel = Math.round(audioSamples.length / width);
+  var ratio = audioHeader.NumChannels == 2 ? 40 : 80;
+  var samples_per_second = audioSamples.length / videoDuration;
+  var pixel = 0;
+  var offset_time;
+
+  while(pixel < width){
+	offset_time = (videoDuration / width) * pixel;
+	sampleStart = samples_per_second * offset_time;
+
+	if(sampleStart + samplesPerPixel < audioSamples.length){
+	    var min      = Math.min.apply(Math, audioSamples.slice(sampleStart, sampleStart + samplesPerPixel - 1));
+		var max      = Math.max.apply(Math, audioSamples.slice(sampleStart, sampleStart + samplesPerPixel - 1));
+		drawLine(pixel,pixel,min*height,max*height);
+	}
+	pixel++;
   }
-
 }
 
 /**

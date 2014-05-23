@@ -23,10 +23,10 @@ class User_Model extends CI_Model {
 			foreach($query->result() as $rows){
 				//add all data to session
 				$newdata = array(
-				  'userID'  => $rows->id,
-				  'userName'  => $rows->username,
-				  'user_email'    => $rows->email,
-				  'logged_in'  => TRUE,
+					'userID'     => $rows->id,
+					'userName'   => $rows->username,
+					'user_email' => $rows->email,
+					'logged_in'  => TRUE,
 				);
 			}
 			$this->session->set_userdata($newdata);
