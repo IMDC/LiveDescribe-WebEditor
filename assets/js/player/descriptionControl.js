@@ -7,7 +7,7 @@ var descriptionList    = new Array();
 var descriptionPlaying = false;
 var muted              = false;
 var previousVol;
-var audio;
+var audio = null;
 
 
 // Establish all variables that the Analyser will use
@@ -82,7 +82,7 @@ $(function() {
 });
 
 function changeVolume(volume){
-    if(audio.canplay){
+    if(audio !== null){
         audio.volume = volume;
     }
     console.log("Volume level: " + volume);
@@ -94,7 +94,7 @@ function changeVolume(volume){
 */
 function mute(){
     previousVol =  $( "#slider" ).slider( "value" );
-    console.log('Mute: '+previousVol);
+    console.log('Mute: ' + previousVol);
     if(!muted){
         document.getElementById("volumeimg").src = base_url + "assets/img/vol-mute.png";
         changeVolume(0);

@@ -51,6 +51,7 @@
     <!--Javascript for setting up the player-->
     <script type="text/javascript" src=<?php echo base_url('/assets/js/player/videoControl.js')?> ></script>
     <script type="text/javascript" src=<?php echo base_url('/assets/js/player/descriptionControl.js')?> ></script>
+    <script type="text/javascript" src=<?php echo base_url('/assets/js/player/rating.js')?> ></script>
     <script type="text/javascript" src=<?php echo base_url('/assets/js/player/init.js')?> ></script>
     <script type="text/javascript" src=<?php echo base_url('/assets/js/app/objects.js')?> ></script>
 

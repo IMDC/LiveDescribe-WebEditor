@@ -21,6 +21,8 @@ $(document).ready(function(){
   	data: { vID: playerID, uID: getURLParameter("uID") },
 
   	success: function(json){
+      console.log("Success: " + json);
+
       if(json != null){
         user_id = json.project_info.user_id;
         addProjectData(json.project_info.project_name, 

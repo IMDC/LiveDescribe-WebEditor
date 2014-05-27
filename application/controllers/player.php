@@ -35,7 +35,7 @@ class Player extends CI_Controller {
 				$data['thumbnail'] = $this->vfeed_model->getThumbnail($vID);
 				$data['related_projects'] = $this->description_model->getRelatedProjects($vID, $uID);
 			}
-			else{
+			else{ //there are no related videos
 				$data['thumbnail'] = NULL;
 				$data['related_projects'] = NULL;
 			}
@@ -61,6 +61,8 @@ class Player extends CI_Controller {
 		$uID = $this->input->post("uID");
 		
 		$project_info = $this->description_model->getProjectData($vID, $uID);
+
+		//print_r($project_info);
 
 		if($project_info != NULL){//project exists
 			$descriptino_data = $this->description_model->getDescriptionData($vID, $project_info["user_id"]);

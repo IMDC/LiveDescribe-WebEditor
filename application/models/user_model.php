@@ -42,7 +42,7 @@ class User_Model extends CI_Model {
  	*/
 	public function add_user(){
 
-		$data=array(
+		$data = array(
 			'name'     =>$this->input->post('name'),
 			'username' =>$this->input->post('user_name'),
 			'email'    =>$this->input->post('email_address'),
@@ -51,6 +51,22 @@ class User_Model extends CI_Model {
 			'answer'   =>$this->input->post('answer'),
 		);
 		$this->db->insert('users',$data);
+	}
+
+	/**
+	*	Checks if the given user id is valid
+	*	@param String
+	*	@return boolean
+	*/
+	public function user_exists($uID){
+		$user = $this->db->get_where('users', array('id' => $uID));
+		$found = false;
+
+		if($user->num_rows() > 0){
+			$found = true;
+		}
+		
+		return $found;
 	}
 
 	/**

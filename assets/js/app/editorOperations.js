@@ -801,13 +801,7 @@ function createWaveform(){
 
   var width  = ctx.canvas.width;
   var height = (canvas.clientHeight / 2) + 30;
-  var xpos   = 0;
-
-  console.log("Data Size: " + audioSamples.length);
-  console.log("Width: " + width);
-
   var samplesPerPixel = Math.round(audioSamples.length / width);
-  var ratio = audioHeader.NumChannels == 2 ? 40 : 80;
   var samples_per_second = audioSamples.length / videoDuration;
   var pixel = 0;
   var offset_time;
