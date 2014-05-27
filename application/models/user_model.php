@@ -80,7 +80,6 @@ class User_Model extends CI_Model {
 					'thumbnail'   => $this->vfeed_model->getThumbnail($rows->video_id),
 					'title'       => $rows->project_name,
 					'description' => $rows->project_description,
-					'rating'      => $rows->rating,
 					'date'        => $rows->date_modified,
 				);
 				$result[$index] = $newdata;

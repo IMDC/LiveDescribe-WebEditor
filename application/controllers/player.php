@@ -31,6 +31,7 @@ class Player extends CI_Controller {
 			$uID = $this->input->get("uID", TRUE) ? $this->input->get("uID", TRUE) : $this->description_model->highestRating($vID);
 			if($uID != NULL){
 				//info of the related projects
+				//print_r($this->description_model->getRelatedProjects($vID, $uID));
 				$data['thumbnail'] = $this->vfeed_model->getThumbnail($vID);
 				$data['related_projects'] = $this->description_model->getRelatedProjects($vID, $uID);
 			}
