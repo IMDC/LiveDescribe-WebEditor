@@ -10,6 +10,27 @@ class Project_Model extends CI_Model {
 	}
 
 
+
+	/**
+	*	Remove the project with the given project ID
+	*	and all associated descriptions
+	*
+	*	@param string : $projectID
+	*/
+	public function deleteProject($projectID){
+		$project = $this->db->get_where('projects', array('id' => $projectID));
+		
+		if($project->num_rows() > 0) {
+			$project = $project->row();
+			$user_id = $project->user_id;
+			$video_id = $project->video_id;
+
+			$this->db->delete('descriptions', array('user_id' => $user_id, 'video_id' => $video_id));
+			$this->db->delete('projects', array('id' => $projectID));
+		}
+	}
+
+
 	/**
 	*	Returns the user id with the higest
 	*	rated project

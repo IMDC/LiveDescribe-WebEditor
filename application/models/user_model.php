@@ -105,19 +105,6 @@ class User_Model extends CI_Model {
 		return $result;
 	}
 
-	/**
-	*	Remove the project with the given project ID
-	*
-	*	@param string : $projectID
-	*	@return $query : boolean
-	*/
-	public function deleteProject($projectID){
-		$condition = array(
-						'id' => $projectID
-					);
-		$query = $this->db->delete('projects', $condition);
-		return $query;
-	}
  }
 
 ?>

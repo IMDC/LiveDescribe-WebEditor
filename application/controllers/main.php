@@ -32,7 +32,7 @@ class Main extends CI_Controller {
 	*	Currently getting the searchBar field using POST
 	*/
 	public function videoFeed(){
-		$this->load->model('description_model');
+		$this->load->model('project_model');
 		$this->load->model('vfeed_model');
 		
 		$keyword = $_POST['searchBar'];
@@ -52,7 +52,7 @@ class Main extends CI_Controller {
 		foreach ($feed as $key => $value){
 
 			//find described projects for each video in the standard feed
-			$related = $this->description_model->getRelatedProjects( $value->getVideoId() );
+			$related = $this->project_model->getRelatedProjects( $value->getVideoId() );
 			if( $related != NULL ){
 				$thumbnails = $value->getVideoThumbnails();
 
@@ -85,10 +85,6 @@ class Main extends CI_Controller {
 		    $thumbnails          = $value->getVideoThumbnails();
 			$data['thumbnail']   = $thumbnails[0]['url'];
 		}
-
-		$test = $this->description_model->getLikesDislikes("AGi8jSGpr5U", 7);
-		print_r($test);
-
 
 		$data['standard_feed'] = $standard_feed;
 		$data['described_feed'] = $described_feed;

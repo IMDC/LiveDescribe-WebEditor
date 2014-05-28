@@ -5,6 +5,7 @@ class User extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('user_model');
+		$this->load->model('project_model');
 	}
 
 	/**
@@ -187,7 +188,7 @@ class User extends CI_Controller {
 	*/
 	public function deleteProject(){
 		$projectID = $this->input->post('projectID');
-		$this->user_model->deleteProject($projectID);
+		$this->project_model->deleteProject($projectID);
 		redirect(base_url() . "user/projects");
 	}
 
