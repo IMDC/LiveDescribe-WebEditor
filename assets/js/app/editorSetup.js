@@ -91,9 +91,8 @@ $(document).ready(function(){
         audioSamples = json.sampleValues;
         spaces = json.spaces;
 
-        
         createWaveform();
-        drawRecomendedSpaces();bottomSectionResize();
+        drawRecomendedSpaces();
       },
       error: function(json){
         $('#segments').css('visibility', 'visible');
