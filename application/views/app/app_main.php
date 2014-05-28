@@ -2,11 +2,11 @@
 <div id="wami" style="margin-left: 0%;position:relative;top:32px;"></div>
 <div id="load"></div>
 
-<div id="app">
+<div id="app" class="container-fluid">
 
-  <section id="mainUpper">
+  <div id="mainUpper" >
       
-      <section id="controls">
+      <div id="controls">
           
           <div id="AVControls">
             <div id="playpauseControl">
@@ -115,14 +115,14 @@
           </div>
 
          
-      </section>
+      </div>
       
-      <section id="videoPlayer">
+      <div id="videoPlayer">
           <!--  The <iframe> (and video player) will replace this <div> tag. -->
           <div id="player"></div>
-      </section>
+      </div>
       
-      <section id="descriptionInfo">
+      <div id="descriptionInfo">
          <div id="transcriptBox">
 
              <h4>Descriptions</h4>
@@ -134,14 +134,14 @@
              </div>
 
          </div>
-      </section>
+      </div>
 
-  </section>
+  </div>
   
   
-  <section id="mainLower" >
+  <div id="mainLower" >
       
-      <section id="descriptionControls" style="position: absolute;
+      <div id="descriptionControls" style="position: absolute;
                                                border: solid;
                                                border-width: 1px;
                                                width: 200px;
@@ -157,10 +157,10 @@
                                                               height: 80%;
                                                               max-width: 180px;"></textarea>
                     
-      </section>
+      </div>
       
       
-      <section  id="timeline"  style="position: absolute;
+      <div  id="timeline"  style="position: absolute;
                                                   left: 200px;
                                                   min-width: 900px;
                                                   height:230px;
@@ -175,7 +175,7 @@
         <canvas id="timeBar" height="30"></canvas>
         <canvas id="positionMarker"></canvas>        
          
-      </section>
+      </div>
 
-  </section>
+  </div>
 </div>

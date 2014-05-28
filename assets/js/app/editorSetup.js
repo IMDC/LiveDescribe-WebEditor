@@ -16,7 +16,7 @@ $(document).ready(function(){
   getCanvasElements();
               
   //set the size of the bottom section to fill the remainder of the screen
-  bottomSectionResize();
+  //bottomSectionResize();
 
   $('#segments').setUpCanvas();
 
@@ -91,8 +91,9 @@ $(document).ready(function(){
         audioSamples = json.sampleValues;
         spaces = json.spaces;
 
+        
         createWaveform();
-        drawRecomendedSpaces();
+        drawRecomendedSpaces();bottomSectionResize();
       },
       error: function(json){
         $('#segments').css('visibility', 'visible');
