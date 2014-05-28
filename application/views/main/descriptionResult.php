@@ -5,10 +5,10 @@
 	<li id="resultItem" class="media">
 		<div id="resultContainer" class="panel-group">
 			
-            <div class="media-content panel panel-default">
-            	<div class="panel-heading" style="min-height: 125px;"> 
+            <div class="panel panel-default">
+            	<div class="panel-heading" style="min-height: 140px;"> 
                 
-	                <a class="pull-left" href= <?php echo($link); ?> >
+	                <a class="pull-left" href="#">
 	                   <img class="media-object" src=<?php echo($value['thumbnail']); ?> width="125px" style="padding-bottom: 20px; margin: 5px;" alt=<?php echo($title); ?> /> 
 	                </a>
 	                
@@ -20,6 +20,12 @@
 	                </div>
 
             	</div>
+
+            	 <div id="videoOptions" class="panel-body pull-left">
+                    <a id="videoPlay" role="button" class="btn btn-default" href=<?php echo($link);?> > 
+                        Play Video
+                    </a>
+                </div>
 
         	</div>
 	       

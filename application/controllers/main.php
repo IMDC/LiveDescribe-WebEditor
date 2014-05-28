@@ -37,13 +37,13 @@ class Main extends CI_Controller {
 		
 		$keyword = $_POST['searchBar'];
 		$described_feed = array();
-		$index = 0;
-		
+		$standard_feed = array();
+		$index_described = 0;
+		$index_standard = 0;
+
 		//load navigation bar
 		$this->load->view('header');
 		$this->load->view('navigation');
-
-		$this->load->view('main/vfeed_top');
 
 		//get video feed from model
 		$feed = $this->vfeed_model->getFeed($keyword, 'viewCount');
@@ -57,37 +57,42 @@ class Main extends CI_Controller {
 				$thumbnails = $value->getVideoThumbnails();
 
 				foreach($related as $k => $v){
-					$described_feed[$index++] =  array(
+					$described_feed[$index_described++] =  array(
 													'vID'                 => $value->getVideoId(),
 													'duration'            => $value->getVideoDuration(),
 													'user_id'             => $v['user_id'],
 													'project_name'        => $v['project_name'],
 													'project_description' => $v['project_description'],
-													'rating'              => $v['rating'],
-													'times_rated'         => $v['times_rated'],
 													'thumbnail'           => $thumbnails[0]['url'],
 													'username'            => $v['username'],
+													'rating'			  => $v['rating']
 												);
 				}
 			}
 
-			$data = null;
+			$thumbnails = $value->getVideoThumbnails();
+			$standard_feed[$index_standard++] = array(
+											'videoId' => $value->getVideoId(),
+											'duration' => $value->getVideoDuration(),
+											'title' => (string)$value->getVideoTitle(),
+											'description' => (string)$value->getVideoDescription(),
+											'thumbnail' => $thumbnails[0]['url']
+										);
  			$data['videoId']     = $value->getVideoId();
 		    $data['duration']    = $value->getVideoDuration();
 			$data['title']       = (string)$value->getVideoTitle();
 		    $data['description'] = (string)$value->getVideoDescription();
 		    $thumbnails          = $value->getVideoThumbnails();
 			$data['thumbnail']   = $thumbnails[0]['url'];
- 
-			$this->load->view('main/feedResult', $data);
 		}
 
-		$this->load->view('main/vfeed_mid');
-		
+		$test = $this->description_model->getLikesDislikes("AGi8jSGpr5U", 7);
+		print_r($test);
+
+
+		$data['standard_feed'] = $standard_feed;
 		$data['described_feed'] = $described_feed;
-		$this->load->view('main/descriptionResult', $data);
-		
-		$this->load->view('main/vfeed_bottom');
+		$this->load->view('main/video_feed', $data);
 		$this->load->view('footer');
 	}
 }

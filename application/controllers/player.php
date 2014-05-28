@@ -6,7 +6,7 @@ class Player extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->model("vfeed_model");
-		$this->load->model("description_model");
+		$this->load->model("project_model");
 		$this->load->database();
 	}
 
@@ -28,12 +28,12 @@ class Player extends CI_Controller {
 			$this->load->view('player/player_header',$data);
 			$this->load->view('navigation');
 
-			$uID = $this->input->get("uID", TRUE) ? $this->input->get("uID", TRUE) : $this->description_model->highestRating($vID);
+			$uID = $this->input->get("uID", TRUE) ? $this->input->get("uID", TRUE) : $this->project_model->highestRating($vID);
 			if($uID != NULL){
 				//info of the related projects
-				//print_r($this->description_model->getRelatedProjects($vID, $uID));
+				//print_r($this->project_model->getRelatedProjects($vID, $uID));
 				$data['thumbnail'] = $this->vfeed_model->getThumbnail($vID);
-				$data['related_projects'] = $this->description_model->getRelatedProjects($vID, $uID);
+				$data['related_projects'] = $this->project_model->getRelatedProjects($vID, $uID);
 			}
 			else{ //there are no related videos
 				$data['thumbnail'] = NULL;
@@ -60,12 +60,12 @@ class Player extends CI_Controller {
 		$vID = $this->input->post("vID");
 		$uID = $this->input->post("uID");
 		
-		$project_info = $this->description_model->getProjectData($vID, $uID);
+		$project_info = $this->project_model->getProjectData($vID, $uID);
 
 		//print_r($project_info);
 
 		if($project_info != NULL){//project exists
-			$descriptino_data = $this->description_model->getDescriptionData($vID, $project_info["user_id"]);
+			$descriptino_data = $this->project_model->getDescriptionData($vID, $project_info["user_id"]);
 			$result = array("project_info" => $project_info, "description_data" => $descriptino_data);
 		}
 		echo(json_encode($result));
