@@ -226,6 +226,47 @@ class Project_Model extends CI_Model {
 
 		return $likes_dislikes;
 	}
+
+
+	/**
+	*	Adds a rating for the given user & video, if a rating already
+	*	exists for the user, the record is updated
+	*	@param string
+	*	@param string
+	*	@param int : 1 or -1
+	*	@return array
+	*/
+	public function rateProject($vID, $uID, $rating, $project_user_id){
+		$project_id = NULL;
+
+		//find the project id for the project we are rating
+		$project = $this->db->get_where('projects', array('video_id' => $vID, 'user_id' => $project_user_id));
+
+		if($project->num_rows() > 0){
+			$project_id = $project->row()->id;
+		}
+		
+		//find project id for the vID and uID
+		$ratings = $this->db->get_where('ratings', array(
+													'video_id'   => $vID,
+													'user_id'    => $uID,
+													'project_id' => $project_id
+												));
+
+		if($ratings->num_rows() > 0){ //rating exists, so update
+			$this->db->where(array('id' => $ratings->row()->id));
+			$this->db->update('ratings', array('like_dislike' => $rating));
+		}
+		else{
+			$this->db->insert('ratings', array(
+											'video_id'     => $vID, 
+											'user_id'      => $uID, 
+											'project_id'   => $project_id,
+											'like_dislike' => $rating
+										));
+		}
+		return $this->getLikesDislikes($vID, $project_user_id);
+	}
 	
  }
 

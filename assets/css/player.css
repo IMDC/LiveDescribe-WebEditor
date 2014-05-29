@@ -6,7 +6,7 @@
     height: 100%;
 }
 
-#description_area{
+#description{
     border: solid;
     border-width: 1px; 
     min-width: 560px;
@@ -17,7 +17,7 @@
 }
 
 #description_area > canvas{ 
-	width: 380px; 
+	width: 320px; 
 	height: 40px;
   margin: 2px; 
 	background:#002D3C; 
@@ -73,6 +73,15 @@
    content: "\2605";
    position: absolute;
 }
+
+#like:hover{
+  cursor: pointer;
+}
+
+#dislike:hover{
+  cursor: pointer;
+}
+
 /* end rating styles */
 
 

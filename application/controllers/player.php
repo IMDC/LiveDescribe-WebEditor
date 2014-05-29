@@ -52,7 +52,7 @@ class Player extends CI_Controller {
 	*	call from init.js
 	*
 	*	@param $vID : string
-	*	@return json-object
+	*	@return json-object 
 	*/
 	public function getDescriptions(){
 		$result = NULL;
@@ -65,9 +65,30 @@ class Player extends CI_Controller {
 		//print_r($project_info);
 
 		if($project_info != NULL){//project exists
-			$descriptino_data = $this->project_model->getDescriptionData($vID, $project_info["user_id"]);
-			$result = array("project_info" => $project_info, "description_data" => $descriptino_data);
+			$description_data = $this->project_model->getDescriptionData($vID, $project_info["user_id"]);
+			$result = array("project_info" => $project_info, "description_data" => $description_data);
 		}
+		echo(json_encode($result));
+		return;
+	}
+
+
+	/**
+	*	update or insert rating for a user on a 
+	*	project. This will only occur if the user is logged in.
+	*	Called from rating.js
+	*
+	*/
+	public function addRating(){
+		$result          = null;
+		$vID             = $this->input->post("vID");
+		$project_user_id = $this->input->post("user_id");
+		$rating          = $this->input->post("rating");
+
+		if($this->session->userdata('logged_in')){
+			$result = $this->project_model->rateProject($vID, $this->session->userdata('userID'), $rating, $project_user_id);
+		}
+
 		echo(json_encode($result));
 		return;
 	}

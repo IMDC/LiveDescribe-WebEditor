@@ -2,7 +2,7 @@
 *	Player Initialization
 */
 
-var user_id;
+var user_id; //user id of the project owner
 
 /**
 *   Get the information from the player controler
@@ -25,10 +25,7 @@ $(document).ready(function(){
 
       if(json != null){
         user_id = json.project_info.user_id;
-        addProjectData(json.project_info.project_name, 
-                       json.project_info.project_description, 
-                       json.project_info.username
-                      );
+        addProjectData(json.project_info);
 
         console.log(json.description_data);
         for(var i in json.description_data){
@@ -48,15 +45,14 @@ $(document).ready(function(){
                       text: 'No descriptions are available for this video.'
                   }).appendTo('#description_area');
         msg.addClass('alert alert-warning');
-        $('#description_area').html(msg);
+        $('#description').html(msg);
       }
   	},
   	error: function(error){
   		console.log("Error Retrieving Descriptions " + error );
   	}
 
-  });
-  
+  }); 
 });
 
 /**
@@ -67,12 +63,13 @@ function getURLParameter(name) {
 }
 
 /**
-*   Add the project info to the corresponding feilds
+*   Add the project info to the corresponding fields
+* 
 */
-function addProjectData(project_name, project_description, username){
-
-  $('#project_title').html(project_name);
-  $('#project_description').html("Description: " + project_description);
-  $('#author').html("By: " + username);
-
+function addProjectData(project_info){
+  $('#project_title').html(project_info.project_name);
+  $('#project_description').html("Description: " + project_info.project_description);
+  $('#author').html("By: " + project_info.username);
+  $('#like_count').html(project_info.rating.likes);
+  $('#dislike_count').html(project_info.rating.dislikes);
 }
