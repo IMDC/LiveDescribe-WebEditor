@@ -19,6 +19,16 @@
 	                    <h6 id="author">By: <?php echo($value["username"]); ?></h6>   
 	                </div>
 
+	                <div id="rating" class="pull-right">
+	                	<div id="related_like" class="col-md-1">
+			            	<img src=<?php echo base_url("/assets/img/like.png"); ?> alt="like" height="16px"/>
+			                <p id="like_count"> <?php echo($value['rating']['likes']); ?> </p>
+			            </div>
+			            <div id="related_dislike" class="col-md-1">
+			                <img src=<?php echo base_url("/assets/img/dislike.png"); ?> alt="dislike" height="16px"/>
+			                <p id="dislike_count"> <?php echo($value['rating']['dislikes']); ?> </p>
+			            </div>
+	                </div>
             	</div>
 
             	 <div id="videoOptions" class="panel-body pull-left">
