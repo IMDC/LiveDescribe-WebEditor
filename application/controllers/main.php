@@ -14,6 +14,9 @@ class Main extends CI_Controller {
 		Zend_Loader::loadClass("Zend_Gdata_YouTube_VideoEntry");
 		Zend_Loader::loadClass("Zend_Gdata_YouTube_VideoQuery");
 		Zend_Loader::loadClass("Zend_Gdata_YouTube_Extension_MediaGroup");
+		
+		$this->load->model('project_model');
+		$this->load->model('vfeed_model');
 	}
 
 	/**
@@ -21,8 +24,42 @@ class Main extends CI_Controller {
 	 *
 	 */
 	public function index(){
+
 		$this->load->view('header');
 		$this->load->view('navigation');
+		
+		$described_feed = array();
+		$standard_feed = array();
+		$index_standard = 0;
+
+
+		//get video feed from model
+		$feed = $this->vfeed_model->getTopRated();
+
+		//display the feed
+		foreach ($feed as $key => $value){
+			$thumbnails = $value->getVideoThumbnails();
+			$standard_feed[$index_standard++] = array(
+											'videoId' => $value->getVideoId(),
+											'duration' => $value->getVideoDuration(),
+											'title' => (string)$value->getVideoTitle(),
+											'description' => (string)$value->getVideoDescription(),
+											'thumbnail' => $thumbnails[0]['url']
+										);
+		}
+		
+		//get described projects
+		$described_feed = $this->project_model->getHighestRatedProjects();
+		//now need to add video thumbnails to each project
+		foreach ($described_feed as $key => $value) {
+			$tn = $this->vfeed_model->getThumbnail($value['vID']);
+			$described_feed[$key]['thumbnail'] = $tn;	
+		}
+
+		$data['standard_feed'] = $standard_feed;
+		$data['described_feed'] = $described_feed;
+		$this->load->view('main/home_video_feed', $data);
+
 		$this->load->view('footer');
 	}
 
@@ -32,8 +69,6 @@ class Main extends CI_Controller {
 	*	Currently getting the searchBar field using POST
 	*/
 	public function videoFeed(){
-		$this->load->model('project_model');
-		$this->load->model('vfeed_model');
 		
 		$keyword = $_POST['searchBar'];
 		$described_feed = array();
@@ -78,12 +113,6 @@ class Main extends CI_Controller {
 											'description' => (string)$value->getVideoDescription(),
 											'thumbnail' => $thumbnails[0]['url']
 										);
- 			$data['videoId']     = $value->getVideoId();
-		    $data['duration']    = $value->getVideoDuration();
-			$data['title']       = (string)$value->getVideoTitle();
-		    $data['description'] = (string)$value->getVideoDescription();
-		    $thumbnails          = $value->getVideoThumbnails();
-			$data['thumbnail']   = $thumbnails[0]['url'];
 		}
 
 		$data['standard_feed'] = $standard_feed;

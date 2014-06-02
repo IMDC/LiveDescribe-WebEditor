@@ -115,3 +115,8 @@
     padding: 20px 40px 40px 40px;  
     margin-top: 10px;
 }
+
+#videoDesc{
+    max-height: 200px;
+    overflow-y: scroll; 
+}

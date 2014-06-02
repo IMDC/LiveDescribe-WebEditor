@@ -10,7 +10,7 @@
                 <!-- <div data-toggle="collapse" data-parent="#resultContainer" href=<?//php echo('#' .$videoId);?> > -->
                    
                     <a class="pull-left" href="#">
-                       <img class="media-object" src=<?php echo($value['thumbnail']);?> width="124px" style="padding-bottom: 20px; margin: 5px;" alt=<?php echo($title);?> /> 
+                       <img class="media-object" src=<?php echo($value['thumbnail']);?> width="124px" style="padding-bottom: 20px; margin: 5px;" alt=<?php echo($value['title']);?> /> 
                     </a>
                     
                     <div id="resultInfo" class="media-body">

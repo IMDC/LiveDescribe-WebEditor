@@ -13,8 +13,8 @@
     <div class="collapse navbar-collapse">
     
       <ul class="nav navbar-nav">
-        <li><a href=<?php echo base_url() . "main/"?>>Home</a></li>
-          <li><a href="#about">About</a></li>
+        <li><a href=<?php echo base_url(); ?> >Home</a></li>
+          <li><a href=<?php echo base_url() . "pages/about"; ?> >About</a></li>
       </ul>
 
       <div class="col-sm-5 col-md-5">

@@ -35,6 +35,19 @@ class VFeed_Model extends CI_Model {
 	}
 
 	/**
+	*	Gets the video feed of top rated 
+	*	videos from 'today'
+	*/
+	public function getTopRated(){
+		$yt = new Zend_Gdata_YouTube();
+		$query = $yt->newVideoQuery();
+		$query->setTime('today');
+		$videoFeed = $yt->getTopRatedVideoFeed($query);
+
+		return $videoFeed;
+	}
+
+	/**
 	*	Checks if the given id is valid or not
 	*	@param $id : the video id
 	*	@return $valid : true if id is valid, false otherwise

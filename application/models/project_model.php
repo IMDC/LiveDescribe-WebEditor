@@ -30,6 +30,49 @@ class Project_Model extends CI_Model {
 		}
 	}
 
+	/**
+	*	Gets the projects with the highest ratings
+	*	@return array
+	*/
+	public function getHighestRatedProjects(){
+		$result = array();
+		$index = 0;
+		//get the project_id and the total likes associated with that project
+		$this->db->select(array("project_id", "SUM(like_dislike) AS like_dislike"));
+		//$this->db->where(array("video_id" => $vID));
+		$this->db->group_by("project_id");
+		$this->db->order_by("like_dislike", "desc");
+		$project_likes = $this->db->get('ratings');
+
+		if($project_likes->num_rows() > 0){
+
+			foreach($project_likes->result() as $row){
+				$query = $this->db->get_where('projects', array('id' => $row->project_id));
+
+				if($query->num_rows() > 0){
+					$project = $query->row();
+
+					/* get the username */
+					$this->db->select("username");
+					$this->db->where("id", $project->user_id);
+					$username = $this->db->get("users")->row()->username;
+					
+					$item = array(
+								'vID'                 => $project->video_id,
+								'user_id'             => $project->user_id,
+								'username'            => $username,
+								'project_name'        => $project->project_name,
+								'project_description' => $project->project_description,
+								'rating'			  => $this->getLikesDislikes($project->video_id, $project->user_id),
+								'date_modified'       => $project->date_modified
+							);
+					$result[$index] = $item;
+				}
+				$index++;
+			}
+		}
+		return $result;
+	}
 
 	/**
 	*	Returns the user id with the higest
@@ -49,7 +92,7 @@ class Project_Model extends CI_Model {
 		$this->db->limit(1);
 		$project_likes = $this->db->get('ratings');
 
-		if($project_likes -> num_rows() > 0){
+		if($project_likes->num_rows() > 0){
 			$project_id_highest_rating = $project_likes->row()->project_id;
 			$query = $this->db->get_where('projects', array('id' => $project_id_highest_rating));
 

@@ -9,7 +9,7 @@
             	<div class="panel-heading" style="min-height: 140px;"> 
                 
 	                <a class="pull-left" href="#">
-	                   <img class="media-object" src=<?php echo($value['thumbnail']); ?> width="125px" style="padding-bottom: 20px; margin: 5px;" alt=<?php echo($title); ?> /> 
+	                   <img class="media-object" src=<?php echo($value['thumbnail']); ?> width="125px" style="padding-bottom: 20px; margin: 5px;" alt=<?php echo($value['project_name']); ?> /> 
 	                </a>
 	                
 	                <div id="resultInfo" class="media-body">

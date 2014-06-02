@@ -100,9 +100,9 @@ $(document).ready(function(){
       }
 
    }).complete(function(){
+        bottomSectionResize();
         createWaveform();
         drawRecomendedSpaces();
-        bottomSectionResize();
    });
 
   jsRecorderInit(); //set up the JS recorder by default
