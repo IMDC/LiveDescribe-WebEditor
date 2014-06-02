@@ -61,6 +61,7 @@ class App extends CI_Controller {
 	public function getDuration(){
 		$id = $this->input->get("vID",TRUE);
 		echo $this->app_model->getDuration($id);
+		return;
 	}
 
 	/**
@@ -68,7 +69,8 @@ class App extends CI_Controller {
 	*/
 	public function getAudioInfo(){
 		$id = $this->input->get("vID", TRUE);
-		echo $this->app_model->stripAudio($id); 
+		echo $this->app_model->stripAudio($id);
+		return;
 	}
 
 	/**
@@ -99,6 +101,7 @@ class App extends CI_Controller {
 		chmod($destination, 0766);
 
 		echo $destination . " recorded on server.";
+		return;
 		/* end of JS Recoder save */
 	}
 

@@ -90,9 +90,6 @@ $(document).ready(function(){
         audioHeader = json;
         audioSamples = json.sampleValues;
         spaces = json.spaces;
-
-        createWaveform();
-        drawRecomendedSpaces();
       },
       error: function(json){
         $('#segments').css('visibility', 'visible');
@@ -102,6 +99,10 @@ $(document).ready(function(){
         alert( "An error occured while retrieving the videos audio data. Some information may not be displayed.");
       }
 
+   }).complete(function(){
+        createWaveform();
+        drawRecomendedSpaces();
+        bottomSectionResize();
    });
 
   jsRecorderInit(); //set up the JS recorder by default

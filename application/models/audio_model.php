@@ -41,8 +41,8 @@ class Audio_Model extends CI_Model {
 
         $this->getSamples();
       	$this->audioData['sampleValues'] = $this->sampleData;
-      	// $spaces = $this->findSpaces($this->duration);
-      	$spaces = array(); //not fully implemented so leave as empty array for now
+      	$spaces = $this->findSpaces($this->duration);
+      	//$spaces = array(); //not fully implemented so leave as empty array for now
         $this->audioData['spaces'] = $spaces;
 
       	return $this->audioData;
@@ -121,6 +121,7 @@ class Audio_Model extends CI_Model {
 	}
 	
 	/**
+	*	@param double : duration of the audio file
 	*	@return array spaces
 	*	using the methods of voice activity detection (VAD),
 	*	the spaces containing speech and non-speech will be
@@ -130,101 +131,61 @@ class Audio_Model extends CI_Model {
 	public function findSpaces($duration){
 
 		$spaces = array();
-		$min_e  = null;
-		$min_f  = null;
-		$min_sf = null;
+		$ratio = $this->audioData['NumChannels'] == 2 ? 40 : 80;
+		$samples_per_second = $this->audioData['SampleRate'] * ($this->audioData['BlockAlign'] / ($ratio * DETAIL));
+
+		$zcr_histogram = array();
+		$energy_histogram = array();
+		$windowSize = 1; // 1 SECOND
+		$window = 0;
+		$bin = array(); //section of the audio data
 
 		//check if sample data exists
 		if(!$this->sampleData){
-			//throw new Exception("No sample data exists.");
+			return $spaces; // an empty array
 		}
 
-		$frameDecision = array();		
-		/*Initial base values*/
-		$energy_primeThresh                = 1; //default
-		$zcr_primeThresh				   = 30; //default
+		while($window < $duration){
+			$start = round($window * ($windowSize * $samples_per_second));
 
-		$frameSize_expected                = 0.1; //100 milleseconds
-		$numberOfFrames_expected           = round($duration / $frameSize_expected);
-		$dimTotal                          = count($this->sampleData);
-
-		$samplesPerFrame                   = round($dimTotal / $numberOfFrames_expected);
-				
-		/*actual values*/
-		$frames                            = array_chunk($this->sampleData, $samplesPerFrame );
-		$numberOfFrames                    = count($frames);
-		$frameSize 						   = $duration / $numberOfFrames;
-		$framesNeeded                      = 1 / $frameSize; //number of frames for 1 second
-
-
-		//read first 10 frames as a benchmark 
-		//(assuming the first 10 or so frames contain silence)
-		for($f=0; $f < 10 ; $f++){
-			$frame = $frames[$f];
-			$frameDecision[$f] = 0; //mark frame as silence
-			$_energy[$f] = $this->frameEnergy($frame);
-			$_zcr[$f] = $this->zeroCrossingRate($frame);
+			if($start + $samples_per_second < count($this->sampleData)){
+				$bin = array_slice($this->sampleData, $start, round($samples_per_second));
+				array_push($zcr_histogram, $this->zeroCrossingRate($bin));
+				array_push($energy_histogram, $this->frameEnergy($bin));
+			}
+			$window++;
 		}
-	
-		$energy_avg = array_sum($_energy) / count($_energy);
-		$zcr_min = min($_zcr);
-		$zcr_primeThresh = $zcr_min;
-		$energy_primeThresh = $energy_avg;
-		
-		for($f=10 ; $f < $numberOfFrames; $f++){
-		
-			$frame = $frames[$f];
-			$energy = $this->frameEnergy($frame);
-			$zcr = $this->zeroCrossingRate($frame);
-			
 
-			if(($energy <= $energy_primeThresh) && ($zcr >= $zcr_primeThresh)){ //then this frame should be unvoiced 
-				$frameDecision[$f] = 0;
+		$zcr_factor = 1; //0.8;
+		$energy_factor = 0.4;
+
+		$zcr_avg = $zcr_factor * array_sum($zcr_histogram) / count($zcr_histogram);
+		$energy_avg = $energy_factor * array_sum($energy_histogram) / count($energy_histogram);
+		
+		//decide if a window should be marked as speech or not
+		for($i = 0; $i < count($zcr_histogram) ; $i++){
+
+			if( $zcr_histogram[$i] == 0 || 
+				$energy_histogram[$i] == 0 || 
+				($zcr_histogram[$i] > $zcr_avg && $energy_histogram[$i] < $energy_avg)){
+				//no speech
+				//check consecutive windows to find the end of this space
+				for($j = $i + 1; $j < count($zcr_histogram); $j++){
+					if( ! ($zcr_histogram[$j] == 0 || $energy_histogram[$j] == 0 || 
+					($zcr_histogram[$j] > $zcr_avg && $energy_histogram[$j] < $energy_avg))){
+						array_push($spaces, 0);
+						$i = $j;
+						break;
+					}
+				}
 			}
 			else{
-				$frameDecision[$f] = 1;
+				array_push($spaces, 1);
 			}
 		}
-		
-		//print_r($frameDecision);
-		$spaces = $this->labelTime($frameDecision, $duration);
-		// print_r($spaces);
 		return  $spaces;
 	}
 
-	/**
-	*	@param array $frameDescision the frames that are marked as either voiced or unvoiced (1 , 0)
-	*	@param int $duration the duration of the audio file in seconds
-	*	@return array $timeMarks each entry represents one second of the video and will be marked as 1 or 0
-	*
-	*	This function will iterate throught the given array to find the silence points
-	*	and will mark these points with a 0 or a 1 otherwise.
-	*/
-	private function labelTime($frameDecision, $duration){
-		$timeMarks = array();
-		$frameToSeconds = floor(count($frameDecision) / $duration);
-		$v_count = 0;
-		$s_count = 0;
-		$seconds = 0;
-		
-		for($i = 10; $i < count($frameDecision) ; $i++){
-			$frameDecision[$i] == 0 ? $s_count++ : $v_count++;
-			if( $i % $frameToSeconds == 0 && $s_count >= 10){
-				$timeMarks[$seconds] = 0;
-				$seconds++;
-				$s_count = 0;
-				$v_count = 0;
-			}
-			else if($i % $frameToSeconds == 0 && $s_count < 10){
-				$timeMarks[$seconds] = 1;
-				$seconds++;
-				$s_count = 0;
-				$v_count = 0;
-			}
-		}
-
-		return $timeMarks;
-	}
 
 	/**
 	*	@param array $frame the PCM data of a given frame
@@ -250,7 +211,7 @@ class Audio_Model extends CI_Model {
 		for($i=1; $i < count($frame) ; $i++){
 			$curr = $frame[$i] - 0.5;
 			$prev = $frame[$i - 1] - 0.5;
-			if($curr * $prev < 0){
+			if( ($curr * $prev) < 0 ){
 				$zcr++;
 			}
 		}
