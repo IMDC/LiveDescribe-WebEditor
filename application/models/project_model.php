@@ -226,7 +226,8 @@ class Project_Model extends CI_Model {
 							'user_id'             => $project->user_id,
 							'project_name'        => $project->project_name,
 							'project_description' => $project->project_description,
-							'rating'              => $rating
+							'rating'              => $rating,
+							'date_modified'       => $project->date_modified
 						);
 
 					/* get the username */

@@ -16,25 +16,37 @@
 	                	<h4 class="">
 	                    	<a class="media-heading" id="videoTitle" href= <?php echo($link); ?> > <?php echo($value["project_name"]); ?> </a>
 	                	</h4>
-	                    <h6 id="author">By: <?php echo($value["username"]); ?></h6>   
+	                    <h6 id="author">By: <?php echo($value["username"]); ?></h6>
+	                     <div id="timestamp">
+                            <?php 
+                                $this->load->helper('date'); 
+                                $date = mysql_to_unix($value['date_modified']);
+                                $ds   =  "%d / %m / %Y";
+                                $date =  mdate($ds, $date);
+                            ?>
+                            <h6><?php echo("Last Modified: " . $date); ?></h6>
+                        </div>
+                        <p id="videoDesc"> <?php echo($value['project_description']); ?> </p>   
 	                </div>
 
-	                <div id="rating" class="pull-right">
-	                	<div id="related_like" class="col-md-1">
-			            	<img src=<?php echo base_url("/assets/img/like.png"); ?> alt="like" height="16px"/>
-			                <p id="like_count"> <?php echo($value['rating']['likes']); ?> </p>
-			            </div>
-			            <div id="related_dislike" class="col-md-1">
-			                <img src=<?php echo base_url("/assets/img/dislike.png"); ?> alt="dislike" height="16px"/>
-			                <p id="dislike_count"> <?php echo($value['rating']['dislikes']); ?> </p>
-			            </div>
-	                </div>
             	</div>
 
             	 <div id="videoOptions" class="panel-body pull-left">
                     <a id="videoPlay" role="button" class="btn btn-default" href=<?php echo($link);?> > 
                         Play Video
                     </a>
+
+                </div>
+
+                 <div id="rating" class="panel-body pull-right">
+                	<div id="related_like" class="col-md-1">
+		            	<img src=<?php echo base_url("/assets/img/like.png"); ?> alt="like" height="16px"/>
+		                <p id="like_count"> <?php echo($value['rating']['likes']); ?> </p>
+		            </div>
+		            <div id="related_dislike" class="col-md-1">
+		                <img src=<?php echo base_url("/assets/img/dislike.png"); ?> alt="dislike" height="16px"/>
+		                <p id="dislike_count"> <?php echo($value['rating']['dislikes']); ?> </p>
+		            </div>
                 </div>
 
         	</div>

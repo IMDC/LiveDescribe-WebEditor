@@ -100,7 +100,8 @@ class Main extends CI_Controller {
 													'project_description' => $v['project_description'],
 													'thumbnail'           => $thumbnails[0]['url'],
 													'username'            => $v['username'],
-													'rating'			  => $v['rating']
+													'rating'			  => $v['rating'],
+													'date_modified'		  => $v['date_modified']
 												);
 				}
 			}
