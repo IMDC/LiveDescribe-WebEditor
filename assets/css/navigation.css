@@ -120,3 +120,7 @@
     max-height: 200px;
     overflow-y: scroll; 
 }
+
+#videoTitle:hover{
+    cursor: pointer;
+}

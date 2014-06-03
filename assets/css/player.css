@@ -13,9 +13,6 @@
     max-width: 560px;
 }
 
-#no_desc{
-}
-
 #description_area > canvas{ 
 	width: 320px; 
 	height: 40px;
