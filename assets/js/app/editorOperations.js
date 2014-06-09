@@ -417,11 +417,6 @@ function onYouTubeIframeAPIReady(){
 * The YT API will call this function when the video player is ready.
 */
 function onPlayerReady(event) {
-    var url        = player.getVideoUrl();
-    var urlChunks  = url.split('=');
-    video_id_flash = urlChunks[urlChunks.length - 1];
-    //videoDuration  = player.getDuration();
-     
  
     //Call the function timeupdate every 10 milliseconds.
     //So that the progressbar can expand gradually.
@@ -546,7 +541,9 @@ function getSeekLocation(xPos){
     return seekLocation;
 }
 
-//navigates to the click location on the progress bar
+/**
+*   navigates to the click location on the progress bar
+*/
 function moveTo(event){
   var scrolledPixels = $('#timeline').scrollLeft();
   var seekLocation = getSeekLocation(event.clientX - 200 + scrolledPixels);
@@ -564,6 +561,9 @@ function moveTo(event){
   
 }
 
+/**
+*   Changes volume of the palyer audio
+*/
 function changeVolume(volume){
     player.setVolume(volume);
     console.log("Volume level: " + volume);
@@ -604,10 +604,47 @@ function checkForDescription(){
            if(descriptionList[i].startTime >= (currentTime - tollerance) &&
             descriptionList[i].startTime <= (currentTime + tollerance) ){
                 console.log("description detected");
-                playAudio(descriptionList[i], video_id);
+                if(!descriptionList[i].extended)
+                    playAudio(descriptionList[i], video_id);
+                else
+                    playExtended(descriptionList[i], video_id);
             }
        }
     }    
+}
+
+/**
+*   plays the given audio file
+*
+*   File location: 
+*    http://imdc.ca/projects/livedescribe/res-www/uploads/user/ userID / video_id / filename
+*/
+function playExtended(description, video_id){
+    var sStatus = player.getPlayerState();
+    var init_vol =  $( "#slider" ).slider( "value" );
+    descriptionPlaying = true;
+    $("#slider").slider("value",5);
+
+    console.log("Playing Extended Description: " + description.filename);
+    var audio = new Audio();
+    audio.src = 'http://imdc.ca/projects/livedescribe/res-www/uploads/user' 
+                + userID + '/' + video_id + '/'
+                + description.filename;
+
+    if(sStatus == 1) 
+        play_pause();
+
+    audio.play();
+    descriptionLengthMS = (description.endTime - description.startTime) * 1000;
+    setTimeout(function(){
+                    descriptionPlaying = false;     
+                    $("#slider").slider("value",init_vol);
+                    player.seekTo(description.startTime + 0.25);
+
+                    if(player.getPlayerState() != 1)
+                        play_pause();
+
+                },descriptionLengthMS);
 }
 
 /**
@@ -631,8 +668,7 @@ function playAudio(description, video_id){
     setTimeout(function(){
                     descriptionPlaying = false;     
                     $("#slider").slider("value",init_vol);
-                },descriptionLengthMS
-            );
+                },descriptionLengthMS);
 }
 
 /**
@@ -695,8 +731,8 @@ function deleteRemoteFile(video_id, description_ID){
 }
 
 
-/*
-    Gets called by an event on the text area, and calls the 
+/**
+*    Gets called by an event on the text area, and calls the 
 */
 function changeDescription(id){
 
@@ -734,27 +770,6 @@ function checkMarker(){
     moveMarker(0);
     $('#timeline').scrollLeft(0);
     player.pauseVideo();
-  }
-}
-
-
-
-/**
-*  Gets the video file, given the video ID using youtube-dl stored
-*  in /media/storage/projects/livedescribe/public_html/testing/yt.
-*  Strips the audio from the video file using ffmpeg.
-*/
-function stripAudio(){
-
-  if(video_id != null){
-    $.ajax({
-      type: "POST",
-      url: "ytRequest.php",
-      data: {"id": video_id,"request_type": "strip"},
-      success: function(response){
-        console.log("Strip audio: " + response);
-      }
-    });
   }
 }
 

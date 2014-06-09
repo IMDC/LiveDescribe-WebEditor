@@ -54,9 +54,6 @@
     <!-- Setup the JS recorder interface -->
     <script type="text/javascript" src=<?php echo base_url("/assets/js/app/recorderJS/recorder.js")?> ></script>
 
-    <!-- Setup the FLASH recorder interface -->
-    <script type="text/javascript" src=<?php echo base_url('/assets/js/app/recorderFLASH.js') ?> ></script>
-
     <!-- basic recording operations -->
     <script type="text/javascript" src=<?php echo base_url("/assets/js/app/recordOperations.js") ?> ></script>
     

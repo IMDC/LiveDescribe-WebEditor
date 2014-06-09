@@ -66,3 +66,21 @@ function onPlayerReady(event) {
 function onPlayerStateChange(event){
 	//nothing yet
 }
+
+
+/**
+*   Toggles the play / pause function on the player
+*/
+function play_pause() {
+    var sStatus = player.getPlayerState();
+  
+    //pauses the video
+    if (sStatus == 1){                        
+        player.pauseVideo();
+    }     
+
+    //plays the video
+    else { 
+        player.playVideo();
+    }
+}

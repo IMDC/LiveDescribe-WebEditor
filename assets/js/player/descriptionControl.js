@@ -123,10 +123,47 @@ function checkForDescription(){
            if(descriptionList[i].startTime >= (currentTime - tollerance) &&
             descriptionList[i].startTime <= (currentTime + tollerance) ){
                 console.log("Description Detected");
-                playAudio(descriptionList[i], playerID);
+                if(!descriptionList[i].extended)
+                    playAudio(descriptionList[i], video_id);
+                else
+                    playExtended(descriptionList[i], video_id);
             }
        }
     }    
+}
+
+/**
+*   plays the given audio file
+*
+*   File location: 
+*   http://imdc.ca/projects/livedescribe/res-www/uploads/user/ userID / video_id / filename
+*/
+function playExtended(description, video_id){
+
+    var init_vol =  player.getVolume();
+    player.setVolume(5);
+    descriptionPlaying = true;
+
+    console.log("Playing Extended Description: " + description.filename);
+    var audio = new Audio();
+    audio.src = 'http://imdc.ca/projects/livedescribe/res-www/uploads/user' 
+                + userID + '/' + video_id + '/'
+                + description.filename;
+
+    if(player.getPlayerState() == 1) 
+        play_pause();
+
+    audio.play();
+    descriptionLengthMS = (description.endTime - description.startTime) * 1000;
+    setTimeout(function(){
+                    descriptionPlaying = false;     
+                    player.setVolume(init_vol);
+                    player.seekTo(description.startTime + 0.25);
+
+                    if(player.getPlayerState() != 1)
+                        play_pause();
+
+                },descriptionLengthMS);
 }
 
 /**
@@ -151,8 +188,7 @@ function playAudio(description, video_id){
     setTimeout(function(){
                     descriptionPlaying = false;     
                     player.setVolume(init_vol);
-                },descriptionLengthMS
-            );
+                },descriptionLengthMS);
 }
 
 

@@ -21,6 +21,11 @@
                 </button>
             </div>
             
+            <div id="extended">
+              <label for="extended_record">Extended:</label>
+              <input type="checkbox" name="extended" id="extended_record">
+            </div>
+            
             <div id="volumeControl">
                 <img id="volumeimg" name="volume" src=<?php echo base_url("/assets/img/volume_img.png" )?> onclick="mute();" />
                 <!--<input id="volume" type="range" name="volume" class="controls" min="0" max="100" value="30" step="1" onchange="changeVolume(this.value);" />-->

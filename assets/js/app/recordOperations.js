@@ -5,74 +5,46 @@
 */
 
 var isRecording          = false; //flag that indicates whether or not the flash object is recording
-var timeStart            =null;
-var timeFinished         =null;
+var timeStart            = null;
+var timeFinished         = null;
 var descriptionFiles     = new Array();
 var timeCodes            = new Array();
 var descriptionList      = new Array();
 var descriptionCollision = false; //flag to indicate if descriptions conflict
-var flash_loaded         = false;
 var init_vol;
-var globalTimeStart;
 var descID;
-
-
-/**
-*   Sets up the flash object for the recording functionality 
-*/
-function setupRecorder(){
-   Wami.setup({
-        id: "wami",
-        onReady: wamiReady,
-        onLoaded: wamiLoad
-    });
-}
-
+var extended;
+var description_time = 0; //represents 0.01 seconds
+var date_start;
+var date_end;
 
 /**
-*    Set to run this function every ten seconds until a microphone has been connected
-*   the timer is sec in 'editor.php' when the DOM has been loaded
+*   Calculates the difference in seconds between 
+*   date_start and date_end objects
 */
-function checkMic(){
-  if(!flash_loaded){
-    var r = confirm("Please connect a microphone to your computer and refresh this page.");
-    window.location.reload(true); //refresh the page
-  }
-  else{
-    window.clearInterval(interval);
-  }
-}
+function durationFromDates(){
+  var h1 = date_start.getHours();
+  var m1 = date_start.getMinutes();
+  var s1 = date_start.getSeconds();
+  var ms1 = date_start.getMilliseconds();
+  
+  var h2 = date_end.getHours();
+  var m2 = date_end.getMinutes();
+  var s2 = date_end.getSeconds();
+  var ms2 = date_end.getMilliseconds();
 
-
-
-/**
-*    Called after the setup of the wami recorder has completed,
-*    recording can now proceed.
-*/
-function wamiReady(){
-  flash_loaded = true;
-  console.log('Wami ready: ' + flash_loaded);
-  document.getElementById("recordButton").disabled = false;
-  recordIMG = document.images["record"];
-  recordIMG.src = base_url + "assets/img/recordButton.png";
-}
-
-/**
-*  If the wami is loaded, then it means we have a connected microphone,
-*  so we just need to wait for access confirmation, so the 
-*/
-function wamiLoad(){
-  flash_loaded = true;
-  window.clearInterval(interval);
-  console.log('Wami ready: ' + flash_loaded);
+  var time = ((h2-h1)*3600) + ((m2-m1)*60) + (s2-s1) + ((ms2-ms1)/1000);
+  return time;
 }
 
        
 /**
 *   records the audio and uploads it to the server 
 *   with the time codes and the audio clip
+*   NOTE:   This method is terrible and needs to be reduced with helper functions
 */
 function recordAudio(){
+  
   var sStatus = player.getPlayerState();
   var videoDuration = player.getDuration();
   var descTag = document.getElementById("descriptions");
@@ -80,73 +52,104 @@ function recordAudio(){
   var segmentsWidth = segments.clientWidth;
   var segmentsHeight = segments.clientHeight;
   var recordIMG = null;
+ 
 
   if( !isRecording ){
-    if(sStatus != 1){ //video is stopped, so start playing it.
-      play_pause();
-    }    
-    console.log("Recording...");
-    init_vol = $( "#slider" ).slider( "value" );
-    $( "#slider" ).slider("value",1);
-    timeStart       = player.getCurrentTime();
-    globalTimeStart = timeStart;
-    descID          = createID();
+    //check if we want extended description
+    extended = document.getElementById('extended_record').checked;
+    date_start = new Date();
+    if(extended){
 
-    if(flash_loaded){
-      Wami.startRecording(base_url +
-        'app/recordAudio?'+
-        'name=description.wav&'+
-        'id=' + video_id + '&' +
-        'descID=' + descID + '&' +
-        'userID=' + userID
-      );
+      if(sStatus == 1){ //video is playing and we want extended description, stop the video
+        play_pause();
+      }
+
+      console.log("Recording Extended...");
+      timeStart = player.getCurrentTime();
+      descID = createID();
+
+      startRecording();
+
+      recordIMG = document.images["record"];
+      recordIMG.src = base_url + "assets/img/stopButton.png" ;
+      isRecording = true;
+
     }
     else{
-      startRecording();
-    }
 
-    recordIMG = document.images["record"];
-    recordIMG.src = base_url + "assets/img/stopButton.png" ;
-    isRecording = true;
+      if(sStatus != 1){ //video is stopped, so start playing it.
+        play_pause();
+      }
+      
+      console.log("Recording...");
+      init_vol = $( "#slider" ).slider( "value" );
+      $( "#slider" ).slider("value",1);
+      timeStart       = player.getCurrentTime();
+      descID          = createID();
+
+      startRecording();
+
+      recordIMG = document.images["record"];
+      recordIMG.src = base_url + "assets/img/stopButton.png" ;
+      isRecording = true;
+    }
+    
   }
   else{
-
-    if(flash_loaded){
-        Wami.stopRecording();
-      }
-    else{
+    date_end = new Date();
+    if(!extended){
       stopRecording(video_id , descID);
-    }
-     
-     $("#slider").slider("value",init_vol);
-     recordIMG = document.images["record"];
-     recordIMG.src = base_url + "assets/img/loading.gif";
-     isRecording = false;
-     timeFinished = player.getCurrentTime();
-     stopVideo();
-     checkForCollision(timeStart,timeFinished);
 
-     if(descriptionCollision){
+      $("#slider").slider("value",init_vol);
+      recordIMG = document.images["record"];
+      recordIMG.src = base_url + "assets/img/loading.gif";
+      isRecording = false;
+      timeFinished = player.getCurrentTime();
+      stopVideo();
+      checkForCollision(timeStart,timeFinished);
+
+      if(descriptionCollision){
        alert("Ooops! The description you just recorded is conflicting" +
            "with an existing one. Please try again.");
-     }
-     else if((timeFinished-timeStart) > 0 && !descriptionCollision){
+      }
+      else if((timeFinished-timeStart) > 0 && !descriptionCollision){
         var descriptionText = document.getElementById( "transcript" ).value;
         var filename        = 'description_' + userID + '_' + video_id +'_'+ descID + '.wav';
-        createDescription(descID, timeStart, timeFinished, descriptionText, filename);
-     } 
+        createDescription(descID, timeStart, timeFinished, descriptionText, filename, extended);
+      }
+    }
+    else{
+      stopRecording(video_id , descID);
+      recordIMG = document.images["record"];
+      recordIMG.src = base_url + "assets/img/loading.gif";
+      isRecording = false;
+      timeFinished = timeStart + durationFromDates();
+      stopVideo();
+      checkForCollisionExtended(timeStart,timeFinished);
+
+      if(descriptionCollision){
+       alert("Ooops! The description you just recorded is conflicting" +
+           "with an existing one. Please try again.");
+      }
+      else if((timeFinished-timeStart) > 0 && !descriptionCollision){
+        var descriptionText = document.getElementById( "transcript" ).value;
+        var filename        = 'description_' + userID + '_' + video_id +'_'+ descID + '.wav';
+        createDescription(descID, timeStart, timeFinished, descriptionText, filename, extended);
+      }
+    } 
 
     timeStart = null;
     timeFinished = null;
     recordIMG.src = base_url + "assets/img/recordButton.png" ;
     descriptionCollision = false; //reset the flag
   }
+    
 }
 
 /**
 *   Creates all aspects corresponding to a description
 */
-function createDescription(descID, timeStart, timeFinished, descriptionText, filename){
+function createDescription(descID, timeStart, timeFinished, descriptionText, filename, extended){
   var descTag        = document.getElementById("descriptions");
   var segments       = document.getElementById("segments");
   var segmentsWidth  = segments.clientWidth;
@@ -167,7 +170,8 @@ function createDescription(descID, timeStart, timeFinished, descriptionText, fil
                           filename,
                           timeStart, timeFinished,
                           descriptionText, 
-                          descID
+                          descID,
+                          extended
                     );
   descriptionList.push(description);
   descriptionList = sortDescriptionObjectList(descriptionList);
@@ -293,13 +297,6 @@ function updateDescriptionText(recordStart, recordFinished,timeStart, timeFinish
     return newItem;
 }
 
-///
-// Stops audio recording and video playing
-///
-function stop(){
-    Wami.stopRecording();
-    Wami.stopPlaying();
-}
 
 /**
 *  Checks if the current recorded description conflicts with already
@@ -322,6 +319,24 @@ function checkForCollision(newStart, newEnd){
         }
         //new description completely covers an existing one
         if(newStart < existingStart && newEnd > existingEnd){
+            descriptionCollision = true;
+        }       
+    }
+}
+
+/**
+*  Checks if the current recorded description conflicts with already
+*  recorded descriptions. the description collision flag will then be set 
+*  to true if there is a conflict. This is the implementation for extended descriptions
+*/
+function checkForCollisionExtended(newStart, newEnd){
+    
+    for(var i=0; i < descriptionList.length; i++){
+        existingStart = descriptionList[i].startTime;
+        existingEnd = descriptionList[i].endTime;
+        
+        //new description starts in an esisting description
+        if(newStart > existingStart && newStart < existingEnd){
             descriptionCollision = true;
         }       
     }

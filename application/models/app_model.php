@@ -28,6 +28,7 @@ class App_Model extends CI_Model {
 	public function getDuration($video_id){
 		$q = $this->yt->getVideoEntry($video_id);
 		$duration = (int) $q->getVideoDuration();
+
 		return $duration;
 	}
 
@@ -75,7 +76,8 @@ class App_Model extends CI_Model {
 			file_put_contents($json_data, json_encode($response), LOCK_EX);
 			
 			$audio_data = json_encode($response); //send back a json object that will be used in the javascript file
-		}	
+		}
+
 		return $audio_data;	
 	}
 
@@ -143,6 +145,7 @@ class App_Model extends CI_Model {
 				);
 			}
 		}
+
 		return $result;
 	}
 
@@ -168,11 +171,13 @@ class App_Model extends CI_Model {
 					'end'   	=> $rows->end,
 					'filename'  => $rows->filename,
 					'desc_text' => $rows->desc_text,
+					'extended'  => $rows->extended
 				);
 				$result[$index] = $newData;
 				$index++;
 			}
 		}
+		
 		return $result;
 	}
 
@@ -249,6 +254,7 @@ class App_Model extends CI_Model {
 					'end'   	=> $obj->endTime,
 					'filename'  => $obj->filename,
 					'desc_text' => $obj->textDescription,
+					'extended'  => $obj->extended,
 					'video_id'  => $vID
 					);
 

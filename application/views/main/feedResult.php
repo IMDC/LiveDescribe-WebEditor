@@ -17,7 +17,26 @@
                         <h4>
                             <a class="media-heading" id="videoTitle"> <?php echo($value['title']); ?> </a>
                         </h4>
-                        <p id="videoDesc"> <?php echo($value['description']); ?> </p>    
+                        <p id="videoDesc"> <strong>Duration:</strong>
+                            <?php 
+                                $time = $value['duration'];
+                                $seconds = $time % 60; 
+                                $minutes = ($time / 60) % 60;
+                                $hours = (($time/60)/60) % 60;
+
+                                if($seconds < 10)
+                                    $seconds = "0" . $seconds;
+                                if($minutes < 10)
+                                    $minutes = "0" . $minutes;
+                                if($hours < 10)
+                                    $hours = "0" . $hours;
+
+                                if($hours > 0)
+                                    echo("{$hours} : {$minutes} : {$seconds}");
+                                else
+                                    echo("{$minutes} : {$seconds}");
+                            ?> 
+                        </p>    
                     </div>
 
                 </div>

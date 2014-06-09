@@ -58,7 +58,8 @@ $(document).ready(function(){
           var timeFinished = json[i].end;
           var filename = json[i].filename;
           var descriptionText = json[i].desc_text;
-          createDescription(descID, timeStart, timeFinished, descriptionText, filename);
+          var extended = json[i].extended == "0" ? 0 : 1;
+          createDescription(descID, timeStart, timeFinished, descriptionText, filename, extended);
         }
         
       }
@@ -82,7 +83,7 @@ $(document).ready(function(){
             vID: video_id,
       },
       success: function(json){
-        console.log("Success: " + json + "\n\n\n\n");
+        console.log("Success: " + json);
         $('#segments').css('visibility', 'visible');
         $('#timelineLoad').css('visibility', 'hidden');
         $('#timelineLoad').remove();
@@ -107,9 +108,7 @@ $(document).ready(function(){
 
   jsRecorderInit(); //set up the JS recorder by default
 
-  ///
   //  Confirm when the user leaves the editor page
-  ///
   window.onbeforeunload = function(e){
       return "If you leave this page any unsaved data will be lost!";
   }
@@ -131,10 +130,7 @@ function jsRecorderInit(){
       console.log('navigator.getUserMedia ' + (navigator.getUserMedia ? 'available.' : 'not present!'));
   } 
   catch (e) {
-      //alert('No web audio support in this browser! Will now Load Flash Recorder');
-      //check the status on the Wami recorder every 10 seconds
-      interval = setInterval(function(){checkMic();}, 10000);
-      setupRecorder(); // sets up the wami recorder
+      alert('No web audio support in this browser. You will not be able to record audio!');
   }
     
   navigator.getUserMedia({audio: true}, startUserMedia, function(e) {

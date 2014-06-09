@@ -26,7 +26,7 @@ html, body{
 
 #analyser_render{
     position: relative;
-    top: -30px;
+    top: -50px;
     width: 198px; 
     height: 60px;
     background:#002D3C; 
@@ -51,7 +51,7 @@ html, body{
     position: relative;
     font-size: 20px;
     left: 15px;
-    top: -50px;
+    top: -60px;
     width: 175px;
 }
 
@@ -139,9 +139,10 @@ div.videoInfo{
 
 #volumeControl{
     position: relative;
-    top: -50px;
+    top: -70px;
     left: 0px;
 }
+
 #volumeimg{
     width   : 40px;
     height  : 40px;
@@ -151,6 +152,12 @@ div.videoInfo{
 
 #volumeimg:hover{
     cursor: pointer;
+}
+
+#extended{
+    position: relative;
+    top: -85px;
+    left: 90px;
 }
 
 #segments{
@@ -180,7 +187,7 @@ div.videoInfo{
 #saveProject{
     position: relative;
     left: 35px;
-    top: -10px;
+    top: -40px;
 }
 
 #timelineLoad{

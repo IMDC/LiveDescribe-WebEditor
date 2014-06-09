@@ -60,6 +60,7 @@ class App extends CI_Controller {
 	*/
 	public function getDuration(){
 		$id = $this->input->get("vID",TRUE);
+		
 		echo $this->app_model->getDuration($id);
 		return;
 	}
@@ -69,6 +70,7 @@ class App extends CI_Controller {
 	*/
 	public function getAudioInfo(){
 		$id = $this->input->get("vID", TRUE);
+
 		echo $this->app_model->stripAudio($id);
 		return;
 	}
@@ -105,37 +107,6 @@ class App extends CI_Controller {
 		/* end of JS Recoder save */
 	}
 
-	/**
-	*	called from WAMI recorder (recordOperations.js) 
-	*/
-	public function recordAudioFLASH(){
-		parse_str($_SERVER['QUERY_STRING'], $params);
-		$vID    = isset($params['id']) ? $params['id'] : null;
-		$name   = isset($params['name']) ? $params['name'] : 'temp.wav';
-		$descID = isset($params['descID'])? $params['descID'] : null;
-		$userID = isset($params['userID'])? $params['userID'] : null;
-		
-		$dirname = "/media/storage/projects/livedescribe/public_html/res-www/uploads/user" . $userID; //the directory we want to write our descriptions in
-		//check if the user directory has already been created
-		if(!is_dir($dirname)){
-		    mkdir ($dirname, 0766);
-		}
-
-		$dirname = $dirname . "/" . $vID;
-		//check if the video directory has already been created
-		if(!is_dir($dirname)){
-		    mkdir ($dirname, 0766);
-		}
-
-		chdir($dirname);
-		
-		$name    = basename($name,'.wav') . '_' . $userID . "_" . $vID . "_" . $descID . ".wav";
-		$content = file_get_contents('php://input');
-		$fh      = fopen($name ,'w') or die("can't open file");
-		fwrite($fh,$content);
-		fclose($fh);
-		chmod($name, 0766);
-	}
 
 
 	/**
@@ -147,6 +118,8 @@ class App extends CI_Controller {
 		$descID = $this->input->post("descID");
 		$userID = $this->session->userdata("userID");
 		$this->app_model->removeFile($vID, $descID, $userID);
+		
+		return;
 	}
 
 
@@ -159,7 +132,9 @@ class App extends CI_Controller {
 		$json = $this->input->post("saveData");
 		$data = json_decode($json);
 		$result = $this->app_model->save($data, $this->userID);
+		
 		print_r($data);
+		return;
 	}
 
 	/**
@@ -172,6 +147,7 @@ class App extends CI_Controller {
 		$result = $this->app_model->getDescriptionData($vID, $this->userID);
 	
 		echo(json_encode($result));
+		return;
 	}
 
 }
