@@ -35,7 +35,8 @@ $(document).ready(function(){
           var timeFinished    = json.description_data[i].end;
           var filename        = json.description_data[i].filename;
           var descriptionText = json.description_data[i].desc_text;
-          createDescription(descID, timeStart, timeFinished, descriptionText, filename);
+          var extended        = json.description_data[i].extended == "0" ? 0 : 1;
+          createDescription(descID, timeStart, timeFinished, descriptionText, filename, extended);
         }
       }
       else{

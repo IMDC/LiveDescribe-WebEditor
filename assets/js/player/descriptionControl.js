@@ -1,8 +1,6 @@
 /**
 *	Description controls
 */
-
-
 var descriptionList    = new Array();
 var descriptionPlaying = false;
 var muted              = false;
@@ -65,18 +63,18 @@ function frameLooper(){
 */
 $(function() {
     $( "#slider" ).slider({
-        value: 30 , 
         orientation: "horizontal",
         range: "min",
-        min: 0,
-        max: 100,
-        value: 60,
+        min: 0.0,
+        max: 1.0,
+        value: 0.75,
+        step: 0.1
     },
     {
         change: function( event, ui ) {
-                var value = $( "#slider" ).slider( "value" );
-                changeVolume(value);
-            }
+                    var value = $( "#slider" ).slider( "value" );
+                    changeVolume(value);
+                }
     }
     );
 });
@@ -124,9 +122,9 @@ function checkForDescription(){
             descriptionList[i].startTime <= (currentTime + tollerance) ){
                 console.log("Description Detected");
                 if(!descriptionList[i].extended)
-                    playAudio(descriptionList[i], video_id);
+                    playAudio(descriptionList[i], playerID);
                 else
-                    playExtended(descriptionList[i], video_id);
+                    playExtended(descriptionList[i], playerID);
             }
        }
     }    
@@ -139,32 +137,38 @@ function checkForDescription(){
 *   http://imdc.ca/projects/livedescribe/res-www/uploads/user/ userID / video_id / filename
 */
 function playExtended(description, video_id){
-
+    var sStatus = player.getPlayerState();
     var init_vol =  player.getVolume();
     player.setVolume(5);
     descriptionPlaying = true;
 
     console.log("Playing Extended Description: " + description.filename);
-    var audio = new Audio();
+    audio = new Audio();
+    visualiser(audio);
     audio.src = 'http://imdc.ca/projects/livedescribe/res-www/uploads/user' 
-                + userID + '/' + video_id + '/'
+                + user_id + '/' + video_id + '/'
                 + description.filename;
-
-    if(player.getPlayerState() == 1) 
+    audio.volume = $('#slider').slider('value');
+    
+    if(sStatus == 1) 
         play_pause();
 
     audio.play();
+    
     descriptionLengthMS = (description.endTime - description.startTime) * 1000;
-    setTimeout(function(){
-                    descriptionPlaying = false;     
+    setTimeout(function(){            
                     player.setVolume(init_vol);
-                    player.seekTo(description.startTime + 0.25);
 
                     if(player.getPlayerState() != 1)
                         play_pause();
 
+                     var time = parseFloat(description.startTime) + 0.2;
+                    player.seekTo(time);
+                    descriptionPlaying = false;
+                   
                 },descriptionLengthMS);
 }
+
 
 /**
 *   plays the given audio file
@@ -183,6 +187,7 @@ function playAudio(description, video_id){
     audio.src = 'http://imdc.ca/projects/livedescribe/res-www/uploads/user' 
                 + user_id + '/' + video_id + '/'
                 + description.filename;
+    audio.volume = $('#slider').slider('value');
     audio.play();
     descriptionLengthMS = (description.endTime - description.startTime) * 1000;
     setTimeout(function(){
@@ -195,14 +200,15 @@ function playAudio(description, video_id){
 /**
 *   Creates all aspects corresponding to a description
 */
-function createDescription(descID, timeStart, timeFinished, descriptionText, filename){
+function createDescription(descID, timeStart, timeFinished, descriptionText, filename, extended){
     console.log("Description Added.");
   // creating new description objects and inserting them into an array.
   var description = new Description(
                           filename,
                           timeStart, timeFinished,
                           descriptionText, 
-                          descID
+                          descID,
+                          extended
                     );
   descriptionList.push(description);
   console.log("Added description: " +  description.filename);

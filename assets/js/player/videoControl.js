@@ -15,8 +15,6 @@ var player;
 var playerID;
 
 
-
-
 /**
 *   This function creates an <iframe> (and YouTube player)
 *   after the API code downloads.
@@ -48,8 +46,6 @@ function onYouTubeIframeAPIReady(){
 */
 function onPlayerReady(event) {
     var url        = player.getVideoUrl();
-    var urlChunks  = url.split('=');
-    video_id_flash = urlChunks[urlChunks.length - 1];
     videoDuration  = player.getDuration();
 
     //Call the function timeupdate every 10 milliseconds.

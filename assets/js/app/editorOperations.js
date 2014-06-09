@@ -598,16 +598,21 @@ function checkForDescription(){
     var tollerance  = 0.1; //play a description if currentTime is +/- tollerance
     var sStatus     = player.getPlayerState();
     
-    if(!dragging && !isRecording && !descriptionPlaying && sStatus==1){
+    if(!dragging && !isRecording && !descriptionPlaying && sStatus == 1){
 
        for(var i=0; i < descriptionList.length; i++){
            if(descriptionList[i].startTime >= (currentTime - tollerance) &&
             descriptionList[i].startTime <= (currentTime + tollerance) ){
                 console.log("description detected");
-                if(!descriptionList[i].extended)
+                if(!descriptionList[i].extended){
                     playAudio(descriptionList[i], video_id);
-                else
+                    break;
+                }
+                    
+                else{
                     playExtended(descriptionList[i], video_id);
+                    break;
+                }
             }
        }
     }    
@@ -637,13 +642,15 @@ function playExtended(description, video_id){
     audio.play();
     descriptionLengthMS = (description.endTime - description.startTime) * 1000;
     setTimeout(function(){
-                    descriptionPlaying = false;     
                     $("#slider").slider("value",init_vol);
-                    player.seekTo(description.startTime + 0.25);
 
                     if(player.getPlayerState() != 1)
                         play_pause();
 
+                    var time = parseFloat(description.startTime) + 0.2;
+                    console.log("time: " + time);
+                    player.seekTo(time);
+                    descriptionPlaying = false;  
                 },descriptionLengthMS);
 }
 

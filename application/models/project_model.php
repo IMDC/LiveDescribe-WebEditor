@@ -182,6 +182,7 @@ class Project_Model extends CI_Model {
 					'end'   	=> $rows->end,
 					'filename'  => $rows->filename,
 					'desc_text' => $rows->desc_text,
+					'extended'  => $rows->extended
 				);
 				$result[$index] = $newData;
 				$index++;
