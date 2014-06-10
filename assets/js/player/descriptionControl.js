@@ -72,6 +72,10 @@ $(function() {
     },
     {
         change: function( event, ui ) {
+                    if(muted){ 
+                        muted = false;
+                        document.getElementById("volumeimg").src = base_url + "assets/img/volume_img.png";
+                    }
                     var value = $( "#slider" ).slider( "value" );
                     changeVolume(value);
                 }
@@ -91,16 +95,18 @@ function changeVolume(volume){
 *   Mute the audio
 */
 function mute(){
-    previousVol =  $( "#slider" ).slider( "value" );
-    console.log('Mute: ' + previousVol);
+    
     if(!muted){
+        previousVol =  $( "#slider" ).slider( "value" );
         document.getElementById("volumeimg").src = base_url + "assets/img/vol-mute.png";
         changeVolume(0);
+        $("#slider").slider('value',0);
         muted = true;
     }
     else{
         document.getElementById("volumeimg").src = base_url + "assets/img/volume_img.png";
         changeVolume(previousVol);
+        $("#slider").slider('value',previousVol);
         muted = false;
     }
 }
@@ -148,6 +154,7 @@ function playExtended(description, video_id){
     audio.src = 'http://imdc.ca/projects/livedescribe/res-www/uploads/user' 
                 + user_id + '/' + video_id + '/'
                 + description.filename;
+
     audio.volume = $('#slider').slider('value');
     
     if(sStatus == 1) 

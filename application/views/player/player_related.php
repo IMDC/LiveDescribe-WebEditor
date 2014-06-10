@@ -1,7 +1,7 @@
 <!-- Related Video Feed -->
 <div class="col-md-4">
-	<h4>Related Videos</h4>
-	<?php if($related_projects != NULL):?>
+	<h4>Related Projects</h4>
+	<?php if($related_projects != NULL): ?>
 
 	<ul id="relatedResults" class="media-list">
 
@@ -56,6 +56,9 @@
 		</li>
 		
 	<?php endforeach;?>
-	<?php endif;?>
+	
+	<?php else: ?>
+		<h5 id="no_proj" class="alert alert-warning">No other projects are available for this video.​</h5>
+	<?php endif; ?>
 	</ul>
 </div>
