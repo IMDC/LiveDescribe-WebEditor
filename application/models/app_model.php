@@ -258,10 +258,11 @@ class App_Model extends CI_Model {
 					'video_id'  => $vID
 					);
 
-			$condition = array("desc_id" => $obj->id);//array("user_id" => $uID , "video_id" => $vID, "desc_id" => $obj->id);
+			$condition = array("user_id" => $uID , "video_id" => $vID, "desc_id" => $obj->id);
 			$query = $this->db->get_where("descriptions", $condition);
 		
 			if($query->num_rows() > 0){ //need to update record
+                $this->db->where($condition);
 				$this->db->update('descriptions',$data);
 			}
 			else{ //insert new record
