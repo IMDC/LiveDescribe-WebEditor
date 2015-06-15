@@ -120,7 +120,7 @@ $(document).ready(function(){
 function jsRecorderInit(){
   try {
       // webkit shim
-      window.AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext;
+      window.AudioContext = window.AudioContext || window.AudioContext || window.mozAudioContext;
       navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia ||
                             navigator.mozGetUserMedia || navigator.msGetUserMedia;
       window.URL = window.URL || window.webkitURL;
@@ -201,7 +201,10 @@ function uploadToServer(blob , video_id , descID){
       url: base_url + 'app/recordAudio',
       data: fd,
       processData: false,
-      contentType: false
+      contentType: false,
+	success: function() { //REMOVE THIS LATER
+		alert("call recordAudio");
+	}
   }).done(function(data) {
       console.log(" " + data);
   });
