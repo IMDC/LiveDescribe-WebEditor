@@ -28,8 +28,8 @@ class App extends CI_Controller {
 	}
 
 	/**
-	*	Loads the editor view of the app
-	*/
+	 *	Loads the editor view of the app
+	 */
 	public function editor(){
 		$data           = null; //resest data
 		$get            = $this->input->get("vID",TRUE);
@@ -37,7 +37,7 @@ class App extends CI_Controller {
 		$data["userID"] = $this->session->userdata("userID");
 
 		//print_r($this->vfeed_model->checkvalidID($get));
-		if(!$this->vfeed_model->checkvalidID($get) || $get == ""){ //invalid YT ID
+		if(!$this->vfeed_model->checkValidID($get) || $get == ""){ //invalid YT ID
 			redirect(base_url(), 'refresh');
 		}
 		else{
@@ -56,18 +56,18 @@ class App extends CI_Controller {
 	}
 
 	/**
-	*	called from ajax call in editorSetup.js via GET method
-	*/
+	 *	called from ajax call in editorSetup.js via GET method
+	 */
 	public function getDuration(){
 		$id = $this->input->get("vID",TRUE);
-		
+
 		echo $this->app_model->getDuration($id);
 		return;
 	}
 
 	/**
-	*	called from ajax call in editorSetup.js via GET method
-	*/
+	 *	called from ajax call in editorSetup.js via GET method
+	 */
 	public function getAudioInfo(){
 		$id = $this->input->get("vID", TRUE);
 
@@ -76,8 +76,8 @@ class App extends CI_Controller {
 	}
 
 	/**
-	*	called from an ajax call in ---- 
-	*/
+	 *	called from an ajax call in ---- 
+	 */
 	public function recordAudio(){
 		$vID    = $this->input->post("id");
 		$descID = $this->input->post("descID");
@@ -85,22 +85,22 @@ class App extends CI_Controller {
 
 		/* will recieve the .wav audio file Recorded from the JS audio recorder. */
 		$temp_name = isset($_FILES['data']['tmp_name']) ? $_FILES['data']['tmp_name'] : null;
-		
-		$dirname = "/media/storage/projects/livedescribe/public_html/res-www/uploads/user" . $userID; //the directory we want to write our descriptions in
+
+		$dirname = "/media/storage/projects/livedescribe/public_html/audioUploads/user" . $userID; //the directory we want to write our descriptions in
 		//check if the user directory has already been created
 		if(!is_dir($dirname)){
-		    mkdir ($dirname, 0766);
+			mkdir ($dirname, 0773);
 		}
 
 		$dirname = $dirname . "/" . $vID;
 		//check if the video directory has already been created
 		if(!is_dir($dirname)){
-		    mkdir ($dirname, 0766);
+			mkdir ($dirname, 0773);
 		}
 
 		$destination = $dirname . "/description_" . $userID . "_" . $vID . "_" . $descID . ".wav";
 		move_uploaded_file($temp_name, $destination);
-		chmod($destination, 0766);
+		chmod($destination, 0773);
 
 		echo $destination . " recorded on server.";
 		return;
@@ -110,42 +110,42 @@ class App extends CI_Controller {
 
 
 	/**
-	*	delete the file associated with the description ID.
-	*	Called from ajax call in "editorOperations.js"
-	*/
+	 *	delete the file associated with the description ID.
+	 *	Called from ajax call in "editorOperations.js"
+	 */
 	public function removeFile(){
 		$vID    = $this->input->post("vID");
 		$descID = $this->input->post("descID");
 		$userID = $this->session->userdata("userID");
 		$this->app_model->removeFile($vID, $descID, $userID);
-		
+
 		return;
 	}
 
 
 
 	/**
-	*	Saves the project, along with the recorded descriptions
-	*	in the db. Gets called from an AJAX call in "editorOperations.js"
-	*/
+	 *	Saves the project, along with the recorded descriptions
+	 *	in the db. Gets called from an AJAX call in "editorOperations.js"
+	 */
 	public function saveProject(){
 		$json = $this->input->post("saveData");
 		$data = json_decode($json);
 		$result = $this->app_model->save($data, $this->userID);
-		
+
 		print_r($data);
 		return;
 	}
 
 	/**
-	*	Gets description data from app_model and echo's
-	*	json representation of the data, if the data exists.
-	*	Called from AJAX call in "editorSetup.js"
-	*/
+	 *	Gets description data from app_model and echo's
+	 *	json representation of the data, if the data exists.
+	 *	Called from AJAX call in "editorSetup.js"
+	 */
 	public function getDescriptionData(){
 		$vID = $this->input->post("vID");
 		$result = $this->app_model->getDescriptionData($vID, $this->userID);
-	
+
 		echo(json_encode($result));
 		return;
 	}

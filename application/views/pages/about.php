@@ -46,7 +46,8 @@
     <div class="row">
         <div class="col-lg-8 col-sm-8">
             <h2>The LiveDescribe Project</h2>
-            <p>Audio description is a second audio track that provides a voiced description of the important visual information in a piece of television, film or theatre content. This description is inserted in between the dialogue elements. Our original design of LiveDescribe was a stand alone desktop application and is available for download at <a href="livedescribe.com">livedescribe.com</a>. LiveDescribe displays graphical information that allows the user to see the positions in the video where descriptions can be inserted without interrupting the videos original audio track. The descriptions created by these amateurs can be uploaded to the LiveDescribe website and shared with the rest of the community interested in audio description.</p>
+            <p>Audio description is a second audio track that provides a voiced description of the important visual information in a piece of television, film or theatre content. This description is inserted in between the dialogue elements. Our original design of LiveDescribe was a stand alone desktop application and is available for download <a href="https://www.imdc.ca/projects/livedescribe/LiveDescribe-Setup.zip">here</a>. 
+LiveDescribe displays graphical information that allows the user to see the positions in the video where descriptions can be inserted without interrupting the videos original audio track. The descriptions created by these amateurs can be uploaded to the LiveDescribe website and shared with the rest of the community interested in audio description.</p>
             <p>Livedescribe has since moved to the web allow users to create their own audio descriptions for YouTube videos. Our hope is that with this service more individuals will be able to access video content on the web and enjoy it as much as the rest of the world.</p>
         </div>
     </div>

@@ -17,6 +17,10 @@ class Main extends CI_Controller {
 		
 		$this->load->model('project_model');
 		$this->load->model('vfeed_model');
+
+		require_once ('google-api-php-client/src/Google_Client.php');
+                require_once ('google-api-php-client/src/contrib/Google_YouTubeService.php');
+
 	}
 
 	/**
@@ -27,27 +31,27 @@ class Main extends CI_Controller {
 
 		$this->load->view('header');
 		$this->load->view('navigation');
-		
+
 		$described_feed = array();
 		$standard_feed = array();
 		$index_standard = 0;
 
 
 		//get video feed from model
-		$feed = $this->vfeed_model->getTopRated();
+		$videosResponse = $this->vfeed_model->getTopRated();
 
 		//display the feed
-		foreach ($feed as $key => $value){
-			$thumbnails = $value->getVideoThumbnails();
+
+		foreach ($videosResponse['items'] as $videoResult) {
 			$standard_feed[$index_standard++] = array(
-											'videoId' => $value->getVideoId(),
-											'duration' => $value->getVideoDuration(),
-											'title' => (string)$value->getVideoTitle(),
-											'description' => (string)$value->getVideoDescription(),
-											'thumbnail' => $thumbnails[0]['url']
-										);
+					'videoId' => $videoResult['id'],
+					'duration' => $this->vfeed_model->getVideoDuration($videoResult),
+					'title' => $videoResult['snippet']['title'],
+					'description' => $videoResult['snippet']['description'],
+					'thumbnail' => $videoResult['snippet']['thumbnails']['default']['url']
+					);
 		}
-		
+
 		//get described projects
 		$described_feed = $this->project_model->getHighestRatedProjects();
 		//now need to add video thumbnails to each project
@@ -64,12 +68,12 @@ class Main extends CI_Controller {
 	}
 
 	/**
-	*	Loads the view for the two video feeds and displays the 
-	*	search results.
-	*	Currently getting the searchBar field using POST
-	*/
+	 *	Loads the view for the two video feeds and displays the 
+	 *	search results.
+	 *	Currently getting the searchBar field using POST
+	 */
 	public function videoFeed(){
-		
+
 		$keyword = $_POST['searchBar'];
 		$described_feed = array();
 		$standard_feed = array();
@@ -81,39 +85,39 @@ class Main extends CI_Controller {
 		$this->load->view('navigation');
 
 		//get video feed from model
-		$feed = $this->vfeed_model->getFeed($keyword, 'viewCount');
+		$videosResponse = $this->vfeed_model->getFeed($keyword, 'viewCount');
 
 		//display the feed
-		foreach ($feed as $key => $value){
+		foreach ($videosResponse['items'] as $videoResult) {
 
 			//find described projects for each video in the standard feed
-			$related = $this->project_model->getRelatedProjects( $value->getVideoId() );
+			if(isset($videoResult['id']))
+				$related = $this->project_model->getRelatedProjects( $videoResult['id'] );
+			else
+				$related = NULL;
 			if( $related != NULL ){
-				$thumbnails = $value->getVideoThumbnails();
-
 				foreach($related as $k => $v){
 					$described_feed[$index_described++] =  array(
-													'vID'                 => $value->getVideoId(),
-													'duration'            => $value->getVideoDuration(),
-													'user_id'             => $v['user_id'],
-													'project_name'        => $v['project_name'],
-													'project_description' => $v['project_description'],
-													'thumbnail'           => $thumbnails[0]['url'],
-													'username'            => $v['username'],
-													'rating'			  => $v['rating'],
-													'date_modified'		  => $v['date_modified']
-												);
+							'vID'                 => $videoResult['id'],
+							'duration' => $this->vfeed_model->getVideoDuration($videoResult),
+							'user_id'             => $v['user_id'],
+							'project_name'        => $v['project_name'],
+							'project_description' => $v['project_description'],
+							'thumbnail' => $videoResult['snippet']['thumbnails']['default']['url'],
+							'username'            => $v['username'],
+							'rating'			  => $v['rating'],
+							'date_modified'		  => $v['date_modified']
+							);
 				}
 			}
 
-			$thumbnails = $value->getVideoThumbnails();
 			$standard_feed[$index_standard++] = array(
-											'videoId' => $value->getVideoId(),
-											'duration' => $value->getVideoDuration(),
-											'title' => (string)$value->getVideoTitle(),
-											'description' => (string)$value->getVideoDescription(),
-											'thumbnail' => $thumbnails[0]['url']
-										);
+					'videoId' => $videoResult['id'],
+					'duration' => $this->vfeed_model->getVideoDuration($videoResult),
+					'title' => $videoResult['snippet']['title'],
+					'description' => $videoResult['snippet']['description'],
+					'thumbnail' => $videoResult['snippet']['thumbnails']['default']['url']
+					);
 		}
 
 		$data['standard_feed'] = $standard_feed;

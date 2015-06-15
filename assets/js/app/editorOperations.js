@@ -10,7 +10,7 @@
 //  Variables required for the YouTube player
 ///
 var tag            = document.createElement('script');
-tag.src            = "//www.youtube.com/iframe_api";
+tag.src            = "https://www.youtube.com/iframe_api";
 var firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
@@ -632,7 +632,7 @@ function playExtended(description, video_id){
 
     console.log("Playing Extended Description: " + description.filename);
     var audio = new Audio();
-    audio.src = 'http://imdc.ca/projects/livedescribe/res-www/uploads/user' 
+    audio.src = 'http://imdc.ca/projects/livedescribe/audioUploads/user' 
                 + userID + '/' + video_id + '/'
                 + description.filename;
 
@@ -661,13 +661,14 @@ function playExtended(description, video_id){
 *    http://imdc.ca/projects/livedescribe/res-www/uploads/user/ userID / video_id / filename
 */
 function playAudio(description, video_id){
+//	alert(description.filename);
     var init_vol =  $( "#slider" ).slider( "value" );
     descriptionPlaying = true;
     $("#slider").slider("value",5);
 
     console.log("Playing Description: " + description.filename);
     var audio = new Audio();
-    audio.src = 'http://imdc.ca/projects/livedescribe/res-www/uploads/user' 
+    audio.src = 'http://imdc.ca/projects/livedescribe/audioUploads/user' 
                 + userID + '/' + video_id + '/'
                 + description.filename;
     audio.play();

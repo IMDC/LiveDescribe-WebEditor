@@ -20,7 +20,7 @@ var canvas, ctx, source, context, analyser, fbc_array, bars, bar_x, bar_width, b
 *   from the given audio input 
 */
 function visualiser(audio){
-    window.AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext;
+    window.AudioContext = window.AudioContext || window.AudioContext || window.mozAudioContext;
     context = new AudioContext(); // AudioContext object instance
     analyser = context.createAnalyser(); // AnalyserNode method
     canvas = document.getElementById('analyser_render');
@@ -151,7 +151,7 @@ function playExtended(description, video_id){
     console.log("Playing Extended Description: " + description.filename);
     audio = new Audio();
     visualiser(audio);
-    audio.src = 'http://imdc.ca/projects/livedescribe/res-www/uploads/user' 
+    audio.src = 'http://imdc.ca/projects/livedescribe/audioUploads/user' 
                 + user_id + '/' + video_id + '/'
                 + description.filename;
 
@@ -191,7 +191,7 @@ function playAudio(description, video_id){
     console.log("Playing Description: " + description.filename);
     audio = new Audio();
     visualiser(audio);
-    audio.src = 'http://imdc.ca/projects/livedescribe/res-www/uploads/user' 
+    audio.src = 'http://imdc.ca/projects/livedescribe/audioUploads/user' 
                 + user_id + '/' + video_id + '/'
                 + description.filename;
     audio.volume = $('#slider').slider('value');
